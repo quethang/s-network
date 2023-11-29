@@ -1,0 +1,132 @@
+.login{
+	width: 100%;
+	height: 100vh;
+	background-color: var(--sub-background);
+}
+.login .container{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.box-login{
+	max-width: 500px;
+	width: 100%;
+	height: fit-content;
+	background-color: var(--light);
+	padding: 40px 60px;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+}
+.box-login .logo-wrapper{
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.box-login .logo-wrapper svg{
+    width: 50px;
+    height: 50px;
+}
+.box-login .title{
+    font-size: 32px;
+	line-height: 1.1em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+}
+.box-login .description{
+    font-size: 17px;
+	line-height: 1.4em;
+    color: var(--dark);
+    margin-bottom: 20px;
+}
+.box-login form{
+    margin-bottom: 20px;
+}
+.box-login form .input-wrapper{
+    position: relative;
+    margin-bottom: 20px;
+}
+.box-login form .text-error{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    font-size: 12px;
+	line-height: 1.5em;
+    color: var(--red);
+}
+.box-login form label{
+    font-size: 17px;
+	line-height: 1.4em;
+    pointer-events: none;
+    padding: 5px 0 5px 0;
+    color: var(--dark);
+}
+.box-login form .fa{
+    position: absolute;
+    padding: 12px;
+    top: 38px;
+    right: 4px;
+    background-color: var(--light);
+    cursor: pointer;
+}
+.box-login form .guide-fg-pass{
+    text-align: center;
+}
+.box-login form .guide-fg-pass a{
+    font-size: 17px;
+	line-height: 1.4em;
+    color: var(--medium);
+    margin-bottom: 20px;
+    transition: all .3s ease 0s;
+}
+.box-login form a:hover{
+    color: var(--dark);
+    text-decoration: underline;
+}
+.box-login form .button-login{
+    width: 100%;
+}
+.box-login form .button-login:enabled {
+	background-color: var(--blue);
+	border-color: var(--blue);
+}
+.box-login form .button-login:enabled:hover  {
+	background-color: var(--hover-button);
+	border-color: var(--hover-button);
+}
+.box-login form .button-login:disabled{
+	background-color: rgb(179, 209, 255);
+	border-color: rgb(179, 209, 255)
+}
+.box-login form .button-login:disabled:hover{
+	background-color: rgb(179, 209, 255);
+	border-color: rgb(179, 209, 255)
+}
+
+.box-login input{
+    padding: 11px 16px;
+    border: 2px solid var(--input-border-light);
+    border-radius: 5px;
+    width: 100%;
+    transition: all .3s ease 0s;
+}
+.box-login input:focus{
+    border-color: var(--blue);
+}
+
+.box-login .guide-dont-have-acc{
+    font-size: 17px;
+	line-height: 1.4em;
+    color: var(--dark);
+    margin-bottom: 0;
+    text-align: center;
+}
+.box-login .guide-dont-have-acc a{
+    color: var(--blue);
+}
+.box-login .guide-dont-have-acc a:hover{
+    color: var(--hover-button);
+    text-decoration: underline;
+}

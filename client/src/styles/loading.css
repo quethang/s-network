@@ -1,0 +1,29 @@
+.loading {
+	background-color: rgba(17, 17, 17, 0.3);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 100;
+}
+.loading svg {
+	animation: spin 7s ease-in-out;
+	animation-iteration-count: infinite;
+	transition-duration: 0.1s;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	50% {
+		transform: rotate(1800deg);
+	}
+	100% {
+		transform: rotate(0deg);
+	}
+}
