@@ -54,6 +54,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
 }
 .info-user-wrapper .avatar-container .button-wrapper{
     margin-left: auto;

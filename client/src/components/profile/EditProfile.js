@@ -4,7 +4,6 @@ import { useSelector, useDispatch} from "react-redux";
 import { GLOBALTYPES } from '../../redux/actions/globalTypes';
 import { checkImage } from '../../utils/imageUpload';
 import { updateProfileUser } from "../../redux/actions/profileAction";
-import '../../styles/editProfile.css';
 
 function EditProfile({setOnEdit}){
 

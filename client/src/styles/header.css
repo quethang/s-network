@@ -158,6 +158,16 @@ header .item-top-menu-wrapper.notify .dot{
 header .item-top-menu-wrapper.submenu{
     position: relative;
 }
+header .item-top-menu-wrapper.submenu:hover .overlay{
+    background: rgba(63, 63, 63, 0.3);
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;;
+	/* transition: all 0.2s ease-in-out; */
+    border-radius: 50%;
+}
 header .item-top-menu-wrapper.submenu .dropdown-submenu{
     position: absolute;
     top: calc(100% + 10px);
@@ -193,13 +203,8 @@ header .item-top-menu-wrapper.submenu .dropdown-submenu .item-submenu:hover{
 header .item-top-menu-wrapper .avatar{
     width: 40px;
     height: 40px;
-    border-radius: 50px;
-    border: 2px solid var(--light);
-    box-shadow: 0 0 0 1px var(--medium);
+    border-radius: 50%;
     object-fit : cover;
-}
-header .item-top-menu-wrapper .avatar:hover{
-    box-shadow: 0 0 0 1px var(--blue);
 }
 
 /* Responsive */

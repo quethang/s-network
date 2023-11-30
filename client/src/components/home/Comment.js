@@ -13,9 +13,9 @@ function Comments({post}){
         const newCmt = post.comments.filter(cmt => !cmt.reply);
         setComments(newCmt);
         setShowComments(newCmt.slice(newCmt.length - next));
-    }, [post.comments, next])
+    }, [post.comments, next]);
 
-    useEffect(()=> {
+    useEffect(() => {
         const newRep = post.comments.filter(cm => cm.reply)
         setReplyComments(newRep)
     }, [post.comments])

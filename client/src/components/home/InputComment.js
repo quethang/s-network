@@ -35,8 +35,8 @@ function InputComment({ children, post, onReply, setOnReply }) {
     }
     return (
         <form className="form-comment-post" onSubmit={handleSubmit}>
-            {children}
             <div className="input-comment-wrapper">
+                {children}
                 <input
                     className="input-comment"
                     type="text"

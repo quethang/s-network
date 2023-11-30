@@ -3,8 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../redux/actions/authAction';
 import { useSelector, useDispatch } from 'react-redux';
 
-import '../styles/login.css';
-
 function Login(){
     const navigate = useNavigate();
     const auth = useSelector(state => state.auth);

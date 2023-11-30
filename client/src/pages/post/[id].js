@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { getPosts } from '../../redux/actions/postAction'
+import { getPost } from '../../redux/actions/postAction'
 import LoadIcon from '../../images/loading.svg'
 import PostCard from '../../components/PostCard'
-
 
 const Post = () => {
     const { id } = useParams()
@@ -14,7 +13,7 @@ const Post = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getPosts({detailPost, id, auth}))
+        dispatch(getPost({detailPost, id, auth}))
 
         if(detailPost.length > 0){
             const newArr = detailPost.filter(post => post._id === id)
@@ -23,10 +22,10 @@ const Post = () => {
     },[detailPost, dispatch, id, auth])
 
     return (
-        <div className="posts">
+        <div className='detail-post-wrapper'>
             {
                 post.length === 0 &&
-                <img src={LoadIcon} alt="loading" className="d-block mx-auto my-4" />
+                <img src={LoadIcon} alt="loading"/>
             }
 
             {

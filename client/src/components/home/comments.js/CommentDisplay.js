@@ -12,7 +12,7 @@ function CommentDispay({ comment, post, replyCm }) {
     return (
         <div className='comment-post-display'>
             <CommentCard comment={comment} post={post} commentId={comment._id}>
-                <div className="pl-4">
+                <div className="reply-comment-wrapper">
                     {
                         showRep.map((item, index) => (
                             item.reply &&
@@ -24,19 +24,10 @@ function CommentDispay({ comment, post, replyCm }) {
                             />
                         ))
                     }
-
                     {
                         replyCm.length - next > 0
-                            ? <div style={{ cursor: 'pointer', color: 'crimson' }}
-                                onClick={() => setNext(next + 10)}>
-                                See more comments...
-                            </div>
-
-                            : replyCm.length > 1 &&
-                            <div style={{ cursor: 'pointer', color: 'crimson' }}
-                                onClick={() => setNext(1)}>
-                                Hide comments...
-                            </div>
+                        ? <div className="more-comment" onClick={() => setNext(next + 10)}> See more comments...</div>
+                        : replyCm.length > 1 && <div className="more-comment" onClick={() => setNext(1)}>Hide comments...</div>
                     }
                 </div>
             </CommentCard>

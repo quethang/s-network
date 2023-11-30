@@ -34,6 +34,11 @@
 .home-page .status .avatar-user{
     margin-right: 20px;
 }
+.home-page .status .avatar-user .avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+}
 .home-page .status .question-status-wrapper{
     width: 100%;
     background-color: #F0F2F5;
@@ -80,6 +85,11 @@
     right: 0;
     bottom: 0;
     left: 0;
+}
+.home-page .header-post .avatar-wrapper .avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }
 
 .home-page .header-post .name-wrapper{
@@ -195,8 +205,8 @@
 }
 
 /* SLIDER */
-.swiper-button-prev,
-.swiper-button-next {
+.home-page .swiper-button-prev,
+.home-page .swiper-button-next {
     width: 28px;
     height: 28px;
     background-color: var(--light);
@@ -207,15 +217,15 @@
     justify-content: center;
     align-items: center;
 }
-.swiper-button-next::after,
-.swiper-button-prev::after {
+.home-page .swiper-button-next::after,
+.home-page .swiper-button-prev::after {
     font-size: 12px;
     font-weight: 600;
 }
-.swiper-pagination-bullet{
+.home-page .swiper-pagination-bullet{
     background-color: rgba(208, 208, 208);
 }
-.swiper-pagination-bullet.swiper-pagination-bullet-active{
+.home-page .swiper-pagination-bullet.swiper-pagination-bullet-active{
     background-color: var(--light);
 }
 
@@ -305,6 +315,7 @@
 /* COMMENT IN POST */
 .comment-post{
     padding: 0 16px 10px;
+    user-select: none;
 }
 .comment-post .more-comment{
     font-size: 14px;
@@ -329,6 +340,11 @@
 .comment-post-card .avatar-wrapper{
     padding-top: 10px;
     margin-right: 10px;
+}
+.comment-post-card .avatar-wrapper .avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }
 .comment-post-card .comment-wrapper{
     width: 100%;
@@ -429,4 +445,16 @@
 }
 .comment-post-card .bottom-comment .comment-menu-wrapper .dropdown-item .fa-solid{
     margin-right: 10px;
+}
+/* REPLY COMMENT */
+.comment-post-card .form-comment-post{
+    padding: 0;
+    margin-top: 10px;
+}
+.comment-post-card .form-comment-post a{
+    min-width: fit-content;
+    margin-right: 10px;
+}
+.comment-post-card .reply-comment-wrapper .comment-post-card{
+    margin-top: 10px;
 }

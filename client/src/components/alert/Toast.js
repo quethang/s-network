@@ -1,7 +1,5 @@
 import React from "react";
 
-import '../../styles/toast.css'
-
 function Toast({msg, handleShow, bgColor}){
     return (
         <div className={`toast-notify ${bgColor}`}>

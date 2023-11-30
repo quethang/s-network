@@ -30,8 +30,8 @@ function Followers({users, setShowFollowers}){
                     <div className="body-dialog">
                         <ul className="list-user">
                             {
-                                users.map((user) => (
-                                    <UserCard key={users._id} user={user} setShowFollowers={setShowFollowers}>
+                                users.map((user, index) => (
+                                    <UserCard key={index} user={user} setShowFollowers={setShowFollowers}>
                                         {
                                             auth.user._id !== user._id && <FollowButton user={user}/>
                                         }

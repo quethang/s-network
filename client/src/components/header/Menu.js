@@ -5,8 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { GLOBALTYPES } from '../../redux/actions/globalTypes';
 import { logout } from '../../redux/actions/authAction';
 
-import Avatar from '../Avatar';
-
 function Menu(){
 
     const navLink = [
@@ -29,6 +27,7 @@ function Menu(){
         if(pn === pathName){
             return 'active';
         }
+        return '';
     }
 
     function handleShow(){
@@ -64,8 +63,8 @@ function Menu(){
             }
                     
             <div className="item-top-menu-wrapper submenu" onClick={handleShow}>
-                <Avatar src={auth.user.avatar} size='medium-avatar'/>
-                
+                <img className='avatar' src={auth.user.avatar} alt='avatar'/>
+                <div className='overlay'></div>
                 <div className='dropdown-submenu' ref={dropdown}>
                     <Link className='item-submenu' to={`profile/${auth.user._id}`}>Profile</Link>
                     <label className='item-submenu' onClick={handleDarkMode}>{theme ? 'Light theme' : 'Dark theme'}</label>

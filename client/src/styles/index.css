@@ -112,3 +112,28 @@ ul {
 	visibility: visible;
 } */
 /* transition: all .3s ease 0s; */
+
+/* HEADER */
+@import url('./header.css');
+
+/* HOME */
+@import url('./home.css');
+@import url('./status_modal.css');
+
+/* PROFILE */
+@import url('./profile.css');
+@import url('./info.css');
+@import url('./editProfile.css');
+
+/* LOGIN */
+@import url('./login.css');
+
+/* REGISTER */
+@import url('./register.css');
+
+/* NOT FOUND */
+@import url('./notFound.css');
+/* ------------------------------ */
+@import url('./loading.css');
+
+@import url('./toast.css')

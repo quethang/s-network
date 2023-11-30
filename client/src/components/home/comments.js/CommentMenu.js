@@ -1,10 +1,10 @@
 import React from "react";
-import { useDispatch, useSelector } from 'react-redux'
-import { deleteComment } from '../../../redux/actions/commentAction'
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteComment } from '../../../redux/actions/commentAction';
 
 function CommentMenu({ post, comment, setOnEdit}) {
 
-    const { auth } = useSelector(state => state)
+    const auth = useSelector(state => state.auth);
     const dispatch = useDispatch()
 
     function handleRemove() {
@@ -12,7 +12,6 @@ function CommentMenu({ post, comment, setOnEdit}) {
             dispatch(deleteComment({post, auth, comment}))
         }
     }
-
 
     function handleEdit(){
         setOnEdit(true);

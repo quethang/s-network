@@ -92,7 +92,7 @@ const postController = {
 
   getUserPosts: async (req, res) => {
     try {
-      const posts = await Posts.find({ user: req.params.id }).sort("-createAt")
+      const posts = await Posts.find({ user: req.params.id }).sort("-createdAt")
       res.json({ posts, result: posts.length })
 
     } catch (err) {
