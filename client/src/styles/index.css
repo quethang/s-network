@@ -125,6 +125,9 @@ ul {
 @import url('./info.css');
 @import url('./editProfile.css');
 
+/* PROFILE */
+@import url('./postDetail.css');
+
 /* LOGIN */
 @import url('./login.css');
 
@@ -136,4 +139,6 @@ ul {
 /* ------------------------------ */
 @import url('./loading.css');
 
-@import url('./toast.css')
+@import url('./toast.css');
+
+@import url('./userCard.css')

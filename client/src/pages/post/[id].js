@@ -13,27 +13,41 @@ const Post = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getPost({detailPost, id, auth}))
+        dispatch(getPost({ detailPost, id, auth }))
 
-        if(detailPost.length > 0){
+        if (detailPost.length > 0) {
             const newArr = detailPost.filter(post => post._id === id)
             setPost(newArr)
         }
-    },[detailPost, dispatch, id, auth])
+    }, [detailPost, dispatch, id, auth])
 
     return (
-        <div className='detail-post-wrapper'>
-            {
-                post.length === 0 &&
-                <img src={LoadIcon} alt="loading"/>
-            }
+        <main className='detail-post'>
+            <div className='container'>
+                <div className='row'>
+                    <div className='col-lg-2'>
 
-            {
-                post.map(item => (
-                    <PostCard key={item._id} post={item} />
-                ))
-            }
-        </div>
+                    </div>
+                    <div className='col-lg-8'>
+                        {
+                            post.length === 0 &&
+                            <img className='image-loading' src={LoadIcon} alt="loading" />
+                        }
+
+                        {
+                            post.map(item => (
+                                <PostCard key={item._id} post={item} />
+                            ))
+                        }
+                    </div>
+                    <div className='col-lg-2'>
+
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
     )
 }
 
