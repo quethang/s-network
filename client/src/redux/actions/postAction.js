@@ -142,10 +142,6 @@ export function deletePost({ post, auth }) {
             payload: {error: err.response.data.msg}
         })
     }
-
-
-
-
   }
 }
 

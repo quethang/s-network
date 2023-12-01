@@ -21,7 +21,7 @@ const postController = {
     try {
       const { content, images } = req.body;
 
-      if (images.length === 0) return res.status(400).json({ msg: "Please add your photo." })     
+      if (images.length === 0) return res.status(400).json({ msg: "Please add your photo." })
 
       const newPost = new Posts({
         content,
@@ -135,7 +135,7 @@ const postController = {
   getPost: async (req, res) => {
     try {
       const post = await Posts.findById(req.params.id)
-        .populate("user likes", "avatar username fullname followers")
+        .populate("user likes", "avatar fullname email")
         .populate({
           path: "comments",
           populate: {
@@ -178,15 +178,15 @@ const postController = {
   getPostDiscover: async (req, res) => {
     try {
       const features = new APIfeatures(Posts.find({ user: { $nin: [...req.user.followings, req.user._id] } }), req.query).paginating();
-  
+
       const posts = await features.query.sort('-createdAt');
-  
+
       res.json({
         msg: 'Success!',
         result: posts.length,
         posts
       })
-  
+
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

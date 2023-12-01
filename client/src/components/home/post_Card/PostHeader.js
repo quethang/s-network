@@ -28,6 +28,7 @@ function PostHeader({ post }) {
     }
 
     function handleDeletePost() {
+        handleShow();
         if (window.confirm("Are you sure want to delete this Post")) {
             dispacth(deletePost({ post, auth }))
             return navigate("/")
@@ -37,8 +38,8 @@ function PostHeader({ post }) {
     }
 
     function handleCopyLink() {
+        handleShow();
         navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`)
-
     }
 
     return (
