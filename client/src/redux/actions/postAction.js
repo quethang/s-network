@@ -57,7 +57,7 @@ export function getPosts(token) {
 
       dispatch({
         type: POST_TYPES.GET_POSTS,
-        payload: res.data
+        payload: {...res.data, page: 2}
       })
 
       dispatch({ type: POST_TYPES.LOADING_POST, payload: false });

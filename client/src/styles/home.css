@@ -61,6 +61,9 @@
 }
 
 /* =========================== POSTS ========================= */
+.home-page .post-wrapper{
+    margin-bottom: 50px;
+}
 .home-page .post{
     background-color: var(--light);
     border-radius: 8px;
@@ -457,4 +460,8 @@
 }
 .home-page .comment-post-card .reply-comment-wrapper .comment-post-card{
     margin-top: 10px;
+}
+.home-page .button-load-more{
+    margin-left: auto;
+    margin-right: auto;
 }

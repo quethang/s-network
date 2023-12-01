@@ -1,13 +1,31 @@
 const Posts = require("../models/postModel");
 
+class APIfeatures {
+  constructor(query, queryString) {
+    this.query = query;
+    this.queryString = queryString;
+  }
+
+  paginating() {
+    const page = this.queryString.page * 1 || 1;
+    const limit = this.queryString.limit * 1 || 9;
+    const skip = (page - 1) * limit;
+    this.query = this.query.skip(skip).limit(limit);
+    return this;
+  }
+}
+
 const postController = {
+
   createPost: async (req, res) => {
     try {
       const { content, images } = req.body;
 
-      if (content === '' && images.length === 0) {
-        return res.status(400).json({ msg: 'Please enter your content or image' });
-      }
+      if (images.length === 0) return res.status(400).json({ msg: "Please add your photo." })
+
+      // if (content === '' && images.length === 0) {
+      //   return res.status(400).json({ msg: 'Please enter your content or image' });
+      // }
 
       const newPost = new Posts({
         content,
@@ -32,8 +50,9 @@ const postController = {
   //
   getPosts: async (req, res) => {
     try {
-      const posts = await Posts.find({ user: [...req.user.followings, req.user._id] })
-        .sort('-createAt')
+      const features = new APIfeatures(Posts.find({ user: [...req.user.followings, req.user._id] }), req.query).paginating();
+
+      const posts = await features.query.sort('-createdAt')
         .populate('user likes', 'avatar fullname email')
         .populate({ path: 'comments', populate: { path: 'user likes', select: '-password' } });
       //đoạn này có nghĩa là tham chiếu đến model Comment và Comment tham chiếu đến bảng 
@@ -56,7 +75,7 @@ const postController = {
       const post = await Posts.findOneAndUpdate({ _id: req.params.id }, { content, images })
         .populate('user likes', 'avatar username fullname')
         .populate({ path: 'comments', populate: { path: 'user likes', select: '-password' } });
-        
+
 
       res.json({ msg: 'Update success', newPost: { ...post._doc, content, images } })
     } catch (err) {
@@ -92,7 +111,9 @@ const postController = {
 
   getUserPosts: async (req, res) => {
     try {
-      const posts = await Posts.find({ user: req.params.id }).sort("-createdAt")
+      const features = new APIfeatures(Posts.find({ user: req.params.id }), req.query).paginating();
+      const posts = await features.query.sort('-createdAt');
+
       res.json({ posts, result: posts.length })
 
     } catch (err) {
@@ -102,26 +123,43 @@ const postController = {
 
   getPost: async (req, res) => {
     try {
-        const post = await Posts.findById(req.params.id)
+      const post = await Posts.findById(req.params.id)
         .populate("user likes", "avatar username fullname followers")
         .populate({
-            path: "comments",
-            populate: {
-                path: "user likes",
-                select: "-password"
-            }
+          path: "comments",
+          populate: {
+            path: "user likes",
+            select: "-password"
+          }
         })
 
-        if(!post) return res.status(400).json({msg: 'This post does not exist.'})
+      if (!post) return res.status(400).json({ msg: 'This post does not exist.' })
 
-        res.json({
-            post
-        })
+      res.json({
+        post
+      })
 
     } catch (err) {
-        return res.status(500).json({msg: err.message})
+      return res.status(500).json({ msg: err.message })
     }
-},
+  },
+
+  getPostDiscover: async (req, res) => {
+    try {
+      const features = new APIfeatures(Posts.find({ user: { $nin: [...req.user.followings, req.user._id] } }), req.query).paginating();
+
+      const posts = await features.query.sort('-createdAt');
+
+      res.json({
+        msg: 'Success!',
+        result: posts.length,
+        posts
+      })
+
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  }
 };
 
 module.exports = postController;

@@ -9,6 +9,8 @@
 .profile-page-content{
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
 }
 .profile-page-content .text-no-post{
     margin-bottom: 0;
@@ -20,7 +22,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 15px;
     overflow: hidden;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .profile-page-post-thumb{
     position: relative;
@@ -79,4 +81,9 @@
 }
 .profile-page-post-thumb .profile-page-post-thumb-menu i{
     margin-right: 5px;
+}
+
+.profile-page .button-load-more{
+    margin-left: auto;
+    margin-right: auto;
 }

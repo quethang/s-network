@@ -9,7 +9,9 @@ const Post = () => {
     const { id } = useParams()
     const [post, setPost] = useState([])
 
-    const { auth, detailPost } = useSelector(state => state)
+    const auth = useSelector(state => state.auth);
+    const detailPost = useSelector(state => state.detailPost);
+
     const dispatch = useDispatch()
 
     useEffect(() => {

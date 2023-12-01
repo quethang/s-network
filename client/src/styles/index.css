@@ -95,6 +95,24 @@ ul {
 	font-size: 18px;
 	line-height: 1.5em;
 }
+.button-load-more{
+	width: 28px;
+	height: 28px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2px;
+	border-radius: 50%;
+	background-color: var(--light);
+	color: var(--blue);
+	cursor: pointer;
+	position: relative;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+	transition: all .3s ease 0s;
+}
+.button-load-more:hover{
+	background-color: #f4f4f4;
+}
 /* .overlay {
 	background: rgba(17, 17, 17, 0.7);
 	position: fixed;
@@ -120,12 +138,15 @@ ul {
 @import url('./home.css');
 @import url('./status_modal.css');
 
+/* DISCOVER */
+@import url('./discover.css');
+
 /* PROFILE */
 @import url('./profile.css');
 @import url('./info.css');
 @import url('./editProfile.css');
 
-/* PROFILE */
+/* post Detail */
 @import url('./postDetail.css');
 
 /* LOGIN */

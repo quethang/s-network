@@ -86,12 +86,10 @@ const StatusModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if (images.length === 0)
-    //   return dispatch({
-    //     type: GLOBALTYPES.ALERT,
-    //     payload: { error: "Please add your photo." },
-    //   });
 
+    if (images.length === 0) {
+      return dispatch({ type: GLOBALTYPES.ALERT, payload: { error: "Please add your photo." } })
+    }
     if (status.onEdit) {
       dispatch(updatePost({ content, images, auth, status }));
     } else {
@@ -151,8 +149,8 @@ const StatusModal = () => {
                       image.camera
                         ? image.camera
                         : image.url
-                        ? image.url
-                        : URL.createObjectURL(image)
+                          ? image.url
+                          : URL.createObjectURL(image)
                     }
                     className="img"
                     alt="animage"

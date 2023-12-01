@@ -17,9 +17,6 @@ const PostThumb = ({ posts, result }) => {
                 posts.map((post, index) => (
                     <div className={`profile-page-post-thumb ${theme ? 'theme-dark' : ''}`} key={index}>
                         <Link to={`/post/${post._id}`}/>
-                        <div className='text-thumbnail-wrapper'>
-                            <p className='text-summary'>{post.content.length > 45 ? post.content.slice(0, 45) + '...' : post.content}</p>
-                        </div>
                         <div className='image-thumbnail-wrapper'>
                             <img className='image-thumbnail' src={post.images.length > 0 ? post.images[0].url : imageDefault} alt={post.id} />
                         </div>

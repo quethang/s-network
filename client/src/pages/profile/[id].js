@@ -25,12 +25,12 @@ function Profile(){
 
     return (
         <main className='profile-page'>
-            <div className='container'>
+            <div className='container-fluid'>
                 <div className='row'>
-                    <div className='col-lg-1'>
+                    <div className='col-lg-2'>
 
                     </div>
-                    <div className='col-lg-10'>
+                    <div className='col-lg-8'>
                         <Info auth={auth} profile={profile} dispatch={dispatch} id={id}/>
                         {
                             profile.loading
@@ -39,7 +39,7 @@ function Profile(){
                         }
                         
                     </div>
-                    <div className='col-lg-1'>
+                    <div className='col-lg-2'>
 
                     </div>
                 </div>
