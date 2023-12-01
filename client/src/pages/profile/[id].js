@@ -1,18 +1,18 @@
 import React, {useEffect} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {useParams} from 'react-router-dom'
 
 import Info  from '../../components/profile/Info';
 import Posts  from '../../components/profile/Posts';
 
-import { useSelector, useDispatch } from 'react-redux';
-import Loading from '../../images/loading.svg';
-import '../../styles/profile.css';
 import { getProfileUsers } from '../../redux/actions/profileAction';
-import {useParams} from 'react-router-dom'
-
+import Loading from '../../images/loading.svg';
 
 function Profile(){
 
-    const {profile, auth} = useSelector(state => state);
+    const auth = useSelector(state => state.auth);
+    const profile = useSelector(state => state.profile);
+
     const dispatch = useDispatch()
 
     const { id } = useParams()
@@ -25,20 +25,21 @@ function Profile(){
 
     return (
         <main className='profile-page'>
-            <div className='container'>
+            <div className='container-fluid'>
                 <div className='row'>
-                    <div className='col-lg-1'>
+                    <div className='col-lg-2'>
 
                     </div>
-                    <div className='col-lg-10'>
+                    <div className='col-lg-8'>
+                        <Info auth={auth} profile={profile} dispatch={dispatch} id={id}/>
                         {
                             profile.loading
                             ? <img className='loading' src={Loading} alt='loading'/>
-                            : <Info auth={auth} profile={profile} dispatch={dispatch} id={id}/>
+                            : <Posts auth={auth} profile={profile} dispatch={dispatch} id={id}/>
                         }
-                        <Posts auth={auth} profile={profile} dispatch={dispatch} id={id}/>
+                        
                     </div>
-                    <div className='col-lg-1'>
+                    <div className='col-lg-2'>
 
                     </div>
                 </div>

@@ -4,8 +4,6 @@ import { useNavigate, Link } from 'react-router-dom';
 
 import { register } from '../redux/actions/authAction';
 
-import '../styles/register.css';
-
 function Register(){
     const auth = useSelector( state => state.auth);
     const alert = useSelector( state => state.alert);

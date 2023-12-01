@@ -14,6 +14,11 @@
 .user-card:last-child{
     border-radius: 0 0 6px 6px;
 }
+.user-card img.avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
 .user-card .url-user{
     position: absolute;
 	top: 0;

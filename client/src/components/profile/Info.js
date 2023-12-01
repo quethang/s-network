@@ -1,23 +1,13 @@
 import React, { useState, useEffect} from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-
+import { Link } from 'react-router-dom';
 
 import EditProfile from './EditProfile';
 import FollowButton from '../FollowButton';
-import Avatar from '../Avatar';
 import Followers from './Followers';
 import Followings from './Followings';
-import '../../styles/info.css';
 
 function Info({id, auth, profile, dispatch}){
 
-    // const id = useParams().id;
-    
-    // const auth = useSelector(state => state.auth);
-    // const profile = useSelector(state => state.profile);
-    
-    // const dispatch = useDispatch();
     const [userData, setUserData] = useState([]);
 
     const [onEdit, setOnEdit] = useState(false);
@@ -37,7 +27,6 @@ function Info({id, auth, profile, dispatch}){
         if(id === auth.user._id){
             setUserData([auth.user]);
         } else{
-            // dispatch(getProfileUsers({users: profile.users, id, auth}));
             const newData = profile.users.filter(user => user._id === id);
             setUserData(newData);
         }
@@ -59,7 +48,7 @@ function Info({id, auth, profile, dispatch}){
                         <div className='info-user-wrapper'>
                             <div className='avatar-container'>
                                 <div className='avatar-wrapper'>
-                                    <Avatar src={user.avatar} size='huge-avatar'/>
+                                    <img src={user.avatar} className='avatar' alt='avatar'/>
                                 </div>
                                 <div className='button-wrapper'>
                                     {

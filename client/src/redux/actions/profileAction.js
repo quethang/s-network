@@ -9,6 +9,7 @@ export const PROFILE_TYPES = {
     UNFOLLOW: 'UNFOLLOW',
     GET_ID: 'GET_PROFILE_ID',
     GET_POSTS: 'GET_PROFILE_POSTS',
+    UPDATE_POST: 'UPDATE_PROFILE_POST'
 }
 export function getProfileUsers({id, auth}){
 
@@ -16,7 +17,6 @@ export function getProfileUsers({id, auth}){
 
         dispatch({type: PROFILE_TYPES.GET_ID, payload: id})
 
-   
             try{
                 dispatch({type: PROFILE_TYPES.LOADING, payload: true});
 

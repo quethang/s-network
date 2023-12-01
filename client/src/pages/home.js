@@ -4,14 +4,13 @@ import { useSelector } from 'react-redux';
 import Status from "../components/home/Status";
 import Posts from "../components/home/Posts";
 import Loading from '../images/loading.svg';
-import "../styles/home.css";
 
 function Home() {
   const homePost = useSelector(state => state.homePost);
   // 
   return (
     <main className='home-page'>
-      <div className='container'>
+      <div className='container-fluid'>
         <div className='row'>
           <div className='col-lg-3' style={{ backgroundColor: 'red' }}>
 

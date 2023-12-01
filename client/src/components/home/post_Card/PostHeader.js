@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import moment from 'moment';
 
-import Avatar from "../../Avatar";
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
 import { deletePost } from '../../../redux/actions/postAction';
 import { BASE_URL } from '../../../utils/config'
@@ -47,7 +46,7 @@ function PostHeader({ post }) {
             <div className="header-post">
                 <div className="avatar-wrapper">
                     <Link to={`profile/${post.user._id}`} />
-                    <Avatar src={post.user.avatar} size={'big-avatar'} />
+                    <img className="avatar" src={post.user.avatar} alt="avatar"/>
                 </div>
                 <div className="name-wrapper">
                     <Link to={`profile/${post.user._id}`}><h6 className="fullname">{post.user.fullname}</h6></Link>

@@ -1,8 +1,5 @@
 import React from 'react';
-import Avatar from './Avatar';
 import { Link } from  'react-router-dom';
-
-import '../styles/userCard.css';
 
 function UserCard({children, user, handleClose, setShowFollowers, setShowFollowings}){
 
@@ -14,7 +11,7 @@ function UserCard({children, user, handleClose, setShowFollowers, setShowFollowi
     return (
         <li className='user-card' >
             <Link to={`/profile/${user._id}`} onClick={handelCloseAll} className='url-user'/>
-            <Avatar src={user.avatar} size='big-avatar'/>
+            <img className='avatar' src={user.avatar} alt='avatar'/>
             <div className='fullName-wrapper'>
                 <Link to={`/profile/${user._id}`} onClick={handelCloseAll} ><h6 className='fullName-user'>{user.fullname}</h6></Link>
                 <span className='email-user'>{user.email}</span>

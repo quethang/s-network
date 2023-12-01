@@ -12,7 +12,7 @@ import Header from "./components/header/Header";
 import StatusModal from "./components/StatusModal";
 
 import { refreshToken } from "./redux/actions/authAction";
-import { getPost } from "./redux/actions/postAction";
+import { getPosts } from "./redux/actions/postAction";
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -25,7 +25,7 @@ function App() {
 
   useEffect(() => {
     if (auth.token) {
-      dispatch(getPost(auth.token));
+      dispatch(getPosts(auth.token));
     }
   }, [dispatch, auth.token]);
 

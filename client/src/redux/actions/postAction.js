@@ -40,7 +40,7 @@ export const createPost = ({ content, images, auth, socket }) =>
       });
     }
   };
-export function getPost(token) {
+export function getPosts(token) {
   return async (dispatch) => {
     try {
       dispatch({ type: POST_TYPES.LOADING_POST, payload: true });
@@ -48,7 +48,7 @@ export function getPost(token) {
 
       dispatch({
         type: POST_TYPES.GET_POSTS,
-        payload: res.data
+        payload: {...res.data, page: 2}
       })
 
       dispatch({ type: POST_TYPES.LOADING_POST, payload: false });
@@ -111,7 +111,7 @@ export function unlikePost({ post, auth }) {
   }
 }
 
-export function getPosts({ detailPost, id, auth }) {
+export function getPost({ detailPost, id, auth }) {
   return async (dispatch) => {
 
     if (detailPost.every(post => post._id !== id)) {

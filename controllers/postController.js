@@ -1,16 +1,27 @@
 const Posts = require("../models/postModel");
 const Comments = require('../models/commentModel')
 
+class APIfeatures {
+  constructor(query, queryString) {
+    this.query = query;
+    this.queryString = queryString;
+  }
+
+  paginating() {
+    const page = this.queryString.page * 1 || 1;
+    const limit = this.queryString.limit * 1 || 9;
+    const skip = (page - 1) * limit;
+    this.query = this.query.skip(skip).limit(limit);
+    return this;
+  }
+}
+
 const postController = {
   createPost: async (req, res) => {
     try {
       const { content, images } = req.body;
 
-      if (content === "" && images.length === 0) {
-        return res
-          .status(400)
-          .json({ msg: "Please enter your content or image" });
-      }
+      if (images.length === 0) return res.status(400).json({ msg: "Please add your photo." })     
 
       const newPost = new Posts({
         content,
@@ -20,14 +31,7 @@ const postController = {
 
       await newPost.save();
 
-      res.json({ msg: "Created post", newPost });
-      // res.json({
-      //   msg: "Created Post!",
-      //   newPost: {
-      //     ...newPost._doc,
-      //     user: req.user,
-      //   },
-      // });
+      res.json({ msg: 'Created post', newPost });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -35,23 +39,19 @@ const postController = {
   //
   getPosts: async (req, res) => {
     try {
-      const posts = await Posts.find({
-        user: [...req.user.followings, req.user._id],
-      })
-        .sort("-createAt")
-        .populate("user likes", "avatar fullname email")
-        .populate({
-          path: "comments",
-          populate: { path: "user likes", select: "-password" },
-        });
-      //đoạn này có nghĩa là tham chiếu đến model Comment và Comment tham chiếu đến bảng
+      const features = new APIfeatures(Posts.find({ user: [...req.user.followings, req.user._id] }), req.query).paginating();
+
+      const posts = await features.query.sort('-createdAt')
+        .populate('user likes', 'avatar fullname email')
+        .populate({ path: 'comments', populate: { path: 'user likes', select: '-password' } });
+      //đoạn này có nghĩa là tham chiếu đến model Comment và Comment tham chiếu đến bảng 
       //user và khi tham chiếu đến user thì loại bỏ password
 
       res.json({
-        msg: "Success!",
+        msg: 'Success!',
         result: posts.length,
-        posts,
-      });
+        posts
+      })
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -122,10 +122,13 @@ const postController = {
 
   getUserPosts: async (req, res) => {
     try {
-      const posts = await Posts.find({ user: req.params.id }).sort("-createAt");
-      res.json({ posts, result: posts.length });
+      const features = new APIfeatures(Posts.find({ user: req.params.id }), req.query).paginating();
+      const posts = await features.query.sort('-createdAt');
+
+      res.json({ posts, result: posts.length })
+
     } catch (err) {
-      return res.status(500).json({ msg: err.message });
+      return res.status(500).json({ msg: err.message })
     }
   },
 
@@ -171,6 +174,26 @@ const postController = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
+  getPostDiscover: async (req, res) => {
+    try {
+      const features = new APIfeatures(Posts.find({ user: { $nin: [...req.user.followings, req.user._id] } }), req.query).paginating();
+  
+      const posts = await features.query.sort('-createdAt');
+  
+      res.json({
+        msg: 'Success!',
+        result: posts.length,
+        posts
+      })
+  
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  }
 };
+
+
+
 
 module.exports = postController;

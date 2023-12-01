@@ -3,14 +3,14 @@ import { EditData } from '../actions/globalTypes';
 
 const inititalState = {
     loading: false,
-    ids:[],
+    ids: [],
     users: [],
     posts: []
 };
 
-function profileReducer(state = inititalState, action){
+function profileReducer(state = inititalState, action) {
 
-    switch(action.type){
+    switch (action.type) {
         case PROFILE_TYPES.LOADING:
             return {
                 ...state,
@@ -27,23 +27,28 @@ function profileReducer(state = inititalState, action){
                 users: EditData(state.users, action.payload._id, action.payload)
             };
         case PROFILE_TYPES.UNFOLLOW:
-             return {
+            return {
                 ...state,
                 users: EditData(state.users, action.payload._id, action.payload)
             };
 
-            case PROFILE_TYPES.GET_ID:
-                return {
-                   ...state,
-                   ids: [...state.ids, action.payload]
-               };
+        case PROFILE_TYPES.GET_ID:
+            return {
+                ...state,
+                ids: [...state.ids, action.payload]
+            };
 
-               case PROFILE_TYPES.GET_POSTS:
-                return {
-                   ...state,
-                   posts: [...state.posts, action.payload]
-               };
-            
+        case PROFILE_TYPES.GET_POSTS:
+            return {
+                ...state,
+                posts: [...state.posts, action.payload]
+            };
+        case PROFILE_TYPES.UPDATE_POST:
+            return {
+                ...state,
+                posts: EditData(state.posts, action.payload._id, action.payload)
+            };
+
         default:
             return state;
     }

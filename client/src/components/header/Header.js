@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import Search from './Search';
 import Menu from './Menu';
 
-import '../../styles/header.css'
-
 function Header(){
 
     function handleClick(){
