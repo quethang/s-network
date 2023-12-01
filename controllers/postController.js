@@ -1,12 +1,15 @@
 const Posts = require("../models/postModel");
+const Comments = require('../models/commentModel')
 
 const postController = {
   createPost: async (req, res) => {
     try {
       const { content, images } = req.body;
 
-      if (content === '' && images.length === 0) {
-        return res.status(400).json({ msg: 'Please enter your content or image' });
+      if (content === "" && images.length === 0) {
+        return res
+          .status(400)
+          .json({ msg: "Please enter your content or image" });
       }
 
       const newPost = new Posts({
@@ -17,7 +20,7 @@ const postController = {
 
       await newPost.save();
 
-      res.json({ msg: 'Created post', newPost });
+      res.json({ msg: "Created post", newPost });
       // res.json({
       //   msg: "Created Post!",
       //   newPost: {
@@ -32,18 +35,23 @@ const postController = {
   //
   getPosts: async (req, res) => {
     try {
-      const posts = await Posts.find({ user: [...req.user.followings, req.user._id] })
-        .sort('-createAt')
-        .populate('user likes', 'avatar fullname email')
-        .populate({ path: 'comments', populate: { path: 'user likes', select: '-password' } });
-      //đoạn này có nghĩa là tham chiếu đến model Comment và Comment tham chiếu đến bảng 
+      const posts = await Posts.find({
+        user: [...req.user.followings, req.user._id],
+      })
+        .sort("-createAt")
+        .populate("user likes", "avatar fullname email")
+        .populate({
+          path: "comments",
+          populate: { path: "user likes", select: "-password" },
+        });
+      //đoạn này có nghĩa là tham chiếu đến model Comment và Comment tham chiếu đến bảng
       //user và khi tham chiếu đến user thì loại bỏ password
 
       res.json({
-        msg: 'Success!',
+        msg: "Success!",
         result: posts.length,
-        posts
-      })
+        posts,
+      });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -53,12 +61,20 @@ const postController = {
     try {
       const { content, images } = req.body;
 
-      const post = await Posts.findOneAndUpdate({ _id: req.params.id }, { content, images })
-        .populate('user likes', 'avatar username fullname')
-        .populate({ path: 'comments', populate: { path: 'user likes', select: '-password' } });
-        
+      const post = await Posts.findOneAndUpdate(
+        { _id: req.params.id },
+        { content, images }
+      )
+        .populate("user likes", "avatar username fullname")
+        .populate({
+          path: "comments",
+          populate: { path: "user likes", select: "-password" },
+        });
 
-      res.json({ msg: 'Update success', newPost: { ...post._doc, content, images } })
+      res.json({
+        msg: "Update success",
+        newPost: { ...post._doc, content, images },
+      });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -66,15 +82,24 @@ const postController = {
 
   likePost: async (req, res) => {
     try {
-      const post = await Posts.find({ _id: req.params.id, likes: req.user._id });
+      const post = await Posts.find({
+        _id: req.params.id,
+        likes: req.user._id,
+      });
 
       if (post.length > 0) {
-        return res.status(400).json({ msg: 'Liked this post' });
+        return res.status(400).json({ msg: "Liked this post" });
       }
 
-      await Posts.findOneAndUpdate({ _id: req.params.id }, { $push: { likes: req.user._id } }, { new: true });
+      const like = await Posts.findOneAndUpdate(
+        { _id: req.params.id },
+        { $push: { likes: req.user._id } },
+        { new: true }
+      );
 
-      res.json({ msg: 'Liked post!' });
+      if (!like)
+        return res.status(400).json({ msg: "This Post does not exist" });
+      res.json({ msg: "Liked post!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -82,9 +107,14 @@ const postController = {
 
   unlikePost: async (req, res) => {
     try {
-      await Posts.findOneAndUpdate({ _id: req.params.id }, { $pull: { likes: req.user._id } }, { new: true });
-
-      res.json({ msg: 'Unliked post!' });
+      const like = await Posts.findOneAndUpdate(
+        { _id: req.params.id },
+        { $pull: { likes: req.user._id } },
+        { new: true }
+      );
+      if (!like)
+        return res.status(400).json({ msg: "This Post does not exist" });
+      res.json({ msg: "Unliked post!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -92,36 +122,55 @@ const postController = {
 
   getUserPosts: async (req, res) => {
     try {
-      const posts = await Posts.find({ user: req.params.id }).sort("-createAt")
-      res.json({ posts, result: posts.length })
-
+      const posts = await Posts.find({ user: req.params.id }).sort("-createAt");
+      res.json({ posts, result: posts.length });
     } catch (err) {
-      return res.status(500).json({ msg: err.message })
+      return res.status(500).json({ msg: err.message });
     }
   },
 
   getPost: async (req, res) => {
     try {
-        const post = await Posts.findById(req.params.id)
+      const post = await Posts.findById(req.params.id)
         .populate("user likes", "avatar username fullname followers")
         .populate({
-            path: "comments",
-            populate: {
-                path: "user likes",
-                select: "-password"
-            }
-        })
+          path: "comments",
+          populate: {
+            path: "user likes",
+            select: "-password",
+          },
+        });
 
-        if(!post) return res.status(400).json({msg: 'This post does not exist.'})
+      if (!post)
+        return res.status(400).json({ msg: "This post does not exist." });
 
-        res.json({
-            post
-        })
-
+      res.json({
+        post,
+      });
     } catch (err) {
-        return res.status(500).json({msg: err.message})
+      return res.status(500).json({ msg: err.message });
     }
-},
+  },
+
+  deletePost: async (req, res) => {
+    try {
+      const post = await Posts.findOneAndDelete({
+        _id: req.params.id,
+        user: req.user._id,
+      });
+      await Comments.deleteMany({ _id: { $in: post.comments } });
+
+      res.json({
+        msg: "Deleted Post!",
+        newPost: {
+          ...post,
+          user: req.user,
+        },
+      });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 module.exports = postController;

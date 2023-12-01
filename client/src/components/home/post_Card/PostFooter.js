@@ -5,13 +5,16 @@ import { Link } from 'react-router-dom';
 import ButtonLike from "../../ButtonLike";
 
 import { likePost, unlikePost } from '../../../redux/actions/postAction';
+import ShareModal from "../../ShareModal";
+import { BASE_URL } from "../../../utils/config";
 
 function PostFooter({ post }) {
 
     const [isLike, setIsLike] = useState(false);
     const [loadLike, setLoadLike] = useState(false);
+    const [isShare, setIsShare] = useState(false)
 
-    const auth = useSelector(state => state.auth);
+    const {auth, theme} = useSelector(state => state);
 
     const dispatch = useDispatch();
 
@@ -58,7 +61,7 @@ function PostFooter({ post }) {
                     <i className="far fa-bookmark"></i>
                 </div>
 
-                <div className="button action-button">
+                <div className="button action-button" onClick={() => setIsShare(!isShare)}>
                     <i className="fa-solid fa-share"></i>
                 </div>
             </div>
@@ -66,6 +69,9 @@ function PostFooter({ post }) {
                 <span className="like">{`${post.likes.length} ${post.likes.length > 1 ? 'likes' : 'like'}`}</span>
                 <span className="comment">{`${post.comments.length} ${post.comments.length > 1 ? 'comments' : 'comment'}`}</span>
             </div>
+            {
+                isShare && <ShareModal url={`${BASE_URL}/post/${post._id}`} theme={theme}></ShareModal>
+            }
         </div>
     )
 }
