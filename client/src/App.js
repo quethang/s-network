@@ -15,36 +15,36 @@ import { refreshToken } from "./redux/actions/authAction";
 import { getPosts } from "./redux/actions/postAction";
 
 function App() {
-  const auth = useSelector((state) => state.auth);
-  const status = useSelector((state) => state.status);
-  const dispatch = useDispatch();
+	const auth = useSelector((state) => state.auth);
+	const status = useSelector((state) => state.status);
+	const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(refreshToken());
-  }, [dispatch]);
+	useEffect(() => {
+		dispatch(refreshToken());
+	}, [dispatch]);
 
-  useEffect(() => {
-    if (auth.token) {
-      dispatch(getPosts(auth.token));
-    }
-  }, [dispatch, auth.token]);
+	useEffect(() => {
+		if (auth.token) {
+			dispatch(getPosts(auth.token));
+		}
+	}, [dispatch, auth.token]);
 
-  return (
-    <BrowserRouter>
-      <Alert />
-      {auth.token && <Header />}
-      {status && <StatusModal />}
-      <Routes>
-        <Route exact path="/" Component={auth.token ? Home : Login} />
-        <Route exact path="/register" Component={Register} />
+	return (
+		<BrowserRouter>
+			<Alert />
+			{auth.token && <Header />}
+			{status && <StatusModal />}
+			<Routes>
+				<Route exact path="/" Component={auth.token ? Home : Login} />
+				<Route exact path="/register" Component={Register} />
 
-        <Route exact path="/:page" Component={PrivateRouter} />
-        <Route exact path="/:page/:id" Component={PrivateRouter} />
-        {/* <PrivateRouter exact path="/:page" Component={PageRender} />
+				<Route exact path="/:page" Component={PrivateRouter} />
+				<Route exact path="/:page/:id" Component={PrivateRouter} />
+				{/* <PrivateRouter exact path="/:page" Component={PageRender} />
                 <PrivateRouter exact path="/:page/:id" Component={PageRender} /> */}
-      </Routes>
-    </BrowserRouter>
-  );
+			</Routes>
+		</BrowserRouter>
+	);
 }
 
 export default App;

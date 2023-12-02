@@ -65,7 +65,7 @@ const postController = {
         { _id: req.params.id },
         { content, images }
       )
-        .populate("user likes", "avatar username fullname")
+        .populate("user likes", "avatar fullname email")
         .populate({
           path: "comments",
           populate: { path: "user likes", select: "-password" },
