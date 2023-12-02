@@ -13,6 +13,7 @@ import StatusModal from "./components/StatusModal";
 
 import { refreshToken } from "./redux/actions/authAction";
 import { getPosts } from "./redux/actions/postAction";
+import { getSuggestions } from './redux/actions/suggestionsAction';
 
 function App() {
 	const auth = useSelector((state) => state.auth);
@@ -26,6 +27,7 @@ function App() {
 	useEffect(() => {
 		if (auth.token) {
 			dispatch(getPosts(auth.token));
+			dispatch(getSuggestions(auth.token));
 		}
 	}, [dispatch, auth.token]);
 

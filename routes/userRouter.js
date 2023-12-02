@@ -14,4 +14,6 @@ router.patch('/user/:id/follow', auth, usersController.follow);
 
 router.patch('/user/:id/unfollow', auth, usersController.unfollow);
 
+router.get('/suggestionsUser', auth, usersController.suggestionsUser);
+
 module.exports = router;

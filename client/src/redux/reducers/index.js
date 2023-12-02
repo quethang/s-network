@@ -7,6 +7,7 @@ import status from "./statusReducer";
 import homePost from "./postReducer";
 import detailPost from "./detailPostReducer";
 import discover from './discoverReducer';
+import suggestions from './suggestionReducer';
 
 export default combineReducers({
   auth,
@@ -16,5 +17,6 @@ export default combineReducers({
   status,
   homePost,
   detailPost,
-  discover
+  discover,
+  suggestions
 });

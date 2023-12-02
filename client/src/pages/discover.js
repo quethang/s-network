@@ -22,7 +22,7 @@ function Discover() {
 
     async function handelLoadMore() {
         setLoad(true);
-        const res = await getDataAPI(`post_discover?limit=${discover.page * 9}`, auth.token);
+        const res = await getDataAPI(`post_discover?num=${discover.page * 9}`, auth.token);
         dispatch({ type: DISCOVER_TYPES.UPDATE_POST, payload: res.data });
         setLoad(false);
     }
@@ -32,7 +32,7 @@ function Discover() {
             <div className='container-fluid'>
                 <div className='row'>
                     <div className='col-lg-3' />
-                    <div className='col-lg-7'>
+                    <div className='col-lg-6'>
                         {
                             discover.posts.length === 0 ? <h2 className='discover-text-no-post'>No post</h2> : <></>
 
@@ -65,7 +65,7 @@ function Discover() {
                             <ButtonLoadMore result={discover.result} page={discover.page} load={load} handleLoadMore={handelLoadMore} />
                         }
                     </div>
-                    <div className='col-lg-2' />
+                    <div className='col-lg-3' />
                 </div>
             </div>
         </main>
