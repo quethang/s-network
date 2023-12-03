@@ -32,7 +32,7 @@ export const createPost = ({ content, images, auth, socket }) =>
 
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
 
-    
+
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -48,7 +48,7 @@ export function getPosts(token) {
 
       dispatch({
         type: POST_TYPES.GET_POSTS,
-        payload: {...res.data, page: 2}
+        payload: { ...res.data, page: 2 }
       })
 
       dispatch({ type: POST_TYPES.LOADING_POST, payload: false });
@@ -135,7 +135,41 @@ export function deletePost({ post, auth }) {
     dispatch({ type: POST_TYPES.DELETE_POST, payload: post })
 
     try {
-        await deleteDataAPI(`post/${post._id}`, auth.token)
+      await deleteDataAPI(`post/${post._id}`, auth.token)
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response.data.msg }
+      })
+    }
+  }
+}
+
+export function savePost({ post, auth }) {
+  return async (dispatch) => {
+    const newUser = { ...auth.user, saved: [...auth.user.saved, post._id] }
+    // console.log(newUser)
+    dispatch({ type: GLOBALTYPES.AUTH, payload: { ...auth, user: newUser } })
+
+    try {
+      await patchDataAPI(`savePost/${post._id}`, null, auth.token)
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response.data.msg }
+      })
+    }
+  }
+}
+
+
+export function unSavePost({ post, auth }) {
+  return async (dispatch) => {
+    const newUser = {...auth.user, saved: auth.user.saved.filter(id => id !== post._id) }
+    dispatch({ type: GLOBALTYPES.AUTH, payload: {...auth, user: newUser}})
+  
+    try {
+        await patchDataAPI(`unSavePost/${post._id}`, null, auth.token)
     } catch (err) {
         dispatch({
             type: GLOBALTYPES.ALERT,
@@ -144,5 +178,3 @@ export function deletePost({ post, auth }) {
     }
   }
 }
-
-
