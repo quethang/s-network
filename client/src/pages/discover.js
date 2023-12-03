@@ -28,7 +28,7 @@ function Discover() {
     }
 
     return (
-        <main className='discover-wrapper'>
+        <main className='discover-page'>
             <div className='container-fluid'>
                 <div className='row'>
                     <div className='col-lg-3' />

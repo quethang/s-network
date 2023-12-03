@@ -64,7 +64,6 @@ function Menu(){
                     
             <div className="item-top-menu-wrapper submenu" onClick={handleShow}>
                 <img className='avatar' src={auth.user.avatar} alt='avatar'/>
-                <div className='overlay'></div>
                 <div className='dropdown-submenu' ref={dropdown}>
                     <Link className='item-submenu' to={`profile/${auth.user._id}`}>Profile</Link>
                     <label className='item-submenu' onClick={handleDarkMode}>{theme ? 'Light theme' : 'Dark theme'}</label>

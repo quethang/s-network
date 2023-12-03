@@ -30,6 +30,9 @@ function Followings({users, setShowFollowings}){
                     <div className="body-dialog">
                         <ul className="list-user">
                             {
+                                users.length === 0 && <h5 className="text-not">Not followers</h5>
+                            }
+                            {
                                 users.map((user, index) => (
                                     <UserCard key={index} user={user} setShowFollowings={setShowFollowings}>
                                         {

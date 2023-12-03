@@ -503,13 +503,10 @@
 .right-side-bar-top-wrapper .icon-reload-wrapper:hover{
     background-color: var(--light-medium);
 }
-.right-side-bar .suggestions{
+.right-side-bar-body-wrapper{
     padding: 0 16px 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
-.right-side-bar .right-side-bar-loading{
+.right-side-bar-body-wrapper .right-side-bar-loading{
     display: block;
     width: 50px;
     height: 50px;
@@ -518,17 +515,27 @@
     background-color: transparent;
     position: fixed;
 }
-
-.right-side-bar .suggestions .user-card a{
-    position: static;
+.right-side-bar-body-wrapper .list-suggestions{
+    display: flex;
+    flex-direction: column;
 }
-.right-side-bar .suggestions .user-card{
+.right-side-bar-body-wrapper .list-suggestions .user-card{
+    padding: 8px 0;
     border-radius: 8px;
 }
-.right-side-bar .suggestions .user-card:hover{
+.right-side-bar-body-wrapper .list-suggestions .user-card:hover{
     background-color: transparent;
 }
-.right-side-bar .suggestions .user-card .button-follow{
-    padding: 2px 8px;
-    margin-left: auto;
+.right-side-bar-body-wrapper .list-suggestions .user-card > .url-user{
+    display: none;
+}
+.right-side-bar-body-wrapper .list-suggestions .user-card .button-follow{
+    padding: 2px;
+    float: right;
+    position: absolute;
+    right: 0;
+}
+.right-side-bar-body-wrapper .list-suggestions .user-card .button-follow.followed{
+    background-color: var(--red);
+    border-color: var(--red);
 }

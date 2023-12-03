@@ -30,22 +30,24 @@ function RightSideBar() {
                 }
             </div>
             
-            {
-                
-                suggestions.Loading
-                ? <img src={Loading} alt='loading' className='right-side-bar-loading' />
-                :   (
-                        <div className='suggestions'>
-                            {
-                                suggestions.users.map(user => (
-                                    <UserCard key={user._id} user={user}>
-                                        <FollowButon user={user}/>
-                                    </UserCard>
-                                ))
-                            }
-                        </div>
-                    )
-            }
+            <div className='right-side-bar-body-wrapper'>
+                {
+                    
+                    suggestions.Loading
+                    ? <img src={Loading} alt='loading' className='right-side-bar-loading' />
+                    :   (
+                            <ul className='list-suggestions'>
+                                {
+                                    suggestions.users.map(user => (
+                                        <UserCard key={user._id} user={user}>
+                                            <FollowButon user={user}/>
+                                        </UserCard>
+                                    ))
+                                }
+                            </ul>
+                        )
+                }
+            </div>
         </aside>
     )
 }

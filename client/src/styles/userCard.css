@@ -1,5 +1,6 @@
 .user-card{
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 10px;
     border-radius: 5px;
@@ -14,12 +15,7 @@
 .user-card:last-child{
     border-radius: 0 0 6px 6px;
 }
-.user-card img.avatar{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-.user-card .url-user{
+.user-card > .url-user{
     position: absolute;
 	top: 0;
 	bottom: 0;
@@ -27,17 +23,40 @@
 	right: 0;
     z-index: 2;
 }
+.user-card > div{
+    display: flex;
+    position: relative;
+}
+.user-card .avatar-wrapper{
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+.user-card .avatar-wrapper .url-user{
+    position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.user-card .avatar{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
 .user-card .fullName-wrapper{
     margin-left: 10px;
+
 }
 .user-card .fullName-wrapper .fullName-user{
     font-size: 16px;
-	line-height: 1.5em;
+	line-height: 1.3333em;
     color: var(--dark);
     margin-bottom: 0;
 }
 .user-card .fullName-wrapper .email-user{
     font-size: 12px;
-	line-height: 1.5em;
+	line-height: 1.3333em;
     color: var(--dark);
 }
