@@ -30,7 +30,6 @@ function PostFooter({ post }) {
 
     async function handleLike() {
         if (loadLike) return;
-        // setIsLike(true);
 
         setLoadLike(true);
         await dispatch(likePost({ post, auth }));
@@ -39,7 +38,6 @@ function PostFooter({ post }) {
 
     async function handleUnlike() {
         if (loadLike) return;
-        // setIsLike(false);
 
         setLoadLike(true);
         await dispatch(unlikePost({ post, auth }));
@@ -84,14 +82,19 @@ function PostFooter({ post }) {
                     <i className="far fa-comment"></i>
                 </div>
 
-                <div className="button action-button">
-                    {
-                        saved 
-                        ? <i className="fas fa-bookmark text-info" onClick={handleUnSavePost}></i> 
-                        : <i className="far fa-bookmark" onClick={handleSavePost}></i>
-                    }
-
-                </div>
+                {
+                    saved
+                    ?   (
+                            <div className="button action-button" onClick={handleUnSavePost}>
+                                <i className="fas fa-bookmark" ></i> 
+                            </div>
+                        )
+                    :   (
+                        <div className="button action-button" onClick={handleSavePost}>
+                            <i className="far fa-bookmark" ></i>
+                        </div>
+                        )
+                }
 
                 <div className="button action-button" onClick={() => setIsShare(!isShare)}>
                     <i className="fa-solid fa-share"></i>

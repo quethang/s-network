@@ -36,18 +36,25 @@ function Profile() {
                         <Info auth={auth} profile={profile} dispatch={dispatch} id={id} />
                         {
                             auth.user._id === id &&
-                            <div className="profile_tab">
-                                <button className={saveTab ? '' : 'active'} onClick={() => setSaveTab(false)}>Posts</button>
-                                <button className={saveTab ? 'active' : ''} onClick={() => setSaveTab(true)}>Saved</button>
-                            </div>
+                            <section className='profile-page-tab-bar-wrapper'>
+                                <div className='profile-page-tab-bar'>
+                                    <div className={`tab ${saveTab ? '' : 'active'}`} onClick={() => setSaveTab(false)}>
+                                        <h6 className='title-tab'>Posts</h6>
+                                    </div>
+
+                                    <div className={`tab ${saveTab ? 'active' : ''}`} onClick={() => setSaveTab(true)}>
+                                        <h6 className='title-tab'>Saved</h6>
+                                    </div>
+                                </div>
+                            </section>
                         }
                         {
                             profile.loading
-                                ? <img className='loading' src={Loading} alt='loading' />
+                                ? <img className='profile-page-loading-post' src={Loading} alt='loading' />
                                 : <>
                                     {
                                         saveTab
-                                        ? <Saved auth={auth} profile={profile} dispatch={dispatch} id={id} />
+                                        ? <Saved auth={auth} dispatch={dispatch}/>
                                         : <Posts auth={auth} profile={profile} dispatch={dispatch} id={id} />
                                     }
                                 </>

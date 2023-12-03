@@ -36,18 +36,16 @@ const Saved = ({auth, dispatch}) => {
     }
 
     return (
-        <div>
+        <section className='profile-page-content'>
             <PostThumb posts={savePosts} result={result} />
 
             {
-                load && <img src={LoadIcon} alt="loading" className="d-block mx-auto" />
+                load && <img src={LoadIcon} alt="loading" className="profile-loading" />
             }
-
-            
             <ButtonLoadMore result={result} page={page}
             load={load} handleLoadMore={handleLoadMore} />
             
-        </div>
+        </section>
     )
 }
 

@@ -34,7 +34,7 @@
 
 .info-user-wrapper{
     width: 100%;
-    padding: 20px;
+    padding: 20px 20px 30px;
 }
 .info-user-wrapper .avatar-container{
     display: flex;

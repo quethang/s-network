@@ -1,6 +1,7 @@
 .home-page{
     background-color: #F0F2F5;
     padding-top: 20px;
+    height: 100%;
 }
 .home-page .loading-home{
     display: block;
@@ -269,6 +270,9 @@
     right: 0;
     bottom: 0;
     left: 0;
+}
+.home-page .footer-post .action-button .fas.fa-bookmark{
+    color: var(--blue);
 }
 .home-page .footer-post .info-post{
     padding: 10px 0;

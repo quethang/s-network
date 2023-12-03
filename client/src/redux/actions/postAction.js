@@ -148,7 +148,6 @@ export function deletePost({ post, auth }) {
 export function savePost({ post, auth }) {
   return async (dispatch) => {
     const newUser = { ...auth.user, saved: [...auth.user.saved, post._id] }
-    // console.log(newUser)
     dispatch({ type: GLOBALTYPES.AUTH, payload: { ...auth, user: newUser } })
 
     try {

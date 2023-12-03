@@ -36,7 +36,7 @@ function Posts({ auth, id, dispatch, profile }) {
             <PostThumb posts={posts} result={result} />
 
             {
-                load && <img className='discover-loading' src={Loading} alt='loading icon' />
+                load && <img className='profile-loading' src={Loading} alt='loading icon' />
             }
             <ButtonLoadMore result={result} page={page} load={load} handleLoadMore={handelLoadMore} />
 
