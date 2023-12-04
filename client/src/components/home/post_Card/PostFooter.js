@@ -16,7 +16,9 @@ function PostFooter({ post }) {
     const [saved, setSaved] = useState(false)
     const [saveLoad, setSaveLoad] = useState(false)
 
-    const { auth, theme } = useSelector(state => state);
+    const auth= useSelector(state => state.auth);
+    const theme = useSelector(state => state.theme)
+    const socket = useSelector(state => state.socket);
 
     const dispatch = useDispatch();
 
@@ -32,7 +34,7 @@ function PostFooter({ post }) {
         if (loadLike) return;
 
         setLoadLike(true);
-        await dispatch(likePost({ post, auth }));
+        await dispatch(likePost({ post, auth, socket }));
         setLoadLike(false);
     }
 
@@ -40,7 +42,7 @@ function PostFooter({ post }) {
         if (loadLike) return;
 
         setLoadLike(true);
-        await dispatch(unlikePost({ post, auth }));
+        await dispatch(unlikePost({ post, auth, socket }));
         setLoadLike(false);
     }
 

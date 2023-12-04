@@ -6,6 +6,7 @@ import { createComment } from '../../redux/actions/commentAction';
 function InputComment({ children, post, onReply, setOnReply }) {
     const [content, setContent] = useState('');
     const auth = useSelector(state => state.auth);
+    const socket = useSelector(state => state.socket);
     const dispatch = useDispatch();
 
     function handleChange(e) {
@@ -29,10 +30,11 @@ function InputComment({ children, post, onReply, setOnReply }) {
             reply: onReply && onReply.commentId,
             tag: onReply && onReply.user
         }
-        dispatch(createComment({ post, newComment, auth }));
+        dispatch(createComment({ post, newComment, auth, socket }));
 
         if (setOnReply) return setOnReply(false);
     }
+    
     return (
         <form className="form-comment-post" onSubmit={handleSubmit}>
             <div className="input-comment-wrapper">

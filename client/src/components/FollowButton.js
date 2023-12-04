@@ -6,6 +6,7 @@ function FollowButton({user}){
     const [followed, setFollowed] = useState(false);
     const auth = useSelector(state => state.auth);
     const profile = useSelector(state => state.profile);
+    const socket = useSelector(state => state.socket);
     const dispatch = useDispatch();
     const [load, setLoad] = useState(false);
 
@@ -13,6 +14,7 @@ function FollowButton({user}){
         if(auth.user.followings.find(item => item._id === user._id)){
             setFollowed(true);
         }
+        return () => (setFollowed(false))
     }, [auth.user.followings, user._id]);
 
     async function handleFollow(){
@@ -20,7 +22,7 @@ function FollowButton({user}){
 
         setFollowed(true);
         setLoad(true);
-        await dispatch(follow({ users: profile.users, user, auth}));
+        await dispatch(follow({ users: profile.users, user, auth, socket}));
         setLoad(false);
     }
 
@@ -29,7 +31,7 @@ function FollowButton({user}){
 
         setFollowed(false);
         setLoad(true);
-        await dispatch(unfollow({ users: profile.users, user, auth}));
+        await dispatch(unfollow({ users: profile.users, user, auth, socket}));
         setLoad(false);
     }
 

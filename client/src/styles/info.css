@@ -165,7 +165,7 @@
     align-items: center;
     background-color: #eaeaea;
 }
-.dialog-follow .header-dialog .icon-wrapper:hover{
+.dialog-follow .header-dialog .icon-wrapper .icon:hover{
     background-color: #cfcfcf;
 }
 .dialog-follow .header-dialog .icon-wrapper svg{
@@ -175,7 +175,7 @@
 }
 .dialog-follow .body-dialog{
     overflow-y: auto;
-    height: 100%;
+    height: 50vh;
 }
 .dialog-follow .body-dialog .text-not{
     font-size: 20px;
@@ -190,7 +190,6 @@
     height: 100%;
     overflow-y: auto;
 }
-
 .dialog-follow .body-dialog .list-user::-webkit-scrollbar-track{
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	border-radius: 10px;

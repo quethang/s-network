@@ -5,15 +5,16 @@ import { deleteComment } from '../../../redux/actions/commentAction';
 function CommentMenu({ post, comment, setOnEdit}) {
 
     const auth = useSelector(state => state.auth);
+    const socket = useSelector(state => state.socket);
     const dispatch = useDispatch()
 
     function handleRemove() {
         if(post.user._id === auth.user._id || comment.user._id === auth.user._id){
-            dispatch(deleteComment({post, auth, comment}))
+            dispatch(deleteComment({post, auth, comment, socket}))
         }
     }
 
-    function handleEdit(){
+    function handleEdit() {
         setOnEdit(true);
     }
 

@@ -93,7 +93,7 @@ export function updateProfileUser({userData, avatar, photoCover, auth}){
     }
 }
 
-export function follow({users, user, auth}){
+export function follow({users, user, auth, socket}){
     return async (dispatch) => {
         let newUser;
 
@@ -124,14 +124,15 @@ export function follow({users, user, auth}){
         });
 
         try {
-            await patchDataAPI(`user/${user._id}/follow`, null, auth.token);
+            const res = await patchDataAPI(`user/${user._id}/follow`, null, auth.token);
+            socket.emit('follow', res.data.newUser);
         } catch (err){
             dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
         }
     }
 }
 
-export function unfollow({users, user, auth}){
+export function unfollow({users, user, auth, socket}){
     return async (dispatch) => {
 
         let newUser;
@@ -163,7 +164,8 @@ export function unfollow({users, user, auth}){
         });
 
         try {
-            await patchDataAPI(`user/${user._id}/unfollow`, null, auth.token);
+            const res = await patchDataAPI(`user/${user._id}/unfollow`, null, auth.token);
+            socket.emit('unFollow', res.data.newUser);
         } catch (err){
             dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
         }

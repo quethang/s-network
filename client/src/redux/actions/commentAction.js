@@ -2,7 +2,7 @@ import { GLOBALTYPES, EditData, DeleteData } from "./globalTypes";
 import { POST_TYPES } from "./postAction";
 import { postDataAPI, patchDataAPI, deleteDataAPI } from '../../utils/fetchData';
 
-export function createComment({ post, newComment, auth }) {
+export function createComment({ post, newComment, auth, socket }) {
     return async (dispatch) => {
         //update post
         //để có thể thấy được sự thay đổi của cập nhật comment nên dispatch update 2 lần
@@ -21,6 +21,8 @@ export function createComment({ post, newComment, auth }) {
             const newPost = { ...post, comments: [...post.comments, newData] };
 
             dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
+
+            socket.emit('createComment', newPost)
 
         } catch (err) {
             dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } })
@@ -78,7 +80,7 @@ export function unlikeComment({ comment, post, auth }) {
     }
 }
 
-export const deleteComment = ({ post, comment, auth }) => async (dispatch) => {
+export const deleteComment = ({ post, comment, auth, socket }) => async (dispatch) => {
     const deleteArr = [...post.comments.filter(cm => cm.reply === comment._id), comment]
     console.log(deleteArr)
 
@@ -89,7 +91,7 @@ export const deleteComment = ({ post, comment, auth }) => async (dispatch) => {
 
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost })
 
-
+    socket.emit('deleteComment', newPost)
     try {
         deleteArr.forEach(item => {
             deleteDataAPI(`comment/${item._id}`, auth.token)
