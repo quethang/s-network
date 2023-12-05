@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -9,10 +9,9 @@ import NotifyModal from '../NotifyModal';
 function Menu() {
 
     const navLink = [
-        { label: 'Home', icon: 'home', path: '/' },
-        { label: 'Message', icon: 'near_me', path: '/message' },
-        { label: 'Discover', icon: 'explore', path: '/discover' },
-        // {label: 'Notify', icon: 'notifications', path: '/notify'},
+        { icon: 'home', path: '/' },
+        { icon: 'near_me', path: '/message' },
+        { icon: 'explore', path: '/discover' },
     ];
 
     const auth = useSelector(state => state.auth);
@@ -20,8 +19,6 @@ function Menu() {
     const notify = useSelector(state => state.notify)
 
     const dispatch = useDispatch();
-
-    const dropdown = useRef(null);
 
     const pathName = useLocation().pathname;
 
@@ -32,12 +29,7 @@ function Menu() {
         return '';
     }
 
-    function handleShow() {
-        dropdown.current.classList.toggle('show');
-    }
-
     function handleDarkMode() {
-
         dispatch({
             type: GLOBALTYPES.THEME,
             payload: !theme
@@ -53,50 +45,54 @@ function Menu() {
             {
                 navLink.map((link, index) => (
                     <div key={index} className={`item-top-menu-wrapper ${isActive(link.path)}`}>
-                        <Link className='item-link' to={link.path}></Link>
+                        <Link className='item-link' to={link.path} />
                         <div className='item'>
                             <span className='material-icons'>
                                 {link.icon}
                             </span>
                         </div>
-                        <div className="dot"></div>
                     </div>
                 ))
             }
 
-
-            <div className="item-top-menu-wrapper submenu">
-
-                <span className="nav-link position-relative" id="navbarDropdown"
-                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-                    <span className="material-icons"
-                        style={{ color: notify.data.length > 0 ? 'crimson' : '' }}>
-                        notifications
-                    </span>
-
-                    <span className="notify_length">{notify.data.length}</span>
-
-                </span>
-
-                <div className="dropdown-menu" aria-labelledby="navbarDropdown"
-                    style={{ transform: 'translateX(75px)' }}>
+            <div className="item-top-menu-wrapper dropdown">
+                <span className='showdropdown' data-toggle="dropdown" />
+                <div className='item'>
+                    <span className='material-icons'>notifications</span>
+                </div>
+                <div className={`dot ${notify.data.length > 0 && 'active'}`}>
+                    <span>{notify.data.length}</span>
+                </div>
+                <div className='dropdown-menu'>
                     <NotifyModal />
                 </div>
             </div>
 
-            <div className="item-top-menu-wrapper submenu" onClick={handleShow}>
+            <div className="item-top-menu-wrapper dropdown">
+                <span className='showdropdown' data-toggle="dropdown" />
                 <img className='avatar' src={auth.user.avatar} alt='avatar' />
-                <div className='dropdown-submenu' ref={dropdown}>
-                    <Link className='item-submenu' to={`profile/${auth.user._id}`}>Profile</Link>
-                    <label className='item-submenu' onClick={handleDarkMode}>{theme ? 'Light theme' : 'Dark theme'}</label>
-                    <Link
-                        className='item-submenu'
-                        to='/'
-                        onClick={handleLogout}
-                    >
-                        Log out
-                    </Link>
+
+                <div className='dropdown-menu'>
+                    <div className='dropdown-item'>
+                        <Link to={`profile/${auth.user._id}`} />
+                        <img src={auth.user.avatar} alt={auth.user.avatar} />
+                        <h6>{auth.user.fullname}</h6>
+                    </div>
+
+                    <div className='dropdown-item' onClick={handleDarkMode}>
+                        <div className='dropdown-item-icon-wrapper'>
+                            <i className="fa-solid fa-moon" />
+                        </div>
+                        <h6>{theme ? 'Light theme' : 'Dark theme'}</h6>
+                    </div>
+
+                    <div className='dropdown-item'>
+                        <Link to='/' onClick={handleLogout} />
+                        <div className='dropdown-item-icon-wrapper'>
+                            <i className="fa-solid fa-arrow-right-from-bracket" />
+                        </div>
+                        <h6>Log out</h6>
+                    </div>
                 </div>
             </div>
         </nav>

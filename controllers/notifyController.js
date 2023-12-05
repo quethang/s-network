@@ -27,14 +27,14 @@ const notifyController = {
             return res.status(500).json({msg: err.message})
         }
     },
-    getNotifies: async (req, res) => {
+    getNotifies: async(req, res) => {
         try {
             const notifies = await Notifies.find({recipients: req.user._id})
-            .sort('isRead').populate('user', 'avatar username')            
+                            .sort('isRead').populate('user', 'avatar fullname')
             
-            return res.json({notifies})
+            return res.json({notifies});
         } catch (err) {
-            return res.status(500).json({msg: err.message})
+            return res.status(500).json({msg: err.message});
         }
     },
 
