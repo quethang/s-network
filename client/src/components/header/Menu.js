@@ -4,45 +4,47 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { GLOBALTYPES } from '../../redux/actions/globalTypes';
 import { logout } from '../../redux/actions/authAction';
+import NotifyModal from '../NotifyModal';
 
-function Menu(){
+function Menu() {
 
     const navLink = [
-        {label: 'Home', icon: 'home', path: '/'},
-        {label: 'Message', icon: 'near_me', path: '/message'},
-        {label: 'Discover', icon: 'explore', path: '/discover'},
-        {label: 'Notify', icon: 'notifications', path: '/notify'},
+        { label: 'Home', icon: 'home', path: '/' },
+        { label: 'Message', icon: 'near_me', path: '/message' },
+        { label: 'Discover', icon: 'explore', path: '/discover' },
+        // {label: 'Notify', icon: 'notifications', path: '/notify'},
     ];
 
     const auth = useSelector(state => state.auth);
     const theme = useSelector(state => state.theme);
+    const notify = useSelector(state => state.notify)
 
     const dispatch = useDispatch();
-        
+
     const dropdown = useRef(null);
 
     const pathName = useLocation().pathname;
 
-    function isActive(pn){
-        if(pn === pathName){
+    function isActive(pn) {
+        if (pn === pathName) {
             return 'active';
         }
         return '';
     }
 
-    function handleShow(){
+    function handleShow() {
         dropdown.current.classList.toggle('show');
     }
 
-    function handleDarkMode(){
-        
+    function handleDarkMode() {
+
         dispatch({
             type: GLOBALTYPES.THEME,
             payload: !theme
         });
     }
 
-    function handleLogout(){
+    function handleLogout() {
         dispatch(logout());
     }
 
@@ -61,15 +63,36 @@ function Menu(){
                     </div>
                 ))
             }
-                    
+
+
+            <div className="item-top-menu-wrapper submenu">
+
+                <span className="nav-link position-relative" id="navbarDropdown"
+                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    <span className="material-icons"
+                        style={{ color: notify.data.length > 0 ? 'crimson' : '' }}>
+                        notifications
+                    </span>
+
+                    <span className="notify_length">{notify.data.length}</span>
+
+                </span>
+
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown"
+                    style={{ transform: 'translateX(75px)' }}>
+                    <NotifyModal />
+                </div>
+            </div>
+
             <div className="item-top-menu-wrapper submenu" onClick={handleShow}>
-                <img className='avatar' src={auth.user.avatar} alt='avatar'/>
+                <img className='avatar' src={auth.user.avatar} alt='avatar' />
                 <div className='dropdown-submenu' ref={dropdown}>
                     <Link className='item-submenu' to={`profile/${auth.user._id}`}>Profile</Link>
                     <label className='item-submenu' onClick={handleDarkMode}>{theme ? 'Light theme' : 'Dark theme'}</label>
-                    <Link 
-                        className='item-submenu' 
-                        to='/' 
+                    <Link
+                        className='item-submenu'
+                        to='/'
                         onClick={handleLogout}
                     >
                         Log out

@@ -32,7 +32,11 @@ const postController = {
 
       await newPost.save();
 
-      res.json({ msg: 'Created post', newPost });
+      res.json({ msg: 'Created post', 
+      newPost:{
+        ...newPost._doc,
+        user: req.user
+      } });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
