@@ -239,6 +239,28 @@ header .list-notify-wrapper-header h6{
     color: var(--dark);
     margin-bottom: 0;
 }
+header .list-notify {
+    max-height: 400px;
+    overflow-y: auto;
+    transition: all .3s ease 0s;
+}
+
+header .list-notify::-webkit-scrollbar-track{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+header .list-notify::-webkit-scrollbar{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+header .list-notify::-webkit-scrollbar-thumb{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: var(--medium);
+}
 
 header .list-notify .text-not-notify{
     font-size: 18px;
@@ -254,9 +276,17 @@ header .notify-item{
     padding: 6px;
     border-radius: 6px;
     cursor: pointer;
+    position: relative;
 }
 header .notify-item:hover{
-    background-color: #ececec;
+    background-color: #f3f3f3;
+}
+header .notify-item > a{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 header .notify-item-avatar-wrapper{
     margin-right: 10px;
@@ -269,6 +299,7 @@ header .notify-item-avatar{
 header .notify-item-text{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 header .notify-item-text .notify-item-title,
 header .notify-item-text .notify-item-time{
@@ -282,6 +313,7 @@ header .notify-item-text .notify-item-title .author{
 }
 header .notify-item-text .notify-item-time{
     font-size: 14px;
+    color: var(--medium);
 }
 
 header .notify-item-dot {

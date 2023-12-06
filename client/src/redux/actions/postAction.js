@@ -3,8 +3,6 @@ import { imageUpload } from "../../utils/imageUpload";
 import { postDataAPI, getDataAPI, patchDataAPI, deleteDataAPI } from "../../utils/fetchData";
 import { createNotify, removeNotify } from "./notifyAction";
 
-
-
 export const POST_TYPES = {
   CREATE_POST: "CREATE_POST",
   LOADING_POST: 'LOADING_POST',
@@ -35,17 +33,17 @@ export const createPost = ({ content, images, auth, socket }) =>
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
       // console.log(res)
 
-       // Notify
-       const msg = {
+      // Notify
+      const msg = {
         id: res.data.newPost._id,
         text: 'added a new post.',
         recipients: res.data.newPost.user.followers,
         url: `/post/${res.data.newPost._id}`,
-        content, 
+        content,
         image: media[0].url
-    }
+      }
 
-    dispatch(createNotify({msg, auth, socket}))
+      dispatch(createNotify({ msg, auth, socket }))
 
 
     } catch (err) {
@@ -106,7 +104,19 @@ export function likePost({ post, auth, socket }) {
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
     socket.emit('likePost', newPost)
     try {
-      await patchDataAPI(`post/${post._id}/like`, null, auth.token)
+      await patchDataAPI(`post/${post._id}/like`, null, auth.token);
+      //Thông báo
+      const msg = {
+        id: auth.user._id,
+        text: 'like your post',
+        recipients: [post.user._id],
+        url: `/post/${post._id}`,
+        content: post.content,
+        image: post.images[0].url
+      }
+
+      dispatch(createNotify({ msg, auth, socket }))
+
     } catch (err) {
       dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
     }
@@ -119,7 +129,17 @@ export function unlikePost({ post, auth, socket }) {
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
     socket.emit('unLikePost', newPost)
     try {
-      await patchDataAPI(`post/${post._id}/unlike`, null, auth.token)
+      await patchDataAPI(`post/${post._id}/unlike`, null, auth.token);
+
+      //Thông báo
+      const msg = {
+        id: auth.user._id,
+        text: 'like your post',
+        recipients: [post.user._id],
+        url: `/post/${post._id}`,
+      }
+
+      dispatch(removeNotify({ msg, auth, socket }))
     } catch (err) {
       dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
     }
@@ -157,8 +177,8 @@ export function deletePost({ post, auth, socket }) {
         text: 'added a new post.',
         recipients: res.data.newPost.user.followers,
         url: `/post/${post._id}`,
-    }
-    dispatch(removeNotify({msg, auth, socket}))
+      }
+      dispatch(removeNotify({ msg, auth, socket }))
 
     } catch (err) {
       dispatch({
@@ -188,16 +208,16 @@ export function savePost({ post, auth }) {
 
 export function unSavePost({ post, auth }) {
   return async (dispatch) => {
-    const newUser = {...auth.user, saved: auth.user.saved.filter(id => id !== post._id) }
-    dispatch({ type: GLOBALTYPES.AUTH, payload: {...auth, user: newUser}})
-  
+    const newUser = { ...auth.user, saved: auth.user.saved.filter(id => id !== post._id) }
+    dispatch({ type: GLOBALTYPES.AUTH, payload: { ...auth, user: newUser } })
+
     try {
-        await patchDataAPI(`unSavePost/${post._id}`, null, auth.token)
+      await patchDataAPI(`unSavePost/${post._id}`, null, auth.token)
     } catch (err) {
-        dispatch({
-            type: GLOBALTYPES.ALERT,
-            payload: {error: err.response.data.msg}
-        })
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response.data.msg }
+      })
     }
   }
 }

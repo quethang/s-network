@@ -10,6 +10,7 @@ import { BASE_URL } from '../../../utils/config'
 function PostHeader({ post }) {
 
     const auth = useSelector(state => state.auth);
+    const socket = useSelector(state => state.socket);
     const dispacth = useDispatch();
     const dropDown = useRef(null);
     const navigate = useNavigate()
@@ -30,7 +31,7 @@ function PostHeader({ post }) {
     function handleDeletePost() {
         handleShow();
         if (window.confirm("Are you sure want to delete this Post")) {
-            dispacth(deletePost({ post, auth }))
+            dispacth(deletePost({ post, auth, socket }))
             return navigate("/")
         }
 
