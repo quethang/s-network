@@ -6,6 +6,7 @@ import PrivateRouter from "./customerRouter/PrivateRouter";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import ScrollToTop from './components/scrollToTop';
 
 import Alert from "./components/alert/Alert";
 import Header from "./components/header/Header";
@@ -47,6 +48,7 @@ function App() {
 			{auth.token && <Header />}
 			{status && <StatusModal />}
 			{auth.token && <SocketClient />}
+			<ScrollToTop />
 			<Routes>
 				<Route exact path="/" Component={auth.token ? Home : Login} />
 				<Route exact path="/register" Component={Register} />

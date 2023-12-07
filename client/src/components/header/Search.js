@@ -12,7 +12,8 @@ function Search(){
     const [search, setSearch] = useState('');
     const [users, setUsers] = useState([]);
 
-    const  auth = useSelector(state => state.auth);
+    const auth = useSelector(state => state.auth);
+    const theme = useSelector(state => state.theme);
     const [load, setLoad] = useState(false);
     const dispatch = useDispatch();
 
@@ -56,7 +57,7 @@ function Search(){
     }
     return (
         <div className='search-form-wrapper'>
-            <form className='search-form' onSubmit={handleSubmit}>
+            <form className={`search-form ${theme ? 'dark-theme' : ''}`} onSubmit={handleSubmit}>
                 <input 
                     id='input-search'
                     type='text'  
