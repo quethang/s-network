@@ -43,6 +43,7 @@ function Login(){
     function handleSubmit(e){
         e.preventDefault();
         dispatch(login(userData));
+        setUserData({email: '', password: ''});
     }
 
     return (

@@ -63,14 +63,14 @@ const commentController = {
 
     deleteComment: async (req, res) => {
         try {
-            const comment = await Comments.findOneAndDelete({
-                _id: req.params.id,
-                $or: [
-                    { user: req.user._id },
-                    { postUserId: req.user._id }
-                ]
-            })
-
+            // const comment = await Comments.findOneAndDelete({
+            //     _id: req.params.id,
+            //     $or: [
+            //         { user: req.user._id },
+            //         { postUserId: req.user._id }
+            //     ]
+            // })
+            const comment = await Comments.findOneAndDelete({_id: req.params.id});
             await Posts.findOneAndUpdate({ _id: comment.postId }, {
                 $pull: { comments: req.params.id }
             })

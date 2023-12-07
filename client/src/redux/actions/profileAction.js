@@ -1,6 +1,7 @@
 import { GLOBALTYPES, DeleteData } from './globalTypes';
 import { getDataAPI, patchDataAPI } from '../../utils/fetchData';
 import { imageUpload } from '../../utils/imageUpload';
+import { createNotify, removeNotify } from '../actions/notifyAction';
 
 export const PROFILE_TYPES = {
     LOADING: 'LOADING_PROFILE',
@@ -11,61 +12,61 @@ export const PROFILE_TYPES = {
     GET_POSTS: 'GET_PROFILE_POSTS',
     UPDATE_POST: 'UPDATE_PROFILE_POST'
 }
-export function getProfileUsers({id, auth}){
+export function getProfileUsers({ id, auth }) {
 
     return async (dispatch) => {
 
-        dispatch({type: PROFILE_TYPES.GET_ID, payload: id})
+        dispatch({ type: PROFILE_TYPES.GET_ID, payload: id })
 
-            try{
-                dispatch({type: PROFILE_TYPES.LOADING, payload: true});
+        try {
+            dispatch({ type: PROFILE_TYPES.LOADING, payload: true });
 
-                const res = await getDataAPI(`/user/${id}`, auth.token);
+            const res = await getDataAPI(`/user/${id}`, auth.token);
 
-                const res1 = await getDataAPI(`/user_posts/${id}`, auth.token);
+            const res1 = await getDataAPI(`/user_posts/${id}`, auth.token);
 
-                const users = await res;
-                const posts = await res1;
+            const users = await res;
+            const posts = await res1;
 
-                dispatch({type: PROFILE_TYPES.GET_USER, payload: users.data});
+            dispatch({ type: PROFILE_TYPES.GET_USER, payload: users.data });
 
-                dispatch({
-                    type: PROFILE_TYPES.GET_POSTS,
-                    payload: {...posts.data, _id: id, page: 2}
-                })
+            dispatch({
+                type: PROFILE_TYPES.GET_POSTS,
+                payload: { ...posts.data, _id: id, page: 2 }
+            })
 
-                dispatch({type: PROFILE_TYPES.LOADING, payload: false});
-            } catch(err){
-                dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}});
-            }
-       
+            dispatch({ type: PROFILE_TYPES.LOADING, payload: false });
+        } catch (err) {
+            dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
+        }
+
     }
 }
 
-export function updateProfileUser({userData, avatar, photoCover, auth}){
+export function updateProfileUser({ userData, avatar, photoCover, auth }) {
     return async (dispatch) => {
-        if(!userData.fullname){
-            return dispatch({type: GLOBALTYPES.ALERT, payload: {error: 'Please add your full name.'}});
+        if (!userData.fullname) {
+            return dispatch({ type: GLOBALTYPES.ALERT, payload: { error: 'Please add your full name.' } });
         }
 
-        if(userData.fullname.length > 50){
-            return dispatch({type: GLOBALTYPES.ALERT, payload: {error: 'Your full name too long'}});
+        if (userData.fullname.length > 50) {
+            return dispatch({ type: GLOBALTYPES.ALERT, payload: { error: 'Your full name too long' } });
         }
 
-        if(userData.address.length > 50){
-            return dispatch({type: GLOBALTYPES.ALERT, payload: {error: 'Your address too long'}});
+        if (userData.address.length > 50) {
+            return dispatch({ type: GLOBALTYPES.ALERT, payload: { error: 'Your address too long' } });
         }
 
-        if(userData.description.length > 200){
-            return dispatch({type: GLOBALTYPES.ALERT, payload: {error: 'Your description too long'}});
+        if (userData.description.length > 200) {
+            return dispatch({ type: GLOBALTYPES.ALERT, payload: { error: 'Your description too long' } });
         }
 
-        try{
+        try {
             let media;
 
-            dispatch({type: GLOBALTYPES.ALERT, payload: {loading: true}});
+            dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
 
-            if(avatar || photoCover){
+            if (avatar || photoCover) {
                 media = await imageUpload([avatar, photoCover]);
             }
 
@@ -75,37 +76,39 @@ export function updateProfileUser({userData, avatar, photoCover, auth}){
                 photoCover: photoCover ? media[1].url : auth.user.photoCover,
             }, auth.token);
 
-            dispatch({type: GLOBALTYPES.AUTH, payload: {
-                ...auth,
-                user: {
-                    ...auth.user,
-                    ...userData,
-                    avatar: avatar ? media[0].url : auth.user.avatar,
-                    photoCover: photoCover ? media[1].url : auth.user.photoCover,
+            dispatch({
+                type: GLOBALTYPES.AUTH, payload: {
+                    ...auth,
+                    user: {
+                        ...auth.user,
+                        ...userData,
+                        avatar: avatar ? media[0].url : auth.user.avatar,
+                        photoCover: photoCover ? media[1].url : auth.user.photoCover,
+                    }
                 }
-            }})
+            })
 
-            dispatch({type: GLOBALTYPES.ALERT, payload: {success: res.data.msg}});
+            dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.data.msg } });
 
         } catch (err) {
-            dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}});
+            dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
         }
     }
 }
 
-export function follow({users, user, auth, socket}){
+export function follow({ users, user, auth, socket }) {
     return async (dispatch) => {
         let newUser;
 
-        if(users.every(item => item._id !== user._id)){
+        if (users.every(item => item._id !== user._id)) {
             newUser = {
                 ...user,
                 followers: [...user.followers, auth.user]
             }
         } else {
             users.forEach(item => {
-                if(item._id === user._id){
-                    newUser = { ...item, followers: [...item.followers, auth.user]}
+                if (item._id === user._id) {
+                    newUser = { ...item, followers: [...item.followers, auth.user] }
                 }
             });
         }
@@ -126,26 +129,36 @@ export function follow({users, user, auth, socket}){
         try {
             const res = await patchDataAPI(`user/${user._id}/follow`, null, auth.token);
             socket.emit('follow', res.data.newUser);
-        } catch (err){
-            dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
+
+
+            const msg = {
+                id: auth.user._id,
+                text: 'following you.',
+                recipients: [newUser._id],
+                url: `/profile/${auth.user._id}`,
+            }
+
+            dispatch(createNotify({ msg, auth, socket }))
+        } catch (err) {
+            dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } })
         }
     }
 }
 
-export function unfollow({users, user, auth, socket}){
+export function unfollow({ users, user, auth, socket }) {
     return async (dispatch) => {
 
         let newUser;
 
-        if(users.every(item => item._id !== user._id)){
+        if (users.every(item => item._id !== user._id)) {
             newUser = {
                 ...user,
                 followers: DeleteData(user.followers, auth.user._id)
             }
         } else {
             users.forEach(item => {
-                if(item._id === user._id){
-                    newUser = { ...item, followers: DeleteData(item.followers, auth.user._id)}
+                if (item._id === user._id) {
+                    newUser = { ...item, followers: DeleteData(item.followers, auth.user._id) }
                 }
             });
         }
@@ -166,8 +179,17 @@ export function unfollow({users, user, auth, socket}){
         try {
             const res = await patchDataAPI(`user/${user._id}/unfollow`, null, auth.token);
             socket.emit('unFollow', res.data.newUser);
-        } catch (err){
-            dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
+
+            const msg = {
+                id: auth.user._id,
+                text: 'following you.',
+                recipients: [newUser._id],
+                url: `/profile/${auth.user._id}`,
+            }
+
+            dispatch(removeNotify({ msg, auth, socket }))
+        } catch (err) {
+            dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } })
         }
     }
 }
