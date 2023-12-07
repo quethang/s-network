@@ -30,9 +30,7 @@ export function createComment({ post, newComment, auth, socket }) {
                 id: res.data.newComment._id,
                 text: newComment.reply ? 'mentioned you in comment.' : 'has commented on your post.',
                 recipients: newComment.reply ? [newComment.tag._id] : [post.user._id],
-                url: `/post/${post._id}`,
-                content: post.content,
-                image: post.images[0].url
+                url: `/post/${post._id}`
             }
 
             dispatch(createNotify({msg, auth, socket}))

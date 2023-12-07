@@ -20,7 +20,7 @@ function Nofify(){
             { alert.loading && <Loading /> }
 
             { alert.error && <Toast msg={{title: 'Error', body: alert.error}} handleShow={close} bgColor="bgColor-toast-error"/> }
-
+            
             { alert.success && <Toast msg={{title: 'Success', body: alert.success}} handleShow={close} bgColor="bgColor-toast-success"/> }
         </div>
     )

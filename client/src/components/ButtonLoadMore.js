@@ -6,7 +6,7 @@ function ButtonLoadMore({result, page, load, handleLoadMore}){
             {
                 result < 9 * (page - 1) 
                 ? '' 
-                : !load && <button className='button-load-more' onClick={handleLoadMore}><i className="fas fa-redo"></i></button>
+                : !load && <button className='button-load-more' onClick={handleLoadMore}><i className="fas fa-redo"/></button>
             }
         </>
     )

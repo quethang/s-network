@@ -34,7 +34,7 @@ function RightSideBar() {
                 {
                     
                     suggestions.Loading
-                    ? <img src={Loading} alt='loading' className='right-side-bar-loading' />
+                    ? <img src={Loading} alt='loading' className='loading-home' />
                     :   (
                             <ul className='list-suggestions'>
                                 {

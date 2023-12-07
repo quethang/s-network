@@ -11,7 +11,7 @@ function PostHeader({ post }) {
 
     const auth = useSelector(state => state.auth);
     const socket = useSelector(state => state.socket);
-    const dispacth = useDispatch();
+    const dispatch = useDispatch();
     const dropDown = useRef(null);
     const navigate = useNavigate()
 
@@ -25,13 +25,13 @@ function PostHeader({ post }) {
 
     function handleEditPost() {
         handleShow();
-        dispacth({ type: GLOBALTYPES.STATUS, payload: { ...post, onEdit: true } });
+        dispatch({ type: GLOBALTYPES.STATUS, payload: { ...post, onEdit: true } });
     }
 
     function handleDeletePost() {
         handleShow();
         if (window.confirm("Are you sure want to delete this Post")) {
-            dispacth(deletePost({ post, auth, socket }))
+            dispatch(deletePost({ post, auth, socket }))
             return navigate("/")
         }
 

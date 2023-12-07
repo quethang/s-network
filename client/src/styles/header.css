@@ -219,6 +219,9 @@ header .item-top-menu-wrapper.dropdown .dropdown-item > .dropdown-item-icon-wrap
     align-items: center;
     background-color: #ececec;
 }
+header.dark-theme .item-top-menu-wrapper.dropdown .dropdown-item img{
+    filter: invert(100%);
+}
 header .item-top-menu-wrapper.dropdown .dropdown-item h6{
     font-size: 16px;
     line-height: 1.5em;

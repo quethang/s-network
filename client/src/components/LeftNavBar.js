@@ -69,11 +69,11 @@ function LeftNavBar() {
             </ul>
             <div className='switch-theme-container'>
                 <div className='text-wrapper'>
-                    <span className='text'>Theme:</span>
+                    <span className='text'>Dark Theme:</span>
                 </div>
-                <div class="switch-container">
+                <div className="switch-container">
                     <input type="checkbox" hidden="hidden" id="username" />
-                    <label class="switch" for="username" onClick={handleClick}></label>
+                    <label className="switch" htmlFor="username" onClick={handleClick}></label>
                 </div>
             </div>
         </aside>

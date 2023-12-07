@@ -1,13 +1,10 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 
 function NotifyModal() {
-
-    const auth = useSelector(state => state.auth);
     const notify = useSelector(state => state.notify);
-    const dispatch = useDispatch()
 
     return (
         <div className='list-notify-wrapper'>
