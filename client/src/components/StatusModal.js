@@ -7,7 +7,7 @@ const StatusModal = () => {
   const auth = useSelector((state) => state.auth);
   const status = useSelector((state) => state.status);
   const theme = useSelector((state) => state.theme);
-  const socket = useSelector((state) => state.soket);
+  const socket = useSelector((state) => state.socket);
 
   const dispatch = useDispatch();
 
