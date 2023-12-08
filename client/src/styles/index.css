@@ -113,6 +113,9 @@ ul {
 .button-load-more:hover{
 	background-color: #f4f4f4;
 }
+audio{
+	display: none;
+}
 /* .overlay {
 	background: rgba(17, 17, 17, 0.7);
 	position: fixed;

@@ -1,10 +1,28 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 
+import { deleteAllNotifies, isReadNotify, NOTIFY_TYPES } from '../redux/actions/notifyAction'
+
 function NotifyModal() {
+    const auth = useSelector(state => state.auth);
     const notify = useSelector(state => state.notify);
+    const dispatch = useDispatch();
+
+    function handleIsRead(msg){
+        dispatch(isReadNotify({msg, auth}))
+    }
+
+    function handleSound() {
+        dispatch({type: NOTIFY_TYPES.UPDATE_SOUND, payload: !notify.sound})
+    }
+
+    function handleDeleteAll(){
+        if(window.confirm('Are you sure want delete all?')){
+            dispatch(deleteAllNotifies(auth.token));
+        }
+    }
 
     return (
         <div className='list-notify-wrapper'>
@@ -12,8 +30,8 @@ function NotifyModal() {
                 <h6 className='title'>Notification</h6>
                 {
                     notify.sound
-                        ? <i className='fas fa-bell' />
-                        : <i className='fas fa-bell-slash' />
+                        ? <i className='fas fa-bell' onClick={handleSound}/>
+                        : <i className='fas fa-bell-slash' onClick={handleSound}/>
                 }
             </div>
 
@@ -23,7 +41,7 @@ function NotifyModal() {
                 }
                 {
                     notify.data.map((msg, index) => (
-                        <li key={index} className='notify-item'>
+                        <li key={index} className='notify-item' onClick={() => handleIsRead(msg)}>
                             <Link to={`${msg.url}`} />
                             <div className='notify-item-avatar-wrapper'>
                                 <img className='notify-item-avatar' src={msg.user.avatar} alt={msg.image} />
@@ -42,7 +60,7 @@ function NotifyModal() {
                 }
             </ul>
             <div className='list-notify-wrapper-footer'>
-                <span>Delete all</span>
+                <span onClick={handleDeleteAll}>Delete all</span>
             </div>
         </div>
     )

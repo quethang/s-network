@@ -259,6 +259,11 @@ header .list-notify-wrapper-header h6{
     color: var(--dark);
     margin-bottom: 0;
 }
+header .list-notify-wrapper-header i{
+    font-size: 16px;
+    cursor: pointer;
+}
+
 header .list-notify {
     max-height: 400px;
     overflow-y: auto;
@@ -355,6 +360,9 @@ header .list-notify-wrapper-footer{
     align-items: center;
 }
 header .list-notify-wrapper-footer > span{
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--medium);
     cursor: pointer;
 }
 header .list-notify-wrapper-footer > span:hover{
