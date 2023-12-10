@@ -31,7 +31,6 @@ export const createPost = ({ content, images, auth, socket }) =>
       });
 
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
-      // console.log(res)
 
       // Notify
       const msg = {
@@ -42,7 +41,6 @@ export const createPost = ({ content, images, auth, socket }) =>
       }
 
       dispatch(createNotify({ msg, auth, socket }))
-
 
     } catch (err) {
       dispatch({

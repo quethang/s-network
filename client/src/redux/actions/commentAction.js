@@ -6,8 +6,6 @@ import { createNotify, removeNotify } from '../actions/notifyAction';
 export function createComment({ post, newComment, auth, socket }) {
     return async (dispatch) => {
         //update post
-        //để có thể thấy được sự thay đổi của cập nhật comment nên dispatch update 2 lần
-        //lần đầu là chưa có id, lần sau mới có
         const newPost = { ...post, comments: [...post.comments, newComment] }
         dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
 

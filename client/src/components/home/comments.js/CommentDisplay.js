@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import CommentCard from './CommentCard';
 
 function CommentDispay({ comment, post, replyCm }) {
-    const [showRep, setShowRep] = useState([])
-    const [next, setNext] = useState(1)
+    const [showRep, setShowRep] = useState([]);
+    const [next, setNext] = useState(1);
 
     useEffect(() => {
-        setShowRep(replyCm.slice(replyCm.length - next))
-    }, [replyCm, next])
+        setShowRep(replyCm.slice(replyCm.length - next));
+    }, [replyCm, next]);
 
     return (
         <div className='comment-post-display'>

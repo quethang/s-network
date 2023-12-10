@@ -68,7 +68,7 @@ function Discover() {
                             <ButtonLoadMore result={discover.result} page={discover.page} load={load} handleLoadMore={handelLoadMore} />
                         }
                     </div>
-                    <div className='col-lg-1' />
+                    <div className='col-lg-2' />
                 </div>
             </div>
         </main>
