@@ -31,20 +31,16 @@ export const createPost = ({ content, images, auth, socket }) =>
       });
 
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
-      // console.log(res)
 
       // Notify
       const msg = {
         id: res.data.newPost._id,
         text: 'added a new post.',
         recipients: res.data.newPost.user.followers,
-        url: `/post/${res.data.newPost._id}`,
-        content,
-        image: media[0].url
+        url: `/post/${res.data.newPost._id}`
       }
 
       dispatch(createNotify({ msg, auth, socket }))
-
 
     } catch (err) {
       dispatch({
@@ -110,9 +106,7 @@ export function likePost({ post, auth, socket }) {
         id: auth.user._id,
         text: 'like your post',
         recipients: [post.user._id],
-        url: `/post/${post._id}`,
-        content: post.content,
-        image: post.images[0].url
+        url: `/post/${post._id}`
       }
 
       dispatch(createNotify({ msg, auth, socket }))
@@ -136,7 +130,7 @@ export function unlikePost({ post, auth, socket }) {
         id: auth.user._id,
         text: 'like your post',
         recipients: [post.user._id],
-        url: `/post/${post._id}`,
+        url: `/post/${post._id}`
       }
 
       dispatch(removeNotify({ msg, auth, socket }))

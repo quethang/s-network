@@ -5,55 +5,63 @@
     bottom: 10px;
     right: 10px;
     z-index: 11;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
-    padding: 14px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 6px;
     overflow: hidden;
+    background-color: var(--light);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+    display: flex;
+    align-items: center;
+    justify-content: start;
 }
 .toast-notify.bgColor-toast-error{
-    background-color: var(--red) !important;
+    border-left: 3px solid var(--red) !important;
 }
 .toast-notify.bgColor-toast-success{
-    background-color: var(--green) !important;
+    border-left: 3px solid var(--green) !important;
 }
-.toast-notify .toast-notify-header{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    height: 30px;
+
+.toast-notify .toast-notify-icon i{
+    font-size: 24px;
+    margin-right: 10px;
 }
-.toast-notify .toast-notify-title{
+.toast-notify.bgColor-toast-error .toast-notify-icon i{
+    color: var(--red);
+}
+.toast-notify.bgColor-toast-success .toast-notify-icon i{
+    color: var(--green);
+}
+
+.toast-notify-title{
     margin-bottom: 0;
     font-size: 16px;
-    line-height: 1.5em;
-    color: var(--light);
+    font-weight: 600;
+    line-height: 1.3em;
+    color: var(--medium-dark);
 }
-.toast-notify-header .button-close{
-    background-color: unset;
-    width: 25px;
-    height: 25px;
+.toast-notify-content{
+    font-size: 14px;
+	line-height: 1.3em;
+    color: var(--medium-light);
+}
+
+.toast-notify-button-close{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50px;
     cursor: pointer;
-    color: var(--medium);
 }
-.toast-notify-header .button-close svg{
-    width: 18px;
-    height: 18px;
+.toast-notify-button-close svg{
+    width: 16px;
+    height: 16px;
     font-weight: 500;
-    fill: var(--light-medium);
+    fill: var(--medium);
     transition: all .3s ease 0s;
 }
-.toast-notify-header .button-close:hover svg{
-    fill: var(--light);
-}
-
-.toast-notify .toast-notify-content{
-    font-size: 14px;
-	line-height: 1.5em;
-    color: var(--light);
+.toast-notify-button-close:hover svg{
+    fill: var(--medium-dark);
 }

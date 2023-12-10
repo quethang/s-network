@@ -1,24 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 
 const PostThumb = ({ posts, result }) => {
-    const theme = useSelector(state => state.theme);
-
     if(result === 0){
         return (<h2 className='text-no-post'>No post</h2>);   
     }
-
-    const imageDefault = 'https://res.cloudinary.com/dndmyqnme/image/upload/v1701277563/depositphotos_318221368-stock-illustration-missing-picture-page-for-website_fvezsz.jpg';
 
     return (
         <div className='profile-page-post-thumb-wrapper'>
             {
                 posts.map((post, index) => (
-                    <div className={`profile-page-post-thumb ${theme ? 'theme-dark' : ''}`} key={index}>
+                    <div className={`profile-page-post-thumb`} key={index}>
                         <Link to={`/post/${post._id}`}/>
                         <div className='image-thumbnail-wrapper'>
-                            <img className='image-thumbnail' src={post.images.length > 0 ? post.images[0].url : imageDefault} alt={post.id} />
+                            <img className='image-thumbnail' src={post.images[0].url} alt={post.id} />
                         </div>
                         <div className='profile-page-post-thumb-menu'>
                             <span><i className='far fa-heart'/>{post.likes.length}</span>

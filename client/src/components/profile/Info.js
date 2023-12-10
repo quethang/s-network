@@ -9,9 +9,7 @@ import Followings from './Followings';
 function Info({id, auth, profile, dispatch}){
 
     const [userData, setUserData] = useState([]);
-
     const [onEdit, setOnEdit] = useState(false);
-
     const [showFollowers, setShowFollowers] = useState(false);
     const [showFollowings, setShowFollowings] = useState(false);
 

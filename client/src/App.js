@@ -30,8 +30,8 @@ function App() {
 		dispatch(refreshToken());
 
 		const socket = io();
-        dispatch({type: GLOBALTYPES.SOCKET, payload: socket});
-        return () => socket.close();
+		dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
+		return () => socket.close();
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -63,3 +63,5 @@ function App() {
 }
 
 export default App;
+
+

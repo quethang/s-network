@@ -4,8 +4,6 @@ import {
     FacebookShareButton, FacebookIcon,
     TelegramShareButton, TelegramIcon,
     TwitterShareButton, TwitterIcon,
-    WhatsappShareButton, WhatsappIcon,
-    RedditShareButton, RedditIcon
 } from 'react-share'
 
 const ShareModal = ({url, theme}) => {
@@ -24,17 +22,9 @@ const ShareModal = ({url, theme}) => {
                 <EmailIcon round={true} size={32} />
             </EmailShareButton>
 
-            <RedditShareButton url={url} >
-                <RedditIcon round={true} size={32} />
-            </RedditShareButton>
-
             <TelegramShareButton url={url} >
                 <TelegramIcon round={true} size={32} />
             </TelegramShareButton>
-
-            <WhatsappShareButton url={url} >
-                <WhatsappIcon round={true} size={32} />
-            </WhatsappShareButton>
         </div>
     )
 }

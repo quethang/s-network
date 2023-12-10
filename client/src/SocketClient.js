@@ -1,15 +1,20 @@
-import React , { useEffect } from 'react';
+import React , { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { POST_TYPES } from './redux/actions/postAction';
 import { GLOBALTYPES } from './redux/actions/globalTypes';
 import { NOTIFY_TYPES } from './redux/actions/notifyAction';
 
+import sound from './audio/sound-notify.mp3';
+
 function SocketClient(){
 
     const auth = useSelector(state => state.auth);
     const socket = useSelector(state => state.socket);
+    const notify = useSelector(state => state.notify);
     const dispatch = useDispatch();
+
+    const audioRef = useRef();
 
     useEffect(() => {
         socket.emit('joinUser', auth.user._id)
@@ -70,11 +75,15 @@ function SocketClient(){
     //notification
     useEffect(() => {
         socket.on('createNotifyToClient', msg => {
-            dispatch({type: NOTIFY_TYPES.CREATE_NOTIFY, payload: msg})
+            dispatch({type: NOTIFY_TYPES.CREATE_NOTIFY, payload: msg});
+            if(notify.sound){
+                audioRef.current.play();
+            }
         })
+        
 
         return (() => socket.off('createNotifyToClient'))
-    }, [socket, dispatch])
+    }, [socket, dispatch, notify.sound])
 
     useEffect(() => {
         socket.on('removeNotifyToClient', msg => {
@@ -84,7 +93,11 @@ function SocketClient(){
         return (() => socket.off('removeNotifyToClient'))
     }, [socket, dispatch])
     return (
-        <> </>
+        <>
+            <audio controls ref={audioRef}>
+                <source  src={sound} type='audio/mp3'/>
+            </audio> 
+        </>
     )
 }
 

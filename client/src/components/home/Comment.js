@@ -6,7 +6,6 @@ function Comments({post}){
     const [comments, setComments] = useState([]);
     const [showComments, setShowComments] = useState([]);
     const [next, setNext] = useState(2);
-
     const [replyComments, setReplyComments] = useState([])
 
     useEffect(() => {
