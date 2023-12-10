@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { GLOBALTYPES } from '../../redux/actions/globalTypes';
+import { NOTIFY_TYPES } from '../../redux/actions/notifyAction';
 import { logout } from '../../redux/actions/authAction';
 import NotifyModal from '../NotifyModal';
 
@@ -34,6 +35,10 @@ function Menu() {
             type: GLOBALTYPES.THEME,
             payload: !theme
         });
+    }
+
+    function handleSound(){
+        dispatch({type: NOTIFY_TYPES.UPDATE_SOUND, payload: !notify.sound})
     }
 
     function handleLogout() {
@@ -84,6 +89,17 @@ function Menu() {
                             <i className="fa-solid fa-moon" />
                         </div>
                         <h6>{theme ? 'Light theme' : 'Dark theme'}</h6>
+                    </div>
+
+                    <div className='dropdown-item' onClick={handleSound}>
+                        <div className='dropdown-item-icon-wrapper'>
+                            {
+                                notify.sound
+                                ? <i className="fa-solid fa-volume-high"/>
+                                : <i className="fa-solid fa-volume-off"/>
+                            }
+                        </div>
+                        <h6>{notify.sound ? 'Sound on' : 'Sound off'}</h6>
                     </div>
 
                     <div className='dropdown-item'>

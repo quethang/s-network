@@ -1,7 +1,6 @@
-
 import React from 'react';
 
-function IconHome() {
+export default function IconHome() {
     return (
         <svg viewBox="0 0 24 24" aria-hidden="true" className="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1nao33i r-1q142lx r-1kihuf0 r-1472mwg r-mbgqwd r-lrsllp" data-testid="icon">
             <g>
@@ -11,5 +10,3 @@ function IconHome() {
         </svg>
     )
 }
-
-export default IconHome;

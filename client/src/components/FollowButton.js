@@ -14,7 +14,7 @@ function FollowButton({user}){
         if(auth.user.followings.find(item => item._id === user._id)){
             setFollowed(true);
         }
-        return () => (setFollowed(false))
+        return () => (setFollowed(false));
     }, [auth.user.followings, user._id]);
 
     async function handleFollow(){

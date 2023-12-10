@@ -27,7 +27,7 @@ const Posts = () => {
                 ))
             }
             {
-                load && <img className='loading-more' src={Loading} alt='loading icon' style={{ color: 'red' }} />
+                load && <img className='loading' src={Loading} alt='loading icon' style={{ color: 'red' }} />
             }
             <ButtonLoadMore result={homePost.result} page={homePost.page} load={load} handleLoadMore={handelLoadMore} />
 

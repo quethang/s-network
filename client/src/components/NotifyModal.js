@@ -14,10 +14,6 @@ function NotifyModal() {
         dispatch(isReadNotify({msg, auth}))
     }
 
-    function handleSound() {
-        dispatch({type: NOTIFY_TYPES.UPDATE_SOUND, payload: !notify.sound})
-    }
-
     function handleDeleteAll(){
         if(window.confirm('Are you sure want delete all?')){
             dispatch(deleteAllNotifies(auth.token));
@@ -28,11 +24,6 @@ function NotifyModal() {
         <div className='list-notify-wrapper'>
             <div className='list-notify-wrapper-header'>
                 <h6 className='title'>Notification</h6>
-                {
-                    notify.sound
-                        ? <i className='fas fa-bell' onClick={handleSound}/>
-                        : <i className='fas fa-bell-slash' onClick={handleSound}/>
-                }
             </div>
 
             <ul className='list-notify'>
@@ -59,9 +50,14 @@ function NotifyModal() {
                     ))
                 }
             </ul>
-            <div className='list-notify-wrapper-footer'>
-                <span onClick={handleDeleteAll}>Delete all</span>
-            </div>
+            {
+                notify.data.length > 0 &&
+                (   
+                    <div className='list-notify-wrapper-footer'>
+                        <span onClick={handleDeleteAll}>Delete all</span>
+                    </div>
+                )
+            }
         </div>
     )
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function IconHome() {
+export default function IconHome() {
     return (
         <svg viewBox="0 0 24 24" aria-hidden="true" className="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1nao33i r-lwhw9o r-cnnz9e">
             <g>
@@ -10,7 +10,3 @@ function IconHome() {
         </svg>
     )
 }
-
-//icon của twitter
-
-export default IconHome;
