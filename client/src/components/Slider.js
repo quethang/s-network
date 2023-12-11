@@ -24,7 +24,11 @@ function Slider({images, id}){
             {
                 images.map((image, index) => (
                     <SwiperSlide key={index}>
-                        <img src={image.url} alt={image.url}/>
+                        {
+                            image.url.match(/video/i)
+                            ? <video controls src={image.url} alt={image.url}/>
+                            : <img src={image.url} alt={image.url}/>
+                        }
                     </SwiperSlide>
                 ))
             }

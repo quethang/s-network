@@ -84,7 +84,7 @@
 .home-page.dark-theme .form-comment-post .input-comment-wrapper a,
 .home-page.dark-theme .form-comment-post .button-comment .fa-paper-plane,
 .home-page.dark-theme .form-comment-post .button-comment:hover .fa-paper-plane {
-	filter: invert(100%);
+	filter: invert(1);
 }
 
 /* RIGHT SIDEBAR */

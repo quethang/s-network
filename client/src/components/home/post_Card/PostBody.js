@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Slider from '../../Slider';
 
 function PostBody({ post }) {
 
     const [readMore, setReadMore] = useState(false);
-
+    const theme = useSelector(state => state.theme);
     function handelReadMore() {
         setReadMore(!readMore);
     }
@@ -12,7 +13,8 @@ function PostBody({ post }) {
     return (
         <div className="body-post">
             <div className="content-post">
-                <span>
+                <span style={{filter: theme ? 'invert(1)' : 'invert(0)',
+                            color: theme ? 'var(--light)' : 'var(--dark)'}}>
                     {
                         post.content.length < 200
                             ? post.content

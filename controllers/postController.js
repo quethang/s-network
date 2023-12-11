@@ -44,13 +44,12 @@ const postController = {
   //
   getPosts: async (req, res) => {
     try {
-      const features = new APIfeatures(Posts.find({ user: [...req.user.followings, req.user._id] }), req.query).paginating();
+      const features = new APIfeatures(Posts.find({ user: [...req.user.followings, req.user._id] }), req.query)
+      .paginating();
 
       const posts = await features.query.sort('-createdAt')
         .populate('user likes', 'avatar fullname email followers')
-        .populate({ path: 'comments', populate: { path: 'user likes', select: '-password' } });
-      //đoạn này có nghĩa là tham chiếu đến model Comment và Comment tham chiếu đến bảng 
-      //user và khi tham chiếu đến user thì loại bỏ password
+        .populate({ path: 'comments', populate: { path: 'user likes', select: '-password' } });                                                                           //đoạn này có nghĩa là tham chiếu đến model Comment và Comment tham chiếu đến bảng user và khi tham chiếu đến user thì loại bỏ password     
 
       res.json({
         msg: 'Success!',

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
 import { GLOBALTYPES } from "../redux/actions/globalTypes";
 import { createPost, updatePost } from "../redux/actions/postAction";
 
@@ -7,16 +8,33 @@ const StatusModal = () => {
     const auth = useSelector((state) => state.auth);
     const status = useSelector((state) => state.status);
     const socket = useSelector((state) => state.socket);
-
     const dispatch = useDispatch();
-
     const [content, setContent] = useState("");
     const [images, setImages] = useState([]);
-    const [stream, setStream] = useState(false);
+    const [showListReactions, setShowListReactions] = useState(false);
+    const reactions = [
+        '🙂', '😀', '😄', '😆', '😅', '😂', '🤣', '😊', '😌',
+        '😉', '😏', '😍', '😘', '😗', '😙', '😚', '🤗', '😳',
+        '🙃', '😇', '😛', '😝', '😜', '😋', '🤤', '🤓', '😎',
+        '🤑', '😒', '🙁', '☹️', '😞', '😔', '😖', '😓', '😢',
+        '😢', '😭', '😟', '😣', '😩', '😫', '😕', '🤔', '🙄',
+        '😤', '😶', '🤐', '😐', '😑', '😯', '😲', '😧', '😨',
+        '😰', '😱', '😪', '😴', '😬', '🤥', '🤧', '🤒', '😷',
+        '🤕', '😵', '😈', '😠', '😡', '🤢', '🤠', '🤡', '👿',
+        '👹', '👺', '👻', '💀', '👽', '👾', '🤖', '💩', '🎃'
+    ];
+    // const [stream, setStream] = useState(false);
 
-    const videoRef = useRef(null);
-    const refCanvas = useRef(null);
-    const [tracks, setTracks] = useState("");
+    // const videoRef = useRef(null);
+    // const refCanvas = useRef(null);
+    // const [tracks, setTracks] = useState("");
+
+    useEffect(() => {
+        if (status.onEdit) {
+            setContent(status.content);
+            setImages(status.images);
+        }
+    }, [status]);
 
     const handleChangeImages = (e) => {
         const files = [...e.target.files];
@@ -26,16 +44,17 @@ const StatusModal = () => {
         files.forEach((file) => {
             if (!file) return (err = "File does not exist.");
 
-            if (file.size > 1024 * 1024 * 10) {
-                return (err = "The image/video largest is 10mb.");
+            if (file.size > 1024 * 1024 * 5) {
+                return (err = "The image/video largest is 5mb.");
             }
-            if (
-                file.type !== "image/jpeg" &&
-                file.type !== "image/jpg" &&
-                file.type !== "image/png"
-            ) {
-                return (err = "Error image format.");
-            }
+            // if (
+            //     file.type !== "image/jpeg" &&
+            //     file.type !== "image/jpg" &&
+            //     file.type !== "image/png" &&
+            //     file.type != ""
+            // ) {
+            //     return (err = "Error image format.");
+            // }
 
             return newImages.push(file);
         });
@@ -49,40 +68,39 @@ const StatusModal = () => {
         newArr.splice(index, 1);
         setImages(newArr);
     };
+    // const handleStream = () => {
+    //     setStream(true);
+    //     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    //         navigator.mediaDevices
+    //             .getUserMedia({ video: true })
+    //             .then((mediaStream) => {
+    //                 videoRef.current.srcObject = mediaStream;
+    //                 videoRef.current.play();
 
-    const handleStream = () => {
-        setStream(true);
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices
-                .getUserMedia({ video: true })
-                .then((mediaStream) => {
-                    videoRef.current.srcObject = mediaStream;
-                    videoRef.current.play();
+    //                 const track = mediaStream.getTracks();
+    //                 setTracks(track[0]);
+    //             })
+    //             .catch((err) => console.log(err));
+    //     }
+    // };
 
-                    const track = mediaStream.getTracks();
-                    setTracks(track[0]);
-                })
-                .catch((err) => console.log(err));
-        }
-    };
+    // const handleCapture = () => {
+    //     const width = videoRef.current.clientWidth;
+    //     const height = videoRef.current.clientHeight;
 
-    const handleCapture = () => {
-        const width = videoRef.current.clientWidth;
-        const height = videoRef.current.clientHeight;
+    //     refCanvas.current.setAttribute("width", width);
+    //     refCanvas.current.setAttribute("height", height);
 
-        refCanvas.current.setAttribute("width", width);
-        refCanvas.current.setAttribute("height", height);
+    //     const ctx = refCanvas.current.getContext("2d");
+    //     ctx.drawImage(videoRef.current, 0, 0, width, height);
+    //     let URL = refCanvas.current.toDataURL();
+    //     setImages([...images, { camera: URL }]);
+    // };
 
-        const ctx = refCanvas.current.getContext("2d");
-        ctx.drawImage(videoRef.current, 0, 0, width, height);
-        let URL = refCanvas.current.toDataURL();
-        setImages([...images, { camera: URL }]);
-    };
-
-    const handleStopStream = () => {
-        tracks.stop();
-        setStream(false);
-    };
+    // const handleStopStream = () => {
+    //     tracks.stop();
+    //     setStream(false);
+    // };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -98,16 +116,27 @@ const StatusModal = () => {
 
         setContent("");
         setImages([]);
-        if (tracks) tracks.stop();
+        // if (tracks) tracks.stop();
         dispatch({ type: GLOBALTYPES.STATUS, payload: false });
     };
 
-    useEffect(() => {
-        if (status.onEdit) {
-            setContent(status.content);
-            setImages(status.images);
-        }
-    }, [status]);
+    function imageShow(src) {
+        return (
+            <img src={src} className="img" alt="thumbnail" />
+        )
+    }
+    function videoShow(src) {
+        return (
+            <video controls src={src} className="img" alt="thumbnail" />
+        )
+    }
+
+    function handleShowListReactions() {
+        setShowListReactions(!showListReactions);
+    }
+    function handleAddIcon(icon){
+        setContent(content + icon);
+    }
 
     return (
         <div className="create-post-wrapper">
@@ -140,11 +169,10 @@ const StatusModal = () => {
                             onChange={(e) => setContent(e.target.value)}
                             id="content-text"
                         />
-
                         <div className="list-image-wrapper">
                             {images.map((image, index) => (
                                 <div key={index} className="image-wrapper">
-                                    <img
+                                    {/* <img
                                         src={
                                             image.camera
                                                 ? image.camera
@@ -154,7 +182,24 @@ const StatusModal = () => {
                                         }
                                         className="img"
                                         alt="animage"
-                                    />
+                                    /> */}
+                                    {
+                                        image.url
+                                            ? <>
+                                                {
+                                                    image.url.match(/video/i)
+                                                        ? videoShow(image.url)
+                                                        : imageShow(image.url)
+                                                }
+                                            </>
+                                            : <>
+                                                {
+                                                    image.type.match(/video/i)
+                                                        ? videoShow(URL.createObjectURL(image))
+                                                        : imageShow(URL.createObjectURL(image))
+                                                }
+                                            </>
+                                    }
                                     <div
                                         className="icon-wrapper"
                                         onClick={() => deleteImages(index)}
@@ -164,8 +209,7 @@ const StatusModal = () => {
                                 </div>
                             ))}
                         </div>
-
-                        {stream && (
+                        {/* {stream && (
                             <div className="stream">
                                 <video autoPlay muted ref={videoRef} />
                                 <canvas ref={refCanvas} />
@@ -176,32 +220,45 @@ const StatusModal = () => {
                                     ></i>
                                 </div>
                             </div>
-                        )}
+                        )} */}
                     </div>
-                    <div className="input-images">
-                        <label
+                    <div className="action-bar-wrapper">
+                        {/* <label
                             className="icon-wrapper icon-camera"
                             onClick={stream ? handleCapture : handleStream}
                         >
                             <i className="fa-solid fa-camera"></i>
-                        </label>
-                        <label className="icon-wrapper icon-image" htmlFor="file">
-                            <i className="fa-solid fa-image"></i>
-                            <input
-                                type="file"
-                                name="file"
-                                id="file"
-                                multiple
-                                accept="image/*"
-                                onChange={handleChangeImages}
-                            />
-                        </label>
+                        </label> */}
+                        <div className="action-bar">
+                            <label className="icon-wrapper" onClick={handleShowListReactions}>
+                                <i className="far fa-smile icon" />
+                                <ul className={`list-reactions ${showListReactions && 'show'}`}>
+                                    {
+                                        reactions.map((icon, index) => (
+                                            <li key={index} onClick={() => handleAddIcon(icon)}>
+                                                {icon}
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
+                            </label>
+                            <label className="icon-wrapper" htmlFor="file">
+                                <i className="fa-solid fa-image icon"></i>
+                                <input
+                                    type="file"
+                                    name="file"
+                                    id="file"
+                                    multiple
+                                    accept="image/*,video/*"
+                                    onChange={handleChangeImages}
+                                />
+                            </label>
+                        </div>
+                        <div className="button-submit-wrapper">
+                            <button type="submit" className="button">Post</button>
+                        </div>
+
                     </div>
-                </div>
-                <div className="footer-create-post">
-                    <button type="submit" className="button">
-                        Post
-                    </button>
                 </div>
             </form>
         </div>

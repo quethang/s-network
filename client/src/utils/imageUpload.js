@@ -6,7 +6,7 @@ export const checkImage = (file) => {
 		// 1mb
 		err = "The largest image size is 1mb.";
 
-	if (file.type !== "image/jpeg" && file.type !== "image/png")
+	if (file.type !== "image/jpeg" && file.type !== "image/jpg" && file.type !== "image/png")
 		err = "Image format is incorrect.";
 
 	return err;
@@ -23,12 +23,12 @@ export const imageUpload = async (images) => {
 			formData.append("file", item);
 		}
 
-		formData.append("upload_preset", "vughjwtr");
-		formData.append("cloud_name", "dp4sachdv");
+		formData.append('upload_preset', 'teuungqk');
+        formData.append('cloud_name', 'dndmyqnme');
 
 		const res = await fetch(
 			// /image/upload
-			"https://api.cloudinary.com/v1_1/dp4sachdv/image/upload",
+			"https://api.cloudinary.com/v1_1/dndmyqnme/upload",
 			{
 				method: "POST",
 				body: formData,
