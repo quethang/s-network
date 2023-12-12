@@ -23,11 +23,6 @@ const StatusModal = () => {
         '🤕', '😵', '😈', '😠', '😡', '🤢', '🤠', '🤡', '👿',
         '👹', '👺', '👻', '💀', '👽', '👾', '🤖', '💩', '🎃'
     ];
-    // const [stream, setStream] = useState(false);
-
-    // const videoRef = useRef(null);
-    // const refCanvas = useRef(null);
-    // const [tracks, setTracks] = useState("");
 
     useEffect(() => {
         if (status.onEdit) {
@@ -47,15 +42,6 @@ const StatusModal = () => {
             if (file.size > 1024 * 1024 * 5) {
                 return (err = "The image/video largest is 5mb.");
             }
-            // if (
-            //     file.type !== "image/jpeg" &&
-            //     file.type !== "image/jpg" &&
-            //     file.type !== "image/png" &&
-            //     file.type != ""
-            // ) {
-            //     return (err = "Error image format.");
-            // }
-
             return newImages.push(file);
         });
 
@@ -68,39 +54,6 @@ const StatusModal = () => {
         newArr.splice(index, 1);
         setImages(newArr);
     };
-    // const handleStream = () => {
-    //     setStream(true);
-    //     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    //         navigator.mediaDevices
-    //             .getUserMedia({ video: true })
-    //             .then((mediaStream) => {
-    //                 videoRef.current.srcObject = mediaStream;
-    //                 videoRef.current.play();
-
-    //                 const track = mediaStream.getTracks();
-    //                 setTracks(track[0]);
-    //             })
-    //             .catch((err) => console.log(err));
-    //     }
-    // };
-
-    // const handleCapture = () => {
-    //     const width = videoRef.current.clientWidth;
-    //     const height = videoRef.current.clientHeight;
-
-    //     refCanvas.current.setAttribute("width", width);
-    //     refCanvas.current.setAttribute("height", height);
-
-    //     const ctx = refCanvas.current.getContext("2d");
-    //     ctx.drawImage(videoRef.current, 0, 0, width, height);
-    //     let URL = refCanvas.current.toDataURL();
-    //     setImages([...images, { camera: URL }]);
-    // };
-
-    // const handleStopStream = () => {
-    //     tracks.stop();
-    //     setStream(false);
-    // };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -116,7 +69,6 @@ const StatusModal = () => {
 
         setContent("");
         setImages([]);
-        // if (tracks) tracks.stop();
         dispatch({ type: GLOBALTYPES.STATUS, payload: false });
     };
 
@@ -172,17 +124,6 @@ const StatusModal = () => {
                         <div className="list-image-wrapper">
                             {images.map((image, index) => (
                                 <div key={index} className="image-wrapper">
-                                    {/* <img
-                                        src={
-                                            image.camera
-                                                ? image.camera
-                                                : image.url
-                                                    ? image.url
-                                                    : URL.createObjectURL(image)
-                                        }
-                                        className="img"
-                                        alt="animage"
-                                    /> */}
                                     {
                                         image.url
                                             ? <>
@@ -204,31 +145,13 @@ const StatusModal = () => {
                                         className="icon-wrapper"
                                         onClick={() => deleteImages(index)}
                                     >
-                                        <i className="fa-solid fa-minus"></i>
+                                        <i className="fa-solid fa-minus" />
                                     </div>
                                 </div>
                             ))}
                         </div>
-                        {/* {stream && (
-                            <div className="stream">
-                                <video autoPlay muted ref={videoRef} />
-                                <canvas ref={refCanvas} />
-                                <div className="icon-wrapper">
-                                    <i
-                                        className="fa-solid fa-pause"
-                                        onClick={handleStopStream}
-                                    ></i>
-                                </div>
-                            </div>
-                        )} */}
                     </div>
                     <div className="action-bar-wrapper">
-                        {/* <label
-                            className="icon-wrapper icon-camera"
-                            onClick={stream ? handleCapture : handleStream}
-                        >
-                            <i className="fa-solid fa-camera"></i>
-                        </label> */}
                         <div className="action-bar">
                             <label className="icon-wrapper" onClick={handleShowListReactions}>
                                 <i className="far fa-smile icon" />
@@ -243,7 +166,7 @@ const StatusModal = () => {
                                 </ul>
                             </label>
                             <label className="icon-wrapper" htmlFor="file">
-                                <i className="fa-solid fa-image icon"></i>
+                                <i className="fa-solid fa-image icon" />
                                 <input
                                     type="file"
                                     name="file"

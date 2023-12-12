@@ -6,7 +6,7 @@ function Toast({ msg, handleShow, bgColor }) {
             <div className="toast-notify-icon">
                 {
                     msg.title === 'Success'
-                        ? <i class="fas fa-check-circle" />
+                        ? <i className="fas fa-check-circle" />
                         : <i className="fa-solid fa-triangle-exclamation" />
                 }
             </div>

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UserCard from '../UserCard';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { GLOBALTYPES } from '../../redux/actions/globalTypes';
 import { getDataAPI } from '../../utils/fetchData';
-import { addUser } from '../../redux/actions/messageAction';
+import { addUser, getConversations } from '../../redux/actions/messageAction';
 
 function LeftSide() {
 
@@ -16,6 +16,11 @@ function LeftSide() {
     const [searchUsers, setSearchUser] = useState([]);
     const nagigate = useNavigate();
     const id = useParams().id;
+
+    useEffect(() => {
+        if(message.firstLoad) return;
+        dispatch(getConversations({auth}));
+    }, [dispatch, auth, message.firstLoad]);
 
     function handleChangeSearch(e) {
         setSearch(e.target.value);
@@ -63,33 +68,33 @@ function LeftSide() {
                 </form>
             </div>
             <div className="message-left-body">
-                <ul className="message-left-body-chat-list">
+                <div className="message-left-body-chat-list">
                     {
                         searchUsers.length !== 0
                             ? <>
                                 {
                                     searchUsers.map((user, index) => (
-                                        <li className={`message-left-body-chat-item ${isAtive(user)}`} key={index}
+                                        <div className={`message-left-body-chat-item ${isAtive(user)}`} key={index}
                                             onClick={() => handleAddChat(user)}>
                                             <UserCard user={user} />
-                                        </li>
+                                        </div>
                                     ))
                                 }
                             </>
                             : <>
                                 {
                                     message.users.map((user, index) => (
-                                        <li className={`message-left-body-chat-item ${isAtive(user)}`} key={index} 
+                                        <div className={`message-left-body-chat-item ${isAtive(user)}`} key={index} 
                                             onClick={() => handleAddChat(user)}>
-                                            <UserCard user={user} >
+                                            <UserCard user={user} msg={true}>
                                                 <i className={`fas fa-circle`} />
                                             </UserCard>
-                                        </li>
+                                        </div>
                                     ))
                                 }
                             </>
                     }
-                </ul>
+                </div>
             </div>
         </div>
     )

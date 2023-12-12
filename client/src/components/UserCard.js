@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from  'react-router-dom';
 
-function UserCard({children, user, handleClose, setShowFollowers, setShowFollowings}){
+function UserCard({children, user, handleClose, setShowFollowers, setShowFollowings, msg}){
 
     function handelCloseAll(){
         if(handleClose) handleClose();
@@ -18,7 +18,19 @@ function UserCard({children, user, handleClose, setShowFollowers, setShowFollowi
                 </div>
                 <div className='fullName-wrapper'>
                     <Link to={`/profile/${user._id}`} onClick={handelCloseAll} ><h6 className='fullName-user'>{user.fullname}</h6></Link>
-                    <span className='email-user'>{user.email}</span>
+                    
+                    <span className='email-user'>
+                        {   msg
+                            ?   <>
+                                    {user.text.length > 30 ? user.text.slice(0, 30) + '...' : user.text}
+                                    {
+                                        user.media.length > 0 && 
+                                        <span>{user.media.length} <i className='fas fa-image' /></span>
+                                    }
+                                </>
+                            : user.email.length > 30 ? user.email.slice(0, 30) + '...' : user.email
+                        }
+                    </span>
                 </div>
             </div>
             {children}

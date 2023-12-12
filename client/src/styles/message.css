@@ -54,6 +54,7 @@
 }
 .message-left-body{
     overflow-y: auto;
+    overflow-x: hidden;
 }
 .message-left-body::-webkit-scrollbar-track{
 	border-radius: 10px;
@@ -97,7 +98,9 @@
 
 .message-right{
     width: 70%;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .message-right .choose-your-conversation{
     width: 100%;
@@ -117,16 +120,11 @@
     margin-bottom: 10px;
 }
 .message-right-header{
-    position: relative;
-    top: 0;
-    left: 0;
-    right: 0;
     background-color: transparent;
     padding: 10px 16px;
     border-bottom: 1px solid var(--light-medium);
     display: flex;
     justify-content: space-between;
-
 }
 .message-right-header .user-info-wrapper{
     display: flex;
@@ -156,14 +154,9 @@
 
 .message-right-body{
     width: 100%;
-    max-height: 100%;
+    height: 500px;
     background-color: transparent;
     overflow-y: auto;
-    position: absolute;
-    top: 66px;
-    left: 0;
-    right: 0;
-    bottom: 66px;
 }
 .message-right-body::-webkit-scrollbar-track{
 	border-radius: 10px;
@@ -208,18 +201,18 @@
     align-items: center;
 }
 .message-line-name-time-wrapper .message-line-name{
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 400;
     line-height: 1.5em;
     color: var(--dark);
     margin-right: 5px;
 }
 .message-line-name-time-wrapper .fa-circle{
-    font-size: 8px;
+    font-size: 5px;
     margin-right: 5px;
 }
 .message-line-name-time-wrapper .message-line-time{
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 1.5em;
     color: var(--medium);
@@ -227,8 +220,9 @@
 .message-line-text-wrapper{
     border-radius: 8px;
     background-color: var(--light);
-    padding: 12px 20px;
-    width: 50%;
+    padding: 8px 12px;
+    max-width: 50%;
+    width: fit-content;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
 .message-line-text-wrapper .message-line-text{
@@ -240,6 +234,17 @@
 	word-wrap: break-word;
 	white-space: pre-wrap;
 	word-break: break-word;
+}
+.message-line-media-wrapper{
+    width: 100%;
+}
+.message-line-media-wrapper img,
+.message-line-media-wrapper video{
+    width: 280px;
+    height: calc(50vh);
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 2px;
 }
 .message-line.sender-message .message-line-avatar-wrapper{
     order: 1;
@@ -269,17 +274,64 @@
 .message-line.sender-message .message-line-text{
     color: var(--light);
 }
-
-
-
+.message-line .loading-message{
+    width: 40px;
+    height: 40px;
+}
 
 .message-right-footer{
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    width: 100%;
     padding: 10px;
     border-top: 1px solid var(--light-medium);
+    position: relative;
+}
+.message-right-footer .message-form-list-media{
+    width: 100%;
+    overflow-x: auto;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    user-select: none;
+}
+.message-right-footer .message-form-list-media::-webkit-scrollbar-track{
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+.message-right-footer .message-form-list-media::-webkit-scrollbar{
+	height: 8px;
+	background-color: #dadada;
+}
+.message-right-footer .message-form-list-media::-webkit-scrollbar-thumb{
+	border-radius: 10px;
+	background-color: var(--medium);
+}
+.message-right-footer .message-form-list-media .message-form-item-media{
+    padding: 4px;
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    display: flex;
+}
+.message-right-footer .message-form-list-media .message-form-item-media .icon-minus-wrapper{
+    background-color: var(--light);
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    cursor: pointer;
+}
+.message-right-footer .message-form-list-media .message-form-item-media img,
+.message-right-footer .message-form-list-media .message-form-item-media video{
+    width: 120px;
+    height: 70px;
+    object-fit: cover;
 }
 .message-right-footer .message-form-input{
     height: 44px;
@@ -290,7 +342,49 @@
     border-radius: 50px;
     background-color: #efefef;
 }
-.message-right-footer .message-form-input input{
+.message-right-footer .message-form-input .message-form-button{
+    position: relative;
+}
+.message-right-footer .message-form-input .message-form-button .icon-wrapper{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+.message-right-footer .message-form-input .message-form-button .icon-wrapper:hover{
+    background-color: var(--light-medium);
+}
+.message-right-footer .message-form-input .message-form-button label.icon-wrapper{
+    margin-right: 5px;
+}
+.message-right-footer .message-form-input .message-form-button .list-reactions{
+    width: fit-content;
+	height: fit-content;
+    display: none;
+    grid-template-columns: repeat(9, 30px);
+    text-align: center;
+    cursor: pointer;
+    background-color: var(--light);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+	z-index: 5;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    user-select: none;
+}
+.message-right-footer .message-form-input .message-form-button .list-reactions.show{
+    display: grid;
+}
+.message-right-footer .message-form-input .message-form-button input[type='file']{
+    display: none;
+}
+.message-right-footer .message-form-input > input[type='text']{
     font-size: 14px;
     font-weight: 400;
     color: var(--dark);
@@ -311,8 +405,15 @@
 .message-right-footer .message-form-input button:hover{
     background-color: #d4d4d4;
 }
+.message-right-footer .message-form-input button:disabled{
+    cursor: default;
+    background-color: transparent;
+}
 .message-right-footer .message-form-input button svg{
     width: 20px;
     height: 20px;
     fill: var(--blue);
+}
+.message-right-footer .message-form-input button:disabled svg{
+    fill: var(--medium);
 }

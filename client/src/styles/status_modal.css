@@ -233,6 +233,7 @@
 }
 .body-create-post .action-bar .icon-wrapper .list-reactions.show{
     display: grid;
+    user-select: none;
 }
 .body-create-post .action-bar .icon-wrapper #file{
     display: none;
