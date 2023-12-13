@@ -257,6 +257,7 @@ audio{
 	width: 100%;
 	height: 100%;
 }
+.body-post .swiper-slide video,
 .body-post .swiper-slide img {
 	object-fit: cover;
 	width: 100%;
@@ -357,6 +358,37 @@ audio{
 	outline: none;
 	width: 100%;
 	background-color: transparent;
+}
+.form-comment-post .icon-wrapper{
+	width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all .3s ease 0s;
+    position: relative;
+	user-select: none;
+}
+.form-comment-post .icon-wrapper .icon{
+	height: fit-content;
+}
+.form-comment-post .icon-wrapper .list-reactions{
+	width: fit-content;
+	height: fit-content;
+    display: none;
+    grid-template-columns: repeat(9, 30px);
+    text-align: center;
+    cursor: pointer;
+    background-color: var(--light);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+	z-index: 5;
+}
+.form-comment-post .icon-wrapper .list-reactions.show{
+	display: grid;
 }
 .form-comment-post .button-comment {
 	display: flex;

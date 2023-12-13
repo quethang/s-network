@@ -14,6 +14,7 @@ import InputComment from "../InputComment";
 
 function CommentCard({ children, comment, post, commentId }) {
     const auth = useSelector((state) => state.auth);
+    const theme = useSelector((state) => state.theme);
     const dispatch = useDispatch();
 
     const [content, setContent] = useState("");
@@ -95,7 +96,9 @@ function CommentCard({ children, comment, post, commentId }) {
                             {comment.tag && comment.tag._id !== comment.user._id && (
                                 <Link to={`/profile/${comment.tag._id}`}>{comment.tag.fullname} </Link>
                             )}
-                            <span className="content">
+                            <span className="content" 
+                                style={{filter: theme ? 'invert(1)' : 'invert(0)',
+                                 color: theme ? 'var(--light)' : 'var(--dark)'}}>
                                 {content.length < 200
                                     ? content
                                     : readMore

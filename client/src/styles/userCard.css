@@ -47,7 +47,9 @@
 }
 .user-card .fullName-wrapper{
     margin-left: 10px;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .user-card .fullName-wrapper .fullName-user{
     font-size: 16px;

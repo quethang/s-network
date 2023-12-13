@@ -24,6 +24,7 @@ app.use("/api", require("./routes/userRouter"));
 app.use("/api", require("./routes/postRouter"));
 app.use('/api', require('./routes/commentRouter'));
 app.use('/api', require('./routes/notifyRouter'));
+app.use('/api', require('./routes/messageRouter'));
 
 //connect MongoDB (sẽ tách ra file riêng)
 const URL = process.env.MONGODB_URL;

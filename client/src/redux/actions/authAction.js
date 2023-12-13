@@ -2,8 +2,8 @@ import { postDataAPI } from '../../utils/fetchData';
 import { GLOBALTYPES } from './globalTypes';
 import valid from '../../utils/valid';
 
-export function login(data) { //thunk action creator
-    return async (dispatch) => { //thunk function - nhận vào 2 tham số là dispatch và getState: cả 2 là method 
+export function login(data) {                                                                                                                                                                                       //thunk action creator
+    return async (dispatch) => {                                                                                                                                                                     //thunk function - nhận vào 2 tham số là dispatch và getState: cả 2 là method 
         try{
             dispatch({ type: GLOBALTYPES.ALERT, payload: {loading: true} }); 
             const res = await postDataAPI('login', data);

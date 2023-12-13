@@ -86,8 +86,6 @@ const userController = {
             const users = await Users.aggregate([
                 {$match: {_id: { $nin: newArr }}},
                 {$sample: {size: Number(num)}},
-                {$lookup: {from: 'users', localField: 'followers', foreignField: '_id', as: 'followers'}},
-                {$lookup: {from: 'users', localField: 'followings', foreignField: '_id', as: 'followings'}},
             ]).project('-password');
 
             return res.json({users, result: users.length});

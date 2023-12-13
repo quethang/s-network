@@ -44,7 +44,7 @@
 	padding: 16px;
 }
 .home-page .status .avatar-user {
-	margin-right: 20px;
+	margin-right: 10px;
 }
 .home-page .status .avatar {
 	width: 45px;
@@ -78,13 +78,14 @@
 }
 .home-page.dark-theme .header-post .avatar-wrapper .avatar,
 .home-page.dark-theme .body-post .swiper-slide img,
+.home-page.dark-theme .body-post .swiper-slide video,
 .home-page.dark-theme .fas.fa-heart,
 .home-page.dark-theme .footer-post .action-button .fas.fa-bookmark,
 .home-page.dark-theme .comment-post-card .avatar-wrapper .avatar,
 .home-page.dark-theme .form-comment-post .input-comment-wrapper a,
 .home-page.dark-theme .form-comment-post .button-comment .fa-paper-plane,
 .home-page.dark-theme .form-comment-post .button-comment:hover .fa-paper-plane {
-	filter: invert(100%);
+	filter: invert(1);
 }
 
 /* RIGHT SIDEBAR */

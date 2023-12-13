@@ -38,7 +38,7 @@ function Menu() {
     }
 
     function handleSound(){
-        dispatch({type: NOTIFY_TYPES.UPDATE_SOUND, payload: !notify.sound})
+        dispatch({type: NOTIFY_TYPES.UPDATE_SOUND, payload: !notify.sound});
     }
 
     function handleLogout() {
