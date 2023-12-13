@@ -9,4 +9,7 @@ router.post('/logout', authController.logout);
 
 router.post('/refresh_token', authController.generateAccessToken);
 
+router.post('/verify', authController.verify);
+
+
 module.exports = router;

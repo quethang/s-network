@@ -3,6 +3,9 @@ const jwt = require('jsonwebtoken');
 
 const Users = require('../models/userModel');
 
+const mailer = require('../mailer')
+
+
 const authController = {
     register: async(req, res) => {
         try{
@@ -31,25 +34,43 @@ const authController = {
                 password: pwHashed,
             })
 
-            const access_token = createAccessToken({id: newUser._id});
-            const refresh_token = createRefreshToken({id: newUser._id});
+            // const access_token = createAccessToken({id: newUser._id});
+            // const refresh_token = createRefreshToken({id: newUser._id});
 
-            //tạo cookie lưu token
-            res.cookie('refreshtoken', refresh_token, {
-                httpOnly: true,
-                path: '/api/refresh_token',
-                maxAge: 30*24*60*60*1000
-            })
+            // //tạo cookie lưu token
+            // res.cookie('refreshtoken', refresh_token, {
+            //     httpOnly: true,
+            //     path: '/api/refresh_token',
+            //     maxAge: 30*24*60*60*1000
+            // })
 
-            await newUser.save();
+            try {
+                const user = await Users.create(newUser);
+                const hashedEmail = await bcrypt.hash(user.email, parseInt(process.env.BCRYPT_SALT_ROUND));
+                // console.log(`${process.env.APP_URL}/api/verify?email=${user.email}&token=${hashedEmail}`);
+                mailer.sendMail(user.email, "Verify Email",
+                    `<div style="max-width: 700px; margin: 0 auto; border: 10px solid #ddd; padding: 50px 20px; font-size: 110%; text-align: center;">
+                    <h2 style="text-transform: uppercase; color: teal;">Welcome to the S-Network.</h2>
+                    <p>Congratulations! You're almost set to start using S-Network. Just click the button below to validate your email address.</p>
+                    <div style="text-align: center;">
+                      <a href="${process.env.APP_URL}/verify?email=${user.email}&token=${hashedEmail}" style="background: crimson; text-decoration: none; color: white; padding: 10px 20px; margin: 10px 0; display: inline-block;">Verify email now</a>
+                    </div>
+                    <p>If the button doesn't work for any reason, you can also click on the link below:</p>
+                    <div>${process.env.APP_URL}/verify?email=${user.email}&token=${hashedEmail}</div>
+                  </div>`
+                );
+
+            } catch (error) {
+                console.error(error);
+            }
 
             res.json({
-                msg: 'Register success!',
-                access_token,
-                user: {
-                    ...newUser._doc,
-                    password: ''
-                }
+                msg: 'Register success! Please verify your Email',
+                // access_token,
+                // user: {
+                //     ...newUser._doc,
+                //     password: ''
+                // }
             });
 
         } catch(e){
@@ -70,6 +91,12 @@ const authController = {
             const isMatch = await bcrypt.compare(password, user.password);
             if(!isMatch){
                 return res.status(400).json({msg: 'Password is wrong!'});
+            }
+
+            //check verify
+
+            if (!user.verify) {
+                return res.status(400).json({ msg: 'Email does not verify!' });
             }
 
             const access_token = createAccessToken({id: user._id});
@@ -134,6 +161,29 @@ const authController = {
             return res.status(500).json({msg: e.message});
         }
     },
+    verify: async (req, res) => {
+        try {
+            bcrypt.compare(req.body.email, req.body.token, async (err, result) => {
+                // console.log(req.body.email, req.body.token)
+                if (result == true) {
+                    try {
+                        const updatedUser = await Users.findOneAndUpdate(
+                            { email: req.body.email },
+                            { verify: true },
+                            { new: true }
+                        );
+                        res.json({ msg: "verified Email" })
+                    } catch (e) {
+                        return res.status(500).json({ msg: e.message });
+                    }
+                } else {
+                    res.redirect('/notfound');
+                }
+            });
+        } catch (e) {
+            return res.status(500).json({ msg: e.message });
+        }
+    }
 }
 
 function createAccessToken(id){

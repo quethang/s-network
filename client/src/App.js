@@ -20,19 +20,23 @@ import { getNotifies } from './redux/actions/notifyAction';
 import io from 'socket.io-client';
 import { GLOBALTYPES } from './redux/actions/globalTypes';
 import SocketClient from './SocketClient';
+import Verify from "./pages/verify";
 
 function App() {
 	const auth = useSelector((state) => state.auth);
 	const status = useSelector((state) => state.status);
 	const dispatch = useDispatch();
+	const isVerifyPage = window.location.pathname === "/verify";
 
 	useEffect(() => {
-		dispatch(refreshToken());
+		if (!isVerifyPage) {
+			dispatch(refreshToken());
+		  }
 
 		const socket = io();
 		dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
 		return () => socket.close();
-	}, [dispatch]);
+	}, [dispatch, isVerifyPage]);
 
 	useEffect(() => {
 		if (auth.token) {
@@ -51,6 +55,8 @@ function App() {
 			<ScrollToTop />
 			<Routes>
 				<Route exact path="/" Component={auth.token ? Home : Login} />
+				<Route exact path="/verify" Component={Verify}/>
+
 				<Route exact path="/register" Component={Register} />
 
 				<Route exact path="/:page" Component={PrivateRouter} />
