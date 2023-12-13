@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import IconHome from '../icon/IconHome';
 import IconDiscover from '../icon/IconDiscover';
 import IconMessages from '../icon/IconMessages';
-import IconNotification from '../icon/IconNotification';
 import IconSaved from '../icon/IconSaved';
 import IconProfile from '../icon/IconProfile';
 
@@ -17,7 +16,6 @@ function LeftNavBar() {
     const leftNavBar = [
         { link: '/', icon: <IconHome />, name: 'Home' },
         { link: '/discover', icon: <IconDiscover />, name: 'Discover' },
-        { link: '/notify', icon: <IconNotification />, name: 'Notification' },
         { link: '/message', icon: <IconMessages />, name: 'Messages' },
         { link: '/saved', icon: <IconSaved />, name: 'Saved' },
         { link: `/profile/${auth.user._id}`, icon: <IconProfile />, name: 'Profile' },

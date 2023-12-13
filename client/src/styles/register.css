@@ -105,6 +105,7 @@
     width: 100%;
     transition: all .3s ease 0s;
 }
+
 .box-register input:focus{
     border-color: var(--blue);
 }

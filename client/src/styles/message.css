@@ -1,17 +1,23 @@
 .message-page{
-    max-height: calc(100vh - 66px);
+    max-height: calc(100vh - 64px);
     overflow-y: hidden;
     /* background-color: #efefef; */
     background-color: var(--light);
     padding-top: 20px;
 }
+.message-page.dark-theme{
+    filter: invert(1);
+}
 .message{
     display: flex;
     /* background-color: #e8eef6; */
     border-radius: 8px;
-    background: var(--primary-blue-light, rgba(29, 155, 240, 0.05));
+    background-color: rgba(29, 155, 240, 0.05);
     height: calc(100% - 105px);
     box-shadow: 0 0 1px 2px #dddddd;
+}
+.message-page.dark-theme .message{
+    background-color: #f5f5f5;
 }
 .message-left{
     width: 30%;
@@ -49,6 +55,9 @@
     color: var(--dark);
     background-color: var(--light-medium);
 }
+.message-page.dark-theme .message-left-header .search-form input[type='text']::selection{
+    background-color: #ffa51f;
+}
 .message-left-header .search-form button{
     display: none;
 }
@@ -72,15 +81,22 @@
     border-radius: 8px;
     cursor: pointer;
 }
-.message-left-body-chat-list .user-card:hover{
-    background-color: var(--light-medium);
+.message-page.dark-theme .message-left-body-chat-list .user-card .avatar{
+    filter: invert(1);
 }
+/* .message-left-body-chat-list .user-card:hover{
+    background-color: var(--light-medium);
+} */
 .message-left-body-chat-list .user-card:first-child,
 .message-left-body-chat-list .user-card:last-child{
     border-radius: 6px;
 }
 .message-left-body-chat-list .user-card > a{
     display: none;
+}
+.message-page.dark-theme .message-left-body-chat-list .user-card .email-user{
+    filter: invert(1);
+    color: var(--light);
 }
 .message-left-body-chat-list .user-card .fa-circle{
     font-size: 10px;
@@ -90,10 +106,14 @@
     color: var(--green);
 }
 .message-left-body-chat-item{
-    border-radius: 6px;
+    border-radius: 10px;
+    transition: all .3s ease 0s;
+}
+.message-left-body-chat-item:hover{
+    background-color: var(--light-medium);
 }
 .message-left-body-chat-item.active{
-    background-color: var(--light-medium);
+    background-color: #eaeaea;
 }
 
 .message-right{
@@ -138,6 +158,9 @@
     height: 45px;
     object-fit: cover;
     border-radius: 50px;
+}
+.message-page.dark-theme .message-right-header .user-info-wrapper .avatar-wrapper img{
+    filter: invert(1);
 }
 .message-right-header .user-info-wrapper .user-info .user-fullname{
     font-size: 16px;
@@ -195,6 +218,9 @@
     height: 40px;
     border-radius: 50%;
 }
+.message-page.dark-theme .message-line-avatar{
+    filter: invert(1);
+}
 .message-line-name-time-wrapper{
     height: 40px;
     display: flex;
@@ -225,15 +251,22 @@
     width: fit-content;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
+.message-page.dark-theme .message-line-text-wrapper{
+    background-color: #d4d4d4;
+}
 .message-line-text-wrapper .message-line-text{
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
-    line-height: 1.5em;
+    line-height: 1.3333em;
     color: var(--medium-dark);
     text-align: start;
 	word-wrap: break-word;
 	white-space: pre-wrap;
 	word-break: break-word;
+}
+.message-page.dark-theme .message-line-text-wrapper .message-line-text{
+    filter: invert(1);
+    color: var(--light);
 }
 .message-line-media-wrapper{
     width: 100%;
@@ -245,6 +278,10 @@
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 2px;
+}
+.message-page.dark-theme .message-line-media-wrapper img,
+.message-page.dark-theme .message-line-media-wrapper video{
+    filter: invert(1);
 }
 .message-line.sender-message .message-line-avatar-wrapper{
     order: 1;
@@ -271,6 +308,9 @@
     background-color: var(--blue);
     margin-left: auto;
 }
+.message-page.dark-theme .message-line.sender-message .message-line-text-wrapper{
+    background-color: #ffa51f;
+}
 .message-line.sender-message .message-line-text{
     color: var(--light);
 }
@@ -295,6 +335,10 @@
     right: 0;
     display: flex;
     user-select: none;
+}
+.message-page.dark-theme .message-right-footer .message-form-list-media img,
+.message-page.dark-theme .message-right-footer .message-form-list-media video{
+    filter: invert(1);
 }
 .message-right-footer .message-form-list-media::-webkit-scrollbar-track{
 	border-radius: 10px;
@@ -377,6 +421,10 @@
     bottom: 100%;
     left: 0;
     user-select: none;
+}
+.message-page.dark-theme .message-right-footer .message-form-input .message-form-button .list-reactions{
+    filter: invert(1);
+    background-color: #272727;
 }
 .message-right-footer .message-form-input .message-form-button .list-reactions.show{
     display: grid;

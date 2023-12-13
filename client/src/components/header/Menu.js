@@ -6,13 +6,17 @@ import { GLOBALTYPES } from '../../redux/actions/globalTypes';
 import { NOTIFY_TYPES } from '../../redux/actions/notifyAction';
 import { logout } from '../../redux/actions/authAction';
 import NotifyModal from '../NotifyModal';
+import IconHome from '../../icon/IconHome';
+import IconDiscover from '../../icon/IconDiscover';
+import IconMessages from '../../icon/IconMessages';
+import IconNotification from '../../icon/IconNotification';
 
 function Menu() {
 
     const navLink = [
-        { icon: 'home', path: '/' },
-        { icon: 'near_me', path: '/message' },
-        { icon: 'explore', path: '/discover' },
+        { icon: <IconHome />, path: '/' },
+        { icon: <IconMessages />, path: '/message' },
+        { icon: <IconDiscover />, path: '/discover' },
     ];
 
     const auth = useSelector(state => state.auth);
@@ -52,9 +56,7 @@ function Menu() {
                     <div key={index} className={`item-top-menu-wrapper ${isActive(link.path)}`}>
                         <Link className='item-link' to={link.path} />
                         <div className='item'>
-                            <span className='material-icons'>
-                                {link.icon}
-                            </span>
+                            {link.icon}
                         </div>
                     </div>
                 ))
@@ -63,7 +65,7 @@ function Menu() {
             <div className="item-top-menu-wrapper dropdown">
                 <span className='showdropdown' data-toggle="dropdown" />
                 <div className='item'>
-                    <span className='material-icons'>notifications</span>
+                    <IconNotification />
                 </div>
                 <div className={`dot ${notify.data.length > 0 && 'active'}`}>
                     <span>{notify.data.length}</span>

@@ -6,7 +6,7 @@ import FollowButton from '../FollowButton';
 import Followers from './Followers';
 import Followings from './Followings';
 
-function Info({id, auth, profile, dispatch}){
+function Info({id, auth, profile, dispatch ,theme}){
 
     const [userData, setUserData] = useState([]);
     const [onEdit, setOnEdit] = useState(false);
@@ -34,7 +34,7 @@ function Info({id, auth, profile, dispatch}){
         setOnEdit(true);
     }
     return (
-        <section className='info'>
+        <section className={`info ${theme && 'dark-theme'}`}>
             {
                 userData.map(user => (
                     <div className='info-user-container' key={user._id}>

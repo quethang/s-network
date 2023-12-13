@@ -13,6 +13,7 @@ function Profile() {
 
     const auth = useSelector(state => state.auth);
     const profile = useSelector(state => state.profile);
+    const theme = useSelector(state => state.theme);
 
     const dispatch = useDispatch()
 
@@ -26,14 +27,14 @@ function Profile() {
     }, [id, auth, dispatch, profile.ids])
 
     return (
-        <main className='profile-page'>
+        <main className={`profile-page ${theme && 'dark-theme'}`}>
             <div className='container-fluid'>
                 <div className='row'>
                     <div className='col-lg-2'>
 
                     </div>
                     <div className='col-lg-8'>
-                        <Info auth={auth} profile={profile} dispatch={dispatch} id={id} />
+                        <Info auth={auth} profile={profile} theme={theme} dispatch={dispatch} id={id} />
                         {
                             auth.user._id === id &&
                             <section className='profile-page-tab-bar-wrapper'>
