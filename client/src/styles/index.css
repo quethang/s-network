@@ -557,20 +557,6 @@ audio{
 	margin-top: 10px;
 }
 
-
-/* Responsive */
-@media only screen and (max-width: 1320px){
-}
-@media only screen and (max-width: 1200px){
-}
-@media only screen and (max-width: 992px){
-}
-@media only screen and (max-width: 767px){
-}
-@media only screen and (max-width: 576px){
-}
-@media only screen and (max-width: 320px){
-}
 /* HEADER */
 @import url('./header.css');
 /* HOME */
@@ -595,8 +581,8 @@ audio{
 /* ------------------------------ */
 @import url('./loading.css');
 @import url('./toast.css');
-@import url('./userCard.css')
-
+@import url('./userCard.css');
+@import url('./responsive.css')
 
 /* .title{
 	font-size: 68px;

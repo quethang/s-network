@@ -176,9 +176,9 @@ function RightSide() {
                 </ul>
                 <form className="message-form-input" onSubmit={handleSubmitMessage}>
                     <div className="message-form-button">
-                        <div className="icon-wrapper" onClick={handleShowListReactions}>
+                        <label className="icon-wrapper" onClick={handleShowListReactions}>
                             <i className="far fa-smile" />
-                        </div>
+                        </label>
                         <ul className={`list-reactions ${showListReactions && 'show'}`}>
                             {
                                 reactions.map((icon, index) => (
@@ -190,15 +190,15 @@ function RightSide() {
                         </ul>
                     </div>
                     <div className="message-form-button">
-                        <label htmlFor="message-form-file" className="icon-wrapper">
+                        <label className="icon-wrapper" htmlFor="message-form-file" >
                             <i className="fa-solid fa-image icon" />
                         </label>
                         <input
                             type="file"
-                            name="file"
+                            name="message-form-file"
                             id="message-form-file"
                             multiple
-                            accept="image/*, video/*"
+                            accept="image/*,video/*"
                             onChange={handleChangeMedia}
                         />
                     </div>

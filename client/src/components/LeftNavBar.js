@@ -17,7 +17,7 @@ function LeftNavBar() {
         { link: '/', icon: <IconHome />, name: 'Home' },
         { link: '/discover', icon: <IconDiscover />, name: 'Discover' },
         { link: '/message', icon: <IconMessages />, name: 'Messages' },
-        { link: '/saved', icon: <IconSaved />, name: 'Saved' },
+        { link: '/profile/', icon: <IconSaved />, name: 'Saved' },
         { link: `/profile/${auth.user._id}`, icon: <IconProfile />, name: 'Profile' },
     ];
 

@@ -263,7 +263,7 @@ header .list-notify-wrapper-header{
     margin-bottom: 10px;
 }
 header .list-notify-wrapper-header h6{
-    font-size: 24px;
+    font-size: 20px;
     line-height: 1.3em;
     font-weight: 600;
     color: var(--dark);
