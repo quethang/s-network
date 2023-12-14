@@ -104,6 +104,12 @@ header .list-search-users{
     overflow-y: auto;
     max-height: 50vh;
 }
+header.dark-theme .list-search-users{
+    box-shadow: unset;
+}
+header.dark-theme .list-search-users .user-card .avatar{
+    filter: invert(1);
+}
 
 /* right menu */
 header .top-menu-wrapper{	
@@ -150,9 +156,13 @@ header .item-top-menu-wrapper .item{
     align-items: center;
     justify-content: center;
 }
-header .item-top-menu-wrapper .item .material-icons{
-    color: var(--dark);
+header .item-top-menu-wrapper .item svg{
+    width: 20px;
+    height: 20px;
 }
+/* header .item-top-menu-wrapper .item .material-icons{
+    color: var(--dark);
+} */
 header .item-top-menu-wrapper .dot{
     width: 20px;
     height: 20px;
@@ -253,7 +263,7 @@ header .list-notify-wrapper-header{
     margin-bottom: 10px;
 }
 header .list-notify-wrapper-header h6{
-    font-size: 24px;
+    font-size: 20px;
     line-height: 1.3em;
     font-weight: 600;
     color: var(--dark);
@@ -320,6 +330,9 @@ header .notify-item-avatar{
     width: 50px;
     height: 50px;
     border-radius: 50%;
+}
+header.dark-theme .notify-item-avatar{
+    filter: invert(1);
 }
 header .notify-item-text{
     display: flex;

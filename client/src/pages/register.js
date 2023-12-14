@@ -8,14 +8,10 @@ function Register(){
     const auth = useSelector( state => state.auth);
     const alert = useSelector( state => state.alert);
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
-
     const [userData, setUserData] = useState({fullName: '', email: '', password: '', cfPassword: ''});
-
     const [showPass, setShowPass] = useState(false);
     const [showPassConfirm, setShowPassConfirm] = useState(false);
-
     const {fullName, email, password, cfPassword} = userData;
 
     useEffect(() => {
@@ -40,6 +36,7 @@ function Register(){
     //submit
     function handleSubmit(e){
         e.preventDefault();
+        setUserData({fullName: '', email: '', password: '', cfPassword: ''})
         dispatch(register(userData));
     }
 

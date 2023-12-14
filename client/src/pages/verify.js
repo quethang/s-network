@@ -21,7 +21,6 @@ function Verify() {
                 try {
                     const result = await axios.post('api/verify', { email, token })
                     setSuccess(true)
-                    // navigate("/");
                     console.log(result)
                 } catch (err) {
                     err.response.data.msg && setErr(true)

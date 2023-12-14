@@ -40,7 +40,7 @@ const Saved = ({auth, dispatch}) => {
             <PostThumb posts={savePosts} result={result} />
 
             {
-                load && <img src={LoadIcon} alt="loading" className="profile-loading" />
+                load && <img src={LoadIcon} alt="loading" className="profile-page-loading-post" />
             }
             <ButtonLoadMore result={result} page={page}
             load={load} handleLoadMore={handleLoadMore} />

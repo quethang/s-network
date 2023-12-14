@@ -17,9 +17,12 @@
     justify-content: center;
     overflow-y: auto;
 }
+.info.dark-theme .overlay{
+    background: rgba(255, 255, 255, 0.7);
+}
 .info-user-container .photoCover-wrapper{
     width: 100%;
-    height: 50vh;
+    height: 40vh;
     position: relative;
 }
 .info-user-container .photoCover-wrapper .photoCover{
@@ -30,6 +33,10 @@
     border-radius: 0 0 8px 8px;
     border: 1px solid #d8d8d8;
     border-top: 0;
+}
+.info.dark-theme .info-user-container .photoCover-wrapper .photoCover{
+    filter: invert(1);
+    border-color: #4a4a4a;
 }
 
 .info-user-wrapper{
@@ -56,6 +63,9 @@
     object-fit: cover;
     border-radius: 50%;
 }
+.info.dark-theme .info-user-wrapper .avatar-container .avatar-wrapper img{
+    filter: invert(1);
+}
 .info-user-wrapper .avatar-container .button-wrapper{
     margin-left: auto;
 }
@@ -65,14 +75,20 @@
     line-height: 1.3em;
     border-radius: 50px;
 }
+.info.dark-theme .info-user-wrapper .avatar-container .button-wrapper .button-edit-profile{
+    filter: invert(1);
+}
 .info-user-wrapper .avatar-container .button-wrapper .button-edit-profile:hover{
-    background-color: var(--light);
+    background-color: transparent;
     color: var(--blue);
     border-color: var(--blue);
 }
 .info-user-wrapper .avatar-container .button-wrapper .button-follow{
     padding: 6px 20px;
     border-radius: 50px;
+}
+.info.dark-theme .info-user-wrapper .avatar-container .button-wrapper .button-follow{
+    filter: invert(1);
 }
 .info-user-wrapper .avatar-container .button-wrapper .button-follow:hover{
     background-color: transparent;
@@ -90,6 +106,9 @@
 .info-user-wrapper .detail-container{
     display: flex;
     justify-content: space-between;
+}
+.info-user-wrapper .detail-container::selection{
+    background-color: var(--blue);
 }
 .info-user-wrapper .detail-container .name-wrapper .name-user{
     font-size: 24px;
@@ -123,11 +142,20 @@
 .info-user-wrapper .detail-container .follow-wrapper .number-follow{
     color: var(--dark);
 }
+.info.dark-theme .info-user-wrapper .detail-container .name-wrapper .name-user::selection,
+.info.dark-theme .info-user-wrapper .detail-container .name-wrapper .email-user::selection,
+.info.dark-theme .info-user-wrapper .detail-container .follow-wrapper .follow::selection,
+.info.dark-theme .info-user-wrapper .detail-container .follow-wrapper .number-follow::selection{
+    background-color: #ff8800;
+}
 
 /* ======================= BOX FOLLOW  ========================= */
 .dialog-follow-wrapper.overlay{
     align-items: center;
     overflow: hidden;
+}
+.info.dark-theme .dialog-follow-wrapper.overlay{
+    filter: invert(1);
 }
 .dialog-follow{
     width: 400px;
@@ -135,10 +163,16 @@
     background-color: var(--light);
     border-radius: 15px;
 }
+.info.dark-theme .dialog-follow{
+    background-color: #2d2d2d;
+}
 .dialog-follow .header-dialog{
     padding: 16px 30px;
     border-bottom: 1px solid var(--light-medium);
     position: relative;
+}
+.info.dark-theme .dialog-follow .header-dialog{
+    border-color: #8f8f8f
 }
 .dialog-follow .header-dialog .title-dialog{
     text-align: center;
@@ -147,6 +181,9 @@
     font-weight: 600;
     color: var(--dark);
     margin-bottom: 0;
+}
+.info.dark-theme .dialog-follow .header-dialog .title-dialog{
+    filter: invert(1);
 }
 .dialog-follow .header-dialog .icon-wrapper{
     width: fit-content;
@@ -164,6 +201,9 @@
     justify-content: center;
     align-items: center;
     background-color: #eaeaea;
+}
+.info.dark-theme .dialog-follow .header-dialog .icon-wrapper .icon{
+    filter: invert(1);
 }
 .dialog-follow .header-dialog .icon-wrapper .icon:hover{
     background-color: #cfcfcf;
@@ -184,6 +224,9 @@
     color: var(--dark);
     text-align: center;
     margin-bottom: 0;
+}
+.info.dark-theme .dialog-follow .body-dialog .text-not{
+    filter: invert(1);
 }
 .dialog-follow .body-dialog .list-user{
     padding: 8px 16px;
@@ -211,6 +254,14 @@
     border-radius: 6px;
     margin-bottom: 16px;
 }
+.info.dark-theme .dialog-follow .body-dialog .list-user .user-card{
+    filter: invert(1);
+}
+.info.dark-theme .dialog-follow .body-dialog .list-user .user-card .avatar,
+.info.dark-theme .dialog-follow .body-dialog .list-user .user-card .button{
+    filter: invert(1);
+}
+
 .dialog-follow .body-dialog .list-user .user-card:last-child{
     margin: 0;
 }

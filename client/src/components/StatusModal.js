@@ -7,6 +7,7 @@ import { createPost, updatePost } from "../redux/actions/postAction";
 const StatusModal = () => {
     const auth = useSelector((state) => state.auth);
     const status = useSelector((state) => state.status);
+    const theme = useSelector((state) => state.theme);
     const socket = useSelector((state) => state.socket);
     const dispatch = useDispatch();
     const [content, setContent] = useState("");
@@ -91,7 +92,7 @@ const StatusModal = () => {
     }
 
     return (
-        <div className="create-post-wrapper">
+        <div className={`create-post-wrapper ${theme && 'dark-theme'}`}>
             <form className="create-post" onSubmit={handleSubmit}>
                 <div className="header-create-post">
                     <h5 className="title-create-post">Create post</h5>

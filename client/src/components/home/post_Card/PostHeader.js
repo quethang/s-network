@@ -40,7 +40,8 @@ function PostHeader({ post }) {
 
     function handleCopyLink() {
         handleShow();
-        navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`)
+        navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`);
+        dispatch({type: GLOBALTYPES.ALERT, payload: {success: 'Copied'}})
     }
 
     return (

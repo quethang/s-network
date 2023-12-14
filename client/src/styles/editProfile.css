@@ -85,6 +85,9 @@
     margin-bottom: 0;
     cursor: pointer;
 }
+.edit-profile-wrapper.dark-theme .input-image-wrapper .header-input label{
+    filter: invert(1);
+}
 .edit-profile .input-image-wrapper .header-input input{
     display: none;
 }
@@ -107,6 +110,10 @@
     border: 1px solid var(--medium);
     object-fit: cover;
     object-position: 50% 50%;
+}
+.edit-profile-wrapper.dark-theme .input-image-wrapper .body-input .image-avatar,
+.edit-profile-wrapper.dark-theme .edit-profile .input-image-wrapper .body-input .image-photo-cover{
+    filter: invert(1);
 }
 
 
@@ -174,4 +181,13 @@
 .edit-profile .button-wrapper .button-save:hover{
     background-color: #1c8cd7;
     border-color: #1c8cd7;
+}
+
+.edit-profile-wrapper.dark-theme .edit-profile .input-image-wrapper .header-input h3::selection,
+.edit-profile-wrapper.dark-theme .edit-profile .input-row .header-input label::selection,
+.edit-profile-wrapper.dark-theme .edit-profile .input-row .header-input small::selection{
+    background-color: #ff8800;
+}
+.edit-profile-wrapper.dark-theme .edit-profile .button-wrapper .button-save{
+    filter: invert(1);
 }

@@ -1,5 +1,9 @@
 .profile-page{
-    height: 100vh;
+    height: 100%;
+    background-color: var(--light);
+}
+.profile-page.dark-theme{
+    filter: invert(1);
 }
 /* PROFILE PAGE - TAB BUTTON */
 .profile-page-tab-bar-wrapper{
@@ -21,6 +25,9 @@
 .profile-page-tab-bar .tab.active{
     border-bottom: 2px solid var(--blue);
 }
+.profile-page.dark-theme .profile-page-tab-bar .tab.active{
+    border-color: #ff6f00;
+}
 .profile-page-tab-bar .tab .title-tab{
     font-size: 20px;
     line-height: 1.3em;
@@ -39,6 +46,9 @@
     margin: 0 auto;
     background-color: transparent;
 }
+.profile-page.dark-theme .profile-page .profile-loading{
+    filter: invert(1);
+}
 .profile-page-content{
     display: flex;
     justify-content: center;
@@ -56,6 +66,9 @@
     margin-right: auto;
     width: 50px;
     height: 50px;
+}
+.profile-page.dark-theme .profile-page-loading-post{
+    filter: invert(1);
 }
 .profile-page-post-thumb-wrapper{
     width: 100%;
@@ -106,6 +119,9 @@
     object-fit: cover;
     object-position: center;
 }
+.profile-page.dark-theme .profile-page-post-thumb .image-thumbnail{
+    filter: invert(1);
+}
 .profile-page-post-thumb .profile-page-post-thumb-menu{
     height: 10%;
     display: flex;
@@ -126,6 +142,9 @@
 .profile-page .button-load-more{
     margin-left: auto;
     margin-right: auto;
+}
+.profile-page.dark-theme .button-load-more{
+    filter: invert(1);
 }
 
 

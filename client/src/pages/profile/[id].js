@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom'
+import { useParams ,useLocation } from 'react-router-dom'
 
 import Info from '../../components/profile/Info';
 import Posts from '../../components/profile/Posts';
@@ -13,11 +13,10 @@ function Profile() {
 
     const auth = useSelector(state => state.auth);
     const profile = useSelector(state => state.profile);
-
-    const dispatch = useDispatch()
-
-    const { id } = useParams()
-    const [saveTab, setSaveTab] = useState(false)
+    const theme = useSelector(state => state.theme);
+    const dispatch = useDispatch();
+    const { id } = useParams();
+    const [saveTab, setSaveTab] = useState(false);
 
     useEffect(() => {
         if (profile.ids.every(item => item !== id)) {
@@ -26,14 +25,12 @@ function Profile() {
     }, [id, auth, dispatch, profile.ids])
 
     return (
-        <main className='profile-page'>
+        <main className={`profile-page ${theme && 'dark-theme'}`}>
             <div className='container-fluid'>
                 <div className='row'>
-                    <div className='col-lg-2'>
-
-                    </div>
+                    <div className='col-lg-2' />
                     <div className='col-lg-8'>
-                        <Info auth={auth} profile={profile} dispatch={dispatch} id={id} />
+                        <Info auth={auth} profile={profile} theme={theme} dispatch={dispatch} id={id} />
                         {
                             auth.user._id === id &&
                             <section className='profile-page-tab-bar-wrapper'>
@@ -61,9 +58,7 @@ function Profile() {
                         }
 
                     </div>
-                    <div className='col-lg-2'>
-
-                    </div>
+                    <div className='col-lg-2' />
                 </div>
             </div>
         </main>

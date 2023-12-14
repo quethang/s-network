@@ -68,7 +68,7 @@ export function deleteAllNotifies(token){
 
         dispatch({type: NOTIFY_TYPES.DELETE_ALL_NOTIFIES, payload: []})
         try {
-            await deleteDataAPI(`deleteAllNotify`, token);
+            await patchDataAPI(`deleteAllNotify`, null, token);
         } catch (err){
             dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}});
         }

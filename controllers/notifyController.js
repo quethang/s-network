@@ -52,8 +52,8 @@ const notifyController = {
     },
     deleteAllNotifies: async(req, res) => {
         try {
-            const notifies = await Notifies.deleteMany({recipients: req.user._id});
-
+            // const notifies = await Notifies.deleteMany({recipients: req.user._id});
+            const notifies = await Notifies.updateMany({recipients: req.user._id}, {$pull: {recipients: req.user._id}});
             return res.json({notifies});
         } catch (err) {
             return res.status(500).json({msg: err.message});
