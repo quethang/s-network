@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import IconHome from '../icon/IconHome';
 import IconDiscover from '../icon/IconDiscover';
@@ -12,6 +12,9 @@ function LeftNavBar() {
 
     const auth = useSelector(state => state.auth);
     const theme = useSelector(state => state.theme);
+    const location = useLocation();
+
+    const isMessagePage = location.pathname.includes('/message');
 
     const leftNavBar = [
         { link: '/', icon: <IconHome />, name: 'Home' },
@@ -22,7 +25,7 @@ function LeftNavBar() {
     ];
 
     return (
-        <aside className={`left-nav-bar ${theme && 'dark-theme'}`}>
+        <aside className={`left-nav-bar ${theme && 'dark-theme'}`} style={{height: `${isMessagePage && '100vh'}`}}>
             <ul className='left-nav-bar-list-page'>
                 {
                     leftNavBar.map((item, index) => (

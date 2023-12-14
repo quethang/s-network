@@ -22,10 +22,9 @@ function Menu() {
     const auth = useSelector(state => state.auth);
     const theme = useSelector(state => state.theme);
     const notify = useSelector(state => state.notify)
-
     const dispatch = useDispatch();
-
     const pathName = useLocation().pathname;
+    const newNotify =  notify.data.filter(item => (item.isRead === false));
 
     function isActive(pn) {
         if (pn === pathName) {
@@ -67,8 +66,8 @@ function Menu() {
                 <div className='item'>
                     <IconNotification />
                 </div>
-                <div className={`dot ${notify.data.length > 0 && 'active'}`}>
-                    <span>{notify.data.length}</span>
+                <div className={`dot ${newNotify.length > 0 && 'active'}`}>
+                    <span>{newNotify.length}</span>
                 </div>
                 <div className='dropdown-menu'>
                     <NotifyModal />
