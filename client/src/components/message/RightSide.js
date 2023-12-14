@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
 
 import MessageDisplay from './MessageDisplay';
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-import { addMessage, getMessages } from "../../redux/actions/messageAction";
+import { loadMoreMessages, addMessage, getMessages } from "../../redux/actions/messageAction";
 import { imageUpload } from '../../utils/imageUpload';
 import Loading from '../../images/loading.svg';
 
@@ -21,6 +21,14 @@ function RightSide() {
     const [showListReactions, setShowListReactions] = useState(false);
     const [media, setMedia] = useState([]);
     const [loadMedia, setLoadMedia] = useState(false);
+    const [page, setPage] = useState(0)
+    const [data, setData] = useState([])
+    const [result, setResult] = useState(9)
+    const [isLoadMore, setIsLoadMore] = useState(0)
+
+
+    const refDisplay = useRef();
+    const pageEnd = useRef()
     const reactions = [
         '🙂', '😀', '😄', '😆', '😅', '😂', '🤣', '😊', '😌',
         '😉', '😏', '😍', '😘', '😗', '😙', '😚', '🤗', '😳',
@@ -34,11 +42,27 @@ function RightSide() {
     ];
 
     useEffect(() => {
-        const newUser = message.users.find(user => user._id === id);
-        if (newUser) {
-            setUser(newUser);
+        const newData = message.data.find(item => item._id === id)
+        if(newData){
+            setData(newData.messages)
+            setResult(newData.result)
+            setPage(newData.page)
         }
-    }, [message.users, id]);
+    },[message.data, id])
+
+
+
+    useEffect(() => {
+        if(id && message.users.length > 0){
+            setTimeout(() => {
+                refDisplay.current.scrollIntoView({behavior: 'smooth', block: 'end'})
+            },50)
+
+            const newUser = message.users.find(user => user._id === id)
+            if(newUser) setUser(newUser)
+        }
+    }, [message.users, id])
+
 
     function handleChangeTextMesssage(e) {
         setText(e.target.value);
@@ -96,17 +120,60 @@ function RightSide() {
             createdAt: new Date().toISOString()
         }
         setLoadMedia(false);
-        dispatch(addMessage({ msg, auth, socket }));
+        await dispatch(addMessage({ msg, auth, socket }));
+        if(refDisplay.current){
+            refDisplay.current.scrollIntoView({behavior: 'smooth', block: 'end'})
+
+        }
     }
 
     useEffect(() => {
-        if(id){
-            const getMessagesData = async () => {
-                await dispatch(getMessages({auth, id}));
+        const getMessagesData = async () => {
+            if(message.data.every(item => item._id !== id)){
+                await dispatch(getMessages({auth, id}))
+                setTimeout(() => {
+                    refDisplay.current.scrollIntoView({behavior: 'smooth', block: 'end'})
+                },50)
             }
-            getMessagesData()
         }
-    }, [id, auth, dispatch])
+        getMessagesData()
+    },[id, dispatch, auth, message.data])
+
+    // Load More
+    useEffect(() => {
+        const observer = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting){
+                setIsLoadMore(p => p + 1)
+            }
+        },{
+            threshold: 0.1
+        })
+
+        observer.observe(pageEnd.current)
+    },[setIsLoadMore])
+
+    useEffect(() => {
+        if(isLoadMore > 1){
+            if(result >= page * 9){
+                dispatch(loadMoreMessages({auth, id, page: page + 1}))
+                setIsLoadMore(1)
+            }
+        }
+        // eslint-disable-next-line
+    },[isLoadMore])
+
+    // useEffect(() =>{
+    //     if(message.resultData >= (page - 1) * 9 && page > 1){
+    //         dispatch(getMessages({auth, id, page}))
+    //     }
+    // }, [message.resultData, page, id, auth, dispatch])
+
+    // useEffect(() =>{
+    //     if(refDisplay.current){
+    //         refDisplay.current.scrollIntoView({behavior: 'smooth', block: 'end'})
+
+    //     }
+    // }, [text])
 
     return (
         <div className="message-right">
@@ -130,9 +197,11 @@ function RightSide() {
                 </div>
             }
             <div className="message-right-body">
-                <div className="message-right-body-message-box">
-                    {
-                        message.data.map((msg, index) => (
+                <div className="message-right-body-message-box" >
+                <div ref={refDisplay}>
+                <button style={{marginTop: '-25px', opacity: 0}} ref={pageEnd}>Load more</button>
+                {
+                        data.map((msg, index) => (
                             <div key={index}>
                                 {
                                     msg.sender !== auth.user._id &&
@@ -155,6 +224,8 @@ function RightSide() {
                             <img className="loading-message" src={Loading} alt="loading" />
                         </div>
                     }
+                </div>
+                    
                 </div>
             </div>
             <div className="message-right-footer">

@@ -5,7 +5,8 @@ export const MESSAGE_TYPES = {
     ADD_USER: 'ADD_USER',
     ADD_MESSAGE: 'ADD_MESSAGE',
     GET_CONVERSATIONS: 'GET_CONVERSATIONS',
-    GET_MESSAGES: 'GET_MESSAGES'
+    GET_MESSAGES: 'GET_MESSAGES',
+    UPDATE_MESSAGES: 'UPDATE_MESSAGES',
 }
 
 export function addUser({user, message}){
@@ -18,6 +19,8 @@ export function addUser({user, message}){
 export function addMessage({msg, auth, socket}){
     return async (dispatch) => {
         dispatch({type: MESSAGE_TYPES.ADD_MESSAGE, payload: msg});
+        socket.emit('addMessage', msg)
+
         try {
             await postDataAPI('message', msg, auth.token);
         } catch(err){
@@ -25,10 +28,10 @@ export function addMessage({msg, auth, socket}){
         }
     }
 }
-export function getConversations({auth}){
+export function getConversations({auth, page = 1}){
     return async (dispatch) => {
         try {
-            const res = await getDataAPI('conversations', auth.token);
+            const res = await getDataAPI(`conversations?limit=${page * 9}`, auth.token);
             let newArr = [];
             res.data.conversations.forEach(item => {
                 item.recipients.forEach(cv => {
@@ -47,14 +50,27 @@ export function getConversations({auth}){
         }
     }
 }
-export function getMessages({auth, id}){
+export function getMessages({auth, id, page = 1}){
     return async (dispatch) => {
         try {
-            const res = await getDataAPI(`message/${id}`, auth.token);
+            const res = await getDataAPI(`message/${id}?limit=${page * 9}`, auth.token);
+            const newData = {...res.data, messages: res.data.messages.reverse()}
+            dispatch({type: MESSAGE_TYPES.GET_MESSAGES, payload: {...newData, _id: id, page}})
             
-            dispatch({type: MESSAGE_TYPES.GET_MESSAGES, payload: res.data})
         } catch (err) {
             dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}});
         }
     }
 } 
+
+
+export const loadMoreMessages = ({auth, id, page = 1}) => async (dispatch) => {
+    try {
+        const res = await getDataAPI(`message/${id}?limit=${page * 9}`, auth.token)
+        const newData = {...res.data, messages: res.data.messages.reverse()}
+
+        dispatch({type: MESSAGE_TYPES.UPDATE_MESSAGES, payload: {...newData, _id: id, page}})
+    } catch (err) {
+        dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
+    }
+}

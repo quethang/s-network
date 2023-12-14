@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import UserCard from '../UserCard';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,6 +16,8 @@ function LeftSide() {
     const [searchUsers, setSearchUser] = useState([]);
     const nagigate = useNavigate();
     const id = useParams().id;
+    const pageEnd = useRef()
+    const [page, setPage] = useState(0)
 
     useEffect(() => {
         if(message.firstLoad) return;
@@ -56,6 +58,25 @@ function LeftSide() {
         return;
     }
 
+    //Load more
+    useEffect(() => {
+        const observer = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting){
+                setPage(p => p + 1)
+            }
+        },{
+            threshold: 0.1
+        })
+
+        observer.observe(pageEnd.current)
+    },[setPage])
+
+    useEffect(() =>{
+        if(message.resultUsers >= (page - 1) * 9 && page > 1){
+            dispatch(getConversations({auth, page}))
+        }
+    }, [message.resultUsers, page, auth, dispatch])
+
     return (
         <div className="message-left">
             <div className="message-left-header">
@@ -95,6 +116,7 @@ function LeftSide() {
                             </>
                     }
                 </div>
+                <button ref={pageEnd} style={{opacity: 0}} >Load More</button>
             </div>
         </div>
     )
