@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -13,8 +13,8 @@ function LeftNavBar() {
     const auth = useSelector(state => state.auth);
     const theme = useSelector(state => state.theme);
     const location = useLocation();
-
     const isMessagePage = location.pathname.includes('/message');
+    const [viewHeight, setViewHeight] = useState(false);
 
     const leftNavBar = [
         { link: '/', icon: <IconHome />, name: 'Home' },
@@ -24,8 +24,12 @@ function LeftNavBar() {
         { link: `/profile/${auth.user._id}`, icon: <IconProfile />, name: 'Profile' },
     ];
 
+    useEffect(() => {
+        if(isMessagePage) setViewHeight(true);
+    }, [isMessagePage])
+
     return (
-        <aside className={`left-nav-bar ${theme && 'dark-theme'}`} style={{height: `${isMessagePage && '100vh'}`}}>
+        <aside className={`left-nav-bar ${theme && 'dark-theme'}`} style={{height: `${viewHeight && '100vh'}`}}>
             <ul className='left-nav-bar-list-page'>
                 {
                     leftNavBar.map((item, index) => (

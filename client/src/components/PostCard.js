@@ -7,7 +7,6 @@ import InputComment from './home/InputComment';
 import Comments from './home/Comment';
 
 function PostCard({post}) {
-
     return (
         <div className='post'>
             <PostHeader post={post} />

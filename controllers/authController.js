@@ -66,11 +66,6 @@ const authController = {
 
             res.json({
                 msg: 'Register success! Please verify your Email',
-                // access_token,
-                // user: {
-                //     ...newUser._doc,
-                //     password: ''
-                // }
             });
 
         } catch(e){
@@ -94,7 +89,6 @@ const authController = {
             }
 
             //check verify
-
             if (!user.verify) {
                 return res.status(400).json({ msg: 'Email does not verify!' });
             }

@@ -7,6 +7,8 @@ import Loading from '../images/loading.svg';
 import { Link } from 'react-router-dom';
 import ButtonLoadMore from '../components/ButtonLoadMore';
 import LeftNavBar from '../components/LeftNavBar';
+import IconMultipleMedia from '../icon/IconMultipleMedia';
+import IconVideo from '../icon/IconVideo';
 
 function Discover() {
     const auth = useSelector(state => state.auth);
@@ -48,7 +50,21 @@ function Discover() {
                                         <div className={`discover-thumb`} key={post._id}>
 
                                             <div className='discover-image-thumbnail-wrapper'>
-                                                <img className='discover-image-thumbnail' src={post.images[0].url} alt={post.id} />
+                                                {
+                                                    post.images[0].url.match(/video/i)
+                                                    ? <video className='discover-image-thumbnail' src={post.images[0].url} alt={post.id} />
+                                                    : <img className='discover-image-thumbnail' src={post.images[0].url} alt={post.id} />
+                                                }
+                                                {
+                                                    post.images.length > 1
+                                                    ? <IconMultipleMedia />
+                                                    : <></>
+                                                }
+                                                {
+                                                    post.images.length === 1
+                                                    ? post.images[0].url.match(/video/i) && <IconVideo />
+                                                    : <></>
+                                                }
                                             </div>
                                             <div className='discover-thumb-menu'>
                                                 <Link to={`/post/${post._id}`} />

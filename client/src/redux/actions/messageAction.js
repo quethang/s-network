@@ -1,5 +1,5 @@
 import { GLOBALTYPES } from '../actions/globalTypes';
-import { postDataAPI, getDataAPI } from '../../utils/fetchData';
+import { postDataAPI, getDataAPI, deleteDataAPI } from '../../utils/fetchData';
 
 export const MESSAGE_TYPES = {
     ADD_USER: 'ADD_USER',
@@ -7,19 +7,14 @@ export const MESSAGE_TYPES = {
     GET_CONVERSATIONS: 'GET_CONVERSATIONS',
     GET_MESSAGES: 'GET_MESSAGES',
     UPDATE_MESSAGES: 'UPDATE_MESSAGES',
+    DELETE_CONVERSATION: 'DELETE_CONVERSATION',
 }
 
-export function addUser({user, message}){
-    return (dispatch) => {
-        if(message.users.every(item => item._id !== user._id)){
-            dispatch({type: MESSAGE_TYPES.ADD_USER, payload: {...user, text: '', media: []}});
-        }
-    }
-}
 export function addMessage({msg, auth, socket}){
     return async (dispatch) => {
         dispatch({type: MESSAGE_TYPES.ADD_MESSAGE, payload: msg});
-        socket.emit('addMessage', msg)
+        const { _id, avatar, fullname, email } = auth.user;
+        socket.emit('addMessage', {...msg, user: { _id, avatar, fullname, email }});
 
         try {
             await postDataAPI('message', msg, auth.token);
@@ -61,9 +56,7 @@ export function getMessages({auth, id, page = 1}){
             dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}});
         }
     }
-} 
-
-
+}
 export const loadMoreMessages = ({auth, id, page = 1}) => async (dispatch) => {
     try {
         const res = await getDataAPI(`message/${id}?limit=${page * 9}`, auth.token)
@@ -72,5 +65,15 @@ export const loadMoreMessages = ({auth, id, page = 1}) => async (dispatch) => {
         dispatch({type: MESSAGE_TYPES.UPDATE_MESSAGES, payload: {...newData, _id: id, page}})
     } catch (err) {
         dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
+    }
+}
+export function deleteConversation({auth, id}){
+    return async (dispatch) => {
+        dispatch({type: MESSAGE_TYPES.DELETE_CONVERSATION, payload: id});
+        try {
+            await deleteDataAPI(`conversation/${id}`, auth.token);
+        } catch(err){
+            dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}});
+        }
     }
 }

@@ -8,7 +8,7 @@ function MessageDisplay({ user, msg, theme }) {
             </div>
             <div className="message-line-content-wrapper">
                 <div className="message-line-name-time-wrapper">
-                    <span className="message-line-name">Đăng Phạm</span>
+                    <span className="message-line-name">{user.fullname}</span>
                     <i className='fas fa-circle' />
                     <span className="message-line-time">{new Date(msg.createdAt).toLocaleString()}</span>
                 </div>

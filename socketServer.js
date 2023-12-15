@@ -1,14 +1,12 @@
 let users = []
 
 function SocketServer(socket){
-    socket.on('joinUser', id => {
-        users.push({id, socketId: socket.id});
-        console.log({users})
+    socket.on('joinUser', user => {
+        users.push({id: user._id, socketId: socket.id});
     })
 
     socket.on('disconnect', () => {
-        users = users.filter(user => (user.socketId !== socket.id))
-        console.log({users})
+        users = users.filter(user => (user.socketId !== socket.id));
     })
 
     socket.on('likePost', newPost => {
@@ -60,7 +58,6 @@ function SocketServer(socket){
     socket.on('unFollow', newUser => {
         const user = users.find(user => user.id === newUser._id);
         user && socket.to(`${user.socketId}`).emit('unFollowToClient', newUser)
-
     })
 
     //THÔNG BÁO
@@ -82,7 +79,6 @@ function SocketServer(socket){
             })
         }
     })
-
 
     socket.on('addMessage', msg => {
         const user = users.find(user => user.id === msg.recipient)

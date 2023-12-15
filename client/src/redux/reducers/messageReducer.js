@@ -1,4 +1,4 @@
-import { EditData } from "../actions/globalTypes";
+import { EditData, DeleteData } from "../actions/globalTypes";
 import { MESSAGE_TYPES } from "../actions/messageAction";
 
 const initialState = {
@@ -11,10 +11,13 @@ const initialState = {
 function messageReducer(state = initialState, action) {
     switch (action.type) {
         case MESSAGE_TYPES.ADD_USER:
-            return {
-                ...state,
-                users: [action.payload, ...state.users]
+            if(state.users.every(item => item._id !== action.payload._id)){
+                return {
+                    ...state,
+                    users: [action.payload, ...state.users]
+                }
             }
+            return state;
         case MESSAGE_TYPES.ADD_MESSAGE:
             return {
                 ...state,
