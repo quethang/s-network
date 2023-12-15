@@ -37,7 +37,12 @@ const Saved = ({auth, dispatch}) => {
 
     return (
         <section className='profile-page-content'>
-            <PostThumb posts={savePosts} result={result} />
+            {
+                result === 0
+                ? <h2 className='text-no-post'>No post</h2>
+                : <></>
+            }
+            <PostThumb posts={savePosts}/>
 
             {
                 load && <img src={LoadIcon} alt="loading" className="profile-page-loading-post" />

@@ -62,7 +62,6 @@ function InputComment({ children, post, onReply, setOnReply }) {
                     value={content}
                     onChange={handleChange}
                     style={{filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'var(--light)' : 'var(--dark)'}}
-
                 />
                 <div className="icon-wrapper dropdown">
                     <i className="far fa-smile icon" data-toggle='dropdown' />

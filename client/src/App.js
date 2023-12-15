@@ -31,7 +31,7 @@ function App() {
 	useEffect(() => {
 		if (!isVerifyPage) {
 			dispatch(refreshToken());
-		  }
+		}
 
 		const socket = io();
 		dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
@@ -55,7 +55,7 @@ function App() {
 			<ScrollToTop />
 			<Routes>
 				<Route exact path="/" Component={auth.token ? Home : Login} />
-				<Route exact path="/verify" Component={Verify}/>
+				<Route exact path="/verify" Component={Verify} />
 
 				<Route exact path="/register" Component={Register} />
 

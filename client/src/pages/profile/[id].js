@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams ,useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import Info from '../../components/profile/Info';
 import Posts from '../../components/profile/Posts';
@@ -9,7 +9,7 @@ import Saved from '../../components/profile/Saved'
 import { getProfileUsers } from '../../redux/actions/profileAction';
 import Loading from '../../images/loading.svg';
 
-function Profile() {
+function Profile({saved}) {
 
     const auth = useSelector(state => state.auth);
     const profile = useSelector(state => state.profile);
@@ -24,6 +24,20 @@ function Profile() {
         }
     }, [id, auth, dispatch, profile.ids])
 
+    useEffect(() => {
+        if(saved){
+            setSaveTab(true);
+        }
+    }, [saved])
+
+    function handleClickPostsTab (){
+        setSaveTab(false);
+        dispatch(getProfileUsers({ id, auth }))
+    }
+    function handleClickSavedTab (){
+        setSaveTab(true);
+    }
+
     return (
         <main className={`profile-page ${theme && 'dark-theme'}`}>
             <div className='container-fluid'>
@@ -35,11 +49,11 @@ function Profile() {
                             auth.user._id === id &&
                             <section className='profile-page-tab-bar-wrapper'>
                                 <div className='profile-page-tab-bar'>
-                                    <div className={`tab ${saveTab ? '' : 'active'}`} onClick={() => setSaveTab(false)}>
+                                    <div className={`tab ${saveTab ? '' : 'active'}`} onClick={handleClickPostsTab}>
                                         <h6 className='title-tab'>Posts</h6>
                                     </div>
 
-                                    <div className={`tab ${saveTab ? 'active' : ''}`} onClick={() => setSaveTab(true)}>
+                                    <div className={`tab ${saveTab ? 'active' : ''}`} onClick={handleClickSavedTab}>
                                         <h6 className='title-tab'>Saved</h6>
                                     </div>
                                 </div>

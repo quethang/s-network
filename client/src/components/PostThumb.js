@@ -1,10 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const PostThumb = ({ posts, result }) => {
-    if(result === 0){
-        return (<h2 className='text-no-post'>No post</h2>);   
-    }
+const PostThumb = ({ posts }) => {
 
     return (
         <div className='profile-page-post-thumb-wrapper'>
