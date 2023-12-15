@@ -1,13 +1,13 @@
-import React, { useState, useEffect} from "react";
-import { useSelector, useDispatch} from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { GLOBALTYPES } from '../../redux/actions/globalTypes';
 import { checkImage } from '../../utils/imageUpload';
 import { updateProfileUser } from "../../redux/actions/profileAction";
 
-function EditProfile({setOnEdit}){
+function EditProfile({ setOnEdit }) {
 
-    const initState = { 
+    const initState = {
         fullname: '',
         dob: '',
         gender: '',
@@ -30,35 +30,36 @@ function EditProfile({setOnEdit}){
         setUserData(auth.user);
     }, [auth.user])
 
-    function handleClose(){
+    function handleClose() {
         setOnEdit(false);
     }
 
-    function handleChangeImage(e){
+    function handleChangeImage(e) {
         const file = e.target.files[0];
 
         const err = checkImage(file);
         console.log(err);
-        if (err) return dispatch({type: GLOBALTYPES.ALERT, payload: {error: err}})
-        
-        if(e.target.name === 'file-avatar'){
+        if (err) return dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err } })
+
+        if (e.target.name === 'file-avatar') {
             setAvatar(file);
-        } else if (e.target.name === 'file-photoCover'){
+        } else if (e.target.name === 'file-photoCover') {
             setPhotoCover(file);
         }
     }
 
     function handleInput(e) {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setUserData({
             ...userData,
             [name]: value
         });
     }
 
-    function handleSubmit(e){
+
+    function handleSubmit(e) {
         e.preventDefault();
-        dispatch(updateProfileUser({userData, avatar, photoCover, auth}));
+        dispatch(updateProfileUser({ userData, avatar, photoCover, auth }));
         setOnEdit(false);
     }
 
@@ -86,16 +87,16 @@ function EditProfile({setOnEdit}){
                             <div className="button-change">
                                 <label htmlFor="file-upload-avatar">Change avatar</label>
                             </div>
-                            <input 
-                                type="file" 
-                                name="file-avatar" 
-                                id="file-upload-avatar" 
+                            <input
+                                type="file"
+                                name="file-avatar"
+                                id="file-upload-avatar"
                                 accept="image/*"
                                 onChange={handleChangeImage}
                             />
                         </div>
                         <div className="body-input">
-                            <img className="image-avatar" src={avatar ? URL.createObjectURL(avatar) : auth.user.avatar} alt="avatar"/>
+                            <img className="image-avatar" src={avatar ? URL.createObjectURL(avatar) : auth.user.avatar} alt="avatar" />
                         </div>
                     </div>
 
@@ -105,16 +106,16 @@ function EditProfile({setOnEdit}){
                             <div className="button-change">
                                 <label htmlFor="file-upload-photoCover">Change photo cover</label>
                             </div>
-                            <input 
-                                type="file" 
-                                name="file-photoCover" 
-                                id="file-upload-photoCover" 
+                            <input
+                                type="file"
+                                name="file-photoCover"
+                                id="file-upload-photoCover"
                                 accept="image/*"
                                 onChange={handleChangeImage}
                             />
                         </div>
                         <div className="body-input">
-                            <img className="image-photo-cover" src={photoCover ? URL.createObjectURL(photoCover) : auth.user.photoCover} alt="photoCover"/>
+                            <img className="image-photo-cover" src={photoCover ? URL.createObjectURL(photoCover) : auth.user.photoCover} alt="photoCover" />
                         </div>
                     </div>
 
@@ -124,10 +125,10 @@ function EditProfile({setOnEdit}){
                             <small>{fullname.length}/50</small>
                         </div>
                         <div className="body-input">
-                            <input 
+                            <input
                                 type="text"
                                 id="input-fullname"
-                                name="fullname" 
+                                name="fullname"
                                 value={fullname}
                                 autoComplete="off"
                                 maxLength='50'
@@ -141,16 +142,16 @@ function EditProfile({setOnEdit}){
                             <label htmlFor="dateOfBirth">Date of birth</label>
                         </div>
                         <div className="body-input">
-                            <input 
+                            <input
                                 type="date"
                                 id="input-dateOfBirth"
-                                name="dateOfBirth" 
+                                name="dob"
                                 value={dob}
                                 onChange={handleInput}
                             />
                         </div>
                     </div>
-                    
+
                     <div className="input-row">
                         <div className="header-input">
                             <label htmlFor="gender">Gender</label>
@@ -169,10 +170,10 @@ function EditProfile({setOnEdit}){
                             <small>{address.length}/50</small>
                         </div>
                         <div className="body-input">
-                            <input 
+                            <input
                                 type="text"
                                 id="input-address"
-                                name="address" 
+                                name="address"
                                 value={address}
                                 autoComplete="off"
                                 maxLength='50'
@@ -187,9 +188,9 @@ function EditProfile({setOnEdit}){
                             <small>{description.length}/200</small>
                         </div>
                         <div className="body-input">
-                            <textarea 
+                            <textarea
                                 id="input-description"
-                                name="description" 
+                                name="description"
                                 value={description}
                                 onChange={handleInput}
                                 maxLength='200'
@@ -197,7 +198,7 @@ function EditProfile({setOnEdit}){
                             />
                         </div>
                     </div>
-                    
+
                     <div className="button-wrapper">
                         <button className="button button-save">Save</button>
                     </div>
