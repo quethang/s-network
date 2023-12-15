@@ -43,6 +43,7 @@ function messageReducer(state = initialState, action) {
                 resultUsers: action.payload.result,
                 firstLoad: true
             }
+            
         case MESSAGE_TYPES.GET_MESSAGES:
             return {
                 ...state,
@@ -53,6 +54,12 @@ function messageReducer(state = initialState, action) {
                     ...state,
                     data: EditData(state.data, action.payload._id, action.payload)
                 };
+        case MESSAGE_TYPES.DELETE_CONVERSATION:
+                return {
+                    ...state,
+                    users: DeleteData(state.users, action.payload),
+                    data: DeleteData(state.data, action.payload)
+                }
         default:
             return state;
     }

@@ -8,6 +8,6 @@ router.get('/conversations', auth, messageController.getConversations);
 
 router.get('/message/:id', auth, messageController.getMessages);
 
-router.delete('/conversation/:id', auth, messageController.deleteConversation);
+router.patch('/conversation/:id', auth, messageController.deleteConversation);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -16,7 +16,6 @@ function LeftNavBar() {
     const location = useLocation();
     const isMessagePage = location.pathname.includes('/message');
     const [viewHeight, setViewHeight] = useState(false);
-    const refToggleButton = useRef(null);
     const dispatch = useDispatch();
 
     const leftNavBar = [
@@ -53,7 +52,7 @@ function LeftNavBar() {
                 }
             </ul>
             <div className='container-toggle-button-theme'>
-                <span style={{ fontSize: '18px', fontWeight: '600', color: 'var(--dark)' }}>Dark</span>
+                <span style={{ fontSize: '18px', fontWeight: '600', color: 'var(--dark)' }}>Dark theme</span>
                 <div className='toggle-button-theme' style={{ position: 'relative', top: '4px' }}>
                     <label className="switch" style={{ cursor: 'pointer' }}>
                         <input type="checkbox" checked={theme ? true : false} onChange={handleChangeTheme} />

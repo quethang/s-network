@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useSelector } from 'react-redux';
 
 import Status from "../components/home/Status";
@@ -7,10 +7,24 @@ import Loading from '../images/loading.svg';
 import RightSideBar from '../components/home/RightSideBar';
 import LeftNavBar from '../components/LeftNavBar';
 
+let scroll = 0;
 function Home() {
     const theme = useSelector(state => state.theme);
     const homePost = useSelector(state => state.homePost);
-    // 
+
+
+    window.addEventListener('scroll', () => {
+        if(window.location.pathname === '/'){
+            scroll = window.scrollY 
+            return scroll;
+        }
+    })
+    useEffect(() => {
+        setTimeout(() => {
+            window.scrollTo({top: scroll, behavior: 'smooth'})
+        }, 100)
+    }, [])
+    
     return (
         <main className={`home-page ${theme ?  'dark-theme' : ''}`}>
             <div className='container-fluid'>

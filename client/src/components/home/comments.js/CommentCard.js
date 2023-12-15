@@ -15,8 +15,8 @@ import InputComment from "../InputComment";
 function CommentCard({ children, comment, post, commentId }) {
     const auth = useSelector((state) => state.auth);
     const theme = useSelector((state) => state.theme);
+    const socket = useSelector(state => state.socket);
     const dispatch = useDispatch();
-
     const [content, setContent] = useState("");
     const [readMore, setReadMore] = useState(false);
     const [onEdit, setOnEdit] = useState(false);
@@ -42,7 +42,7 @@ function CommentCard({ children, comment, post, commentId }) {
         setIsLike(true);
 
         setLoadLike(true);
-        await dispatch(likeComment({ comment, post, auth }));
+        await dispatch(likeComment({ comment, post, auth, socket }));
         setLoadLike(false);
     }
 
@@ -51,13 +51,13 @@ function CommentCard({ children, comment, post, commentId }) {
         setIsLike(false);
 
         setLoadLike(true);
-        await dispatch(unlikeComment({ comment, post, auth }));
+        await dispatch(unlikeComment({ comment, post, auth, socket }));
         setLoadLike(false);
     }
 
     function handleUpdate() {
         if (comment.content !== content) {
-            dispatch(updateComment({ comment, post, content, auth }));
+            dispatch(updateComment({ comment, post, content, auth, socket }));
             setOnEdit(false);
         } else {
             setOnEdit(false);

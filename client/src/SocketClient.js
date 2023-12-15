@@ -14,7 +14,6 @@ function SocketClient() {
     const socket = useSelector(state => state.socket);
     const notify = useSelector(state => state.notify);
     const dispatch = useDispatch();
-
     const audioRef = useRef();
 
     useEffect(() => {
@@ -47,6 +46,13 @@ function SocketClient() {
     }, [socket, dispatch])
 
     useEffect(() => {
+        socket.on('updateCommentToClient', newPost => {
+            dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost })
+        })
+        return (() => socket.off('updateCommentToClient'))
+    }, [socket, dispatch])
+
+    useEffect(() => {
         socket.on('deleteCommentToClient', newPost => {
             dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost })
         })
@@ -67,7 +73,6 @@ function SocketClient() {
         })
         return (() => socket.off('unFollowToClient'))
     }, [socket, dispatch, auth])
-
 
     //notification
     useEffect(() => {
@@ -91,6 +96,7 @@ function SocketClient() {
     //message
     useEffect(() =>{
         socket.on('addMessageToClient', msg => {
+            console.log(msg.text)
             dispatch({type: MESSAGE_TYPES.ADD_MESSAGE, payload:msg});
             dispatch({type: MESSAGE_TYPES.ADD_USER, payload: {...msg.user, text: msg.text, media: msg.media}});
         })

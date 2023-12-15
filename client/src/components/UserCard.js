@@ -17,7 +17,11 @@ function UserCard({children, user, handleClose, setShowFollowers, setShowFollowi
                     <img className='avatar' src={user.avatar} alt='avatar'/>
                 </div>
                 <div className='fullName-wrapper'>
-                    <Link to={`/profile/${user._id}`} onClick={handelCloseAll} ><h6 className='fullName-user'>{user.fullname}</h6></Link>
+                    <Link to={`/profile/${user._id}`} onClick={handelCloseAll} >
+                        <h6 className='fullName-user'>
+                            {user.fullname.length > 30 ? user.fullname.slice(0, 30) + '...' : user.fullname}
+                        </h6>
+                    </Link>
                     
                     <span className='email-user'>
                         {   msg

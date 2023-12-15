@@ -39,13 +39,14 @@ export function createComment({ post, newComment, auth, socket }) {
     }
 }
 
-export function updateComment({ comment, post, content, auth }) {
+export function updateComment({ comment, post, content, auth, socket }) {
     return async (dispatch) => {
         const newComments = EditData(post.comments, comment._id, { ...comment, content });
 
         const newPost = { ...post, comments: newComments };
 
         dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
+        socket.emit('updateComment', newPost);
         try {
             patchDataAPI(`comment/${comment._id}`, { content }, auth.token);
 
@@ -55,7 +56,7 @@ export function updateComment({ comment, post, content, auth }) {
     }
 }
 
-export function likeComment({ comment, post, auth }) {
+export function likeComment({ comment, post, auth, socket }) {
     return async (dispatch) => {
         const newComment = { ...comment, likes: [...comment.likes, auth.user] };
 
@@ -63,7 +64,8 @@ export function likeComment({ comment, post, auth }) {
 
         const newPost = { ...post, comments: newComments };
 
-        dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost })
+        dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
+        socket.emit('updateComment', newPost);
         try {
             await patchDataAPI(`comment/${comment._id}/like`, null, auth.token);
         } catch (err) {
@@ -72,7 +74,7 @@ export function likeComment({ comment, post, auth }) {
     }
 }
 
-export function unlikeComment({ comment, post, auth }) {
+export function unlikeComment({ comment, post, auth, socket }) {
     return async (dispatch) => {
         const newComment = { ...comment, likes: DeleteData(comment.likes, auth.user._id) };
 
@@ -81,6 +83,7 @@ export function unlikeComment({ comment, post, auth }) {
         const newPost = { ...post, comments: newComments };
 
         dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost })
+        socket.emit('updateComment', newPost);
         try {
             await patchDataAPI(`comment/${comment._id}/unlike`, null, auth.token);
         } catch (err) {
