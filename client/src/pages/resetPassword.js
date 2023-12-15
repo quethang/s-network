@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { useParams, Link, useNavigate  } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
+import tickImage from '../images/tick.png';
 
 const initialState = {
     password: '',
@@ -49,7 +50,45 @@ function ResetPassword() {
             <h2>Reset Your Password</h2>
 
             <div className="row">
-                {err && <h1 style={{ color: 'red', fontSize: '24px' }}>{err}</h1>}
+                {
+                    !success && (
+                        <div>
+                            {err && <h1 style={{ color: 'red', fontSize: '24px' }}>{err}</h1>}
+                            <label htmlFor="password">Password</label>
+                            <input type="password" name="password" id="password" value={password}
+                                onChange={handleChangeInput} />
+
+                            <label htmlFor="cf_password">Confirm Password</label>
+                            <input type="password" name="cf_password" id="cf_password" value={cf_password}
+                                onChange={handleChangeInput} />
+
+                            <button onClick={handleResetPass}>Reset Password</button>
+                        </div>
+                    )
+                }
+                {
+                    success && (
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <h1 style={{ color: 'green', fontSize: '24px', marginBottom: '20px' }}>{success}</h1>
+                            <img width="300" height="300" src={tickImage} alt="tick" style={{ marginBottom: '20px' }} />
+                            <Link
+                                to="/"
+                                style={{
+                                    display: 'block',
+                                    padding: '10px 20px',
+                                    backgroundColor: '#007bff',
+                                    color: '#fff',
+                                    textDecoration: 'none',
+                                    borderRadius: '5px',
+                                    marginBottom: '20px',
+                                }}
+                            >
+                                Go to Homepage
+                            </Link>
+                        </div>
+                    )
+                }
+                {/* {err && <h1 style={{ color: 'red', fontSize: '24px' }}>{err}</h1>}
                 {success && (
                     <div>
                         <h1 style={{ color: 'green', fontSize: '24px' }}>{success}</h1>
@@ -66,9 +105,9 @@ function ResetPassword() {
                 <input type="password" name="cf_password" id="cf_password" value={cf_password}
                     onChange={handleChangeInput} />
 
-                <button onClick={handleResetPass}>Reset Password</button>
+                <button onClick={handleResetPass}>Reset Password</button> */}
 
-                
+
             </div>
         </div>
     )

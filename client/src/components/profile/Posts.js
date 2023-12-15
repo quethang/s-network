@@ -33,8 +33,12 @@ function Posts({ auth, id, dispatch, profile }) {
 
     return (
         <section className='profile-page-content'>
-            <PostThumb posts={posts} result={result} />
-
+            {
+                result === 0
+                ? <h2 className='text-no-post'>No post</h2>
+                : <></>
+            }
+            <PostThumb posts={posts}/>
             {
                 load && <img className='profile-loading' src={Loading} alt='loading icon' />
             }

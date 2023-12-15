@@ -66,11 +66,6 @@ const authController = {
 
             res.json({
                 msg: 'Register success! Please verify your Email',
-                // access_token,
-                // user: {
-                //     ...newUser._doc,
-                //     password: ''
-                // }
             });
 
         } catch (e) {
@@ -94,7 +89,6 @@ const authController = {
             }
 
             //check verify
-
             if (!user.verify) {
                 return res.status(400).json({ msg: 'Email does not verify!' });
             }
@@ -190,7 +184,8 @@ const authController = {
             const user = await Users.findOne({ email })
             if (!user) return res.status(400).json({ msg: "This email does not exist." })
 
-            const access_token = createAccessToken({ id: user._id })
+            // const access_token = createAccessToken({ id: user._id })
+            const access_token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
             const url = `${process.env.APP_URL}/reset/${access_token}`
 
             mailer.sendMail(user.email, "Confirm change password",

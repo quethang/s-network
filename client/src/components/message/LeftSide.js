@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { GLOBALTYPES } from '../../redux/actions/globalTypes';
 import { getDataAPI } from '../../utils/fetchData';
-import { addUser, getConversations } from '../../redux/actions/messageAction';
+import { MESSAGE_TYPES, getConversations } from '../../redux/actions/messageAction';
 
 function LeftSide() {
 
@@ -47,7 +47,7 @@ function LeftSide() {
     function handleAddChat(user) {
         setSearch('');
         setSearchUser([]);
-        dispatch(addUser({ user, message }));
+        dispatch({type: MESSAGE_TYPES.ADD_USER, payload: {...user, text: '', media: []}});
         return nagigate(`/message/${user._id}`);
     }
 

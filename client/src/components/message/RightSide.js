@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import MessageDisplay from './MessageDisplay';
 import { GLOBALTYPES } from "../../redux/actions/globalTypes";
-import { loadMoreMessages, addMessage, getMessages } from "../../redux/actions/messageAction";
+import { loadMoreMessages, addMessage, getMessages, deleteConversation } from "../../redux/actions/messageAction";
 import { imageUpload } from '../../utils/imageUpload';
 import Loading from '../../images/loading.svg';
 
@@ -21,14 +21,13 @@ function RightSide() {
     const [showListReactions, setShowListReactions] = useState(false);
     const [media, setMedia] = useState([]);
     const [loadMedia, setLoadMedia] = useState(false);
-    const [page, setPage] = useState(0)
-    const [data, setData] = useState([])
-    const [result, setResult] = useState(9)
-    const [isLoadMore, setIsLoadMore] = useState(0)
-
-
+    const [page, setPage] = useState(0);
+    const [data, setData] = useState([]);
+    const [result, setResult] = useState(9);
+    const [isLoadMore, setIsLoadMore] = useState(0);
     const refDisplay = useRef();
-    const pageEnd = useRef()
+    const pageEnd = useRef();
+    const navigate = useNavigate();
     const reactions = [
         '🙂', '😀', '😄', '😆', '😅', '😂', '🤣', '😊', '😌',
         '😉', '😏', '😍', '😘', '😗', '😙', '😚', '🤗', '😳',
@@ -50,8 +49,6 @@ function RightSide() {
         }
     },[message.data, id])
 
-
-
     useEffect(() => {
         if(id && message.users.length > 0){
             setTimeout(() => {
@@ -61,8 +58,42 @@ function RightSide() {
             const newUser = message.users.find(user => user._id === id)
             if(newUser) setUser(newUser)
         }
-    }, [message.users, id])
+    }, [message.users, id]);
+    
+    useEffect(() => {
+        const getMessagesData = async () => {
+            if(message.data.every(item => item._id !== id)){
+                await dispatch(getMessages({auth, id}))
+                setTimeout(() => {
+                    refDisplay.current.scrollIntoView({behavior: 'smooth', block: 'end'})
+                },50)
+            }
+        }
+        getMessagesData()
+    },[id, dispatch, auth, message.data])
 
+    // Load More
+    useEffect(() => {
+        const observer = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting){
+                setIsLoadMore(p => p + 1)
+            }
+        },{
+            threshold: 0.1
+        })
+
+        observer.observe(pageEnd.current)
+    },[setIsLoadMore])
+
+    useEffect(() => {
+        if(isLoadMore > 1){
+            if(result >= page * 9){
+                dispatch(loadMoreMessages({auth, id, page: page + 1}))
+                setIsLoadMore(1)
+            }
+        }
+        // eslint-disable-next-line
+    },[isLoadMore])
 
     function handleChangeTextMesssage(e) {
         setText(e.target.value);
@@ -127,53 +158,12 @@ function RightSide() {
         }
     }
 
-    useEffect(() => {
-        const getMessagesData = async () => {
-            if(message.data.every(item => item._id !== id)){
-                await dispatch(getMessages({auth, id}))
-                setTimeout(() => {
-                    refDisplay.current.scrollIntoView({behavior: 'smooth', block: 'end'})
-                },50)
-            }
+    function handleDeleteConversation() {
+        if(window.confirm('Do you want delete this conversation?')){
+            dispatch(deleteConversation({auth, id}));
+            return navigate('/message');
         }
-        getMessagesData()
-    },[id, dispatch, auth, message.data])
-
-    // Load More
-    useEffect(() => {
-        const observer = new IntersectionObserver(entries => {
-            if(entries[0].isIntersecting){
-                setIsLoadMore(p => p + 1)
-            }
-        },{
-            threshold: 0.1
-        })
-
-        observer.observe(pageEnd.current)
-    },[setIsLoadMore])
-
-    useEffect(() => {
-        if(isLoadMore > 1){
-            if(result >= page * 9){
-                dispatch(loadMoreMessages({auth, id, page: page + 1}))
-                setIsLoadMore(1)
-            }
-        }
-        // eslint-disable-next-line
-    },[isLoadMore])
-
-    // useEffect(() =>{
-    //     if(message.resultData >= (page - 1) * 9 && page > 1){
-    //         dispatch(getMessages({auth, id, page}))
-    //     }
-    // }, [message.resultData, page, id, auth, dispatch])
-
-    // useEffect(() =>{
-    //     if(refDisplay.current){
-    //         refDisplay.current.scrollIntoView({behavior: 'smooth', block: 'end'})
-
-    //     }
-    // }, [text])
+    }
 
     return (
         <div className="message-right">
@@ -189,10 +179,17 @@ function RightSide() {
                             <span></span>
                         </div>
                     </div>
-                    <div className="icon-more-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 26 24" fill="none">
-                            <path d="M13.4258 22C7.66131 22 2.98828 17.5228 2.98828 12C2.98828 6.47715 7.66131 2 13.4258 2C19.1902 2 23.8633 6.47715 23.8633 12C23.8633 17.5228 19.1902 22 13.4258 22ZM13.4258 20C18.0374 20 21.7758 16.4183 21.7758 12C21.7758 7.58172 18.0374 4 13.4258 4C8.8142 4 5.07578 7.58172 5.07578 12C5.07578 16.4183 8.8142 20 13.4258 20ZM12.382 15H14.4695V17H12.382V15ZM12.382 7H14.4695V13H12.382V7Z" fill="#555555" />
-                        </svg>
+                    <div className="icon-more-wrapper dropdown">
+                        <div className="icon-more" data-toggle="dropdown">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 26 24" fill="none">
+                                <path d="M13.4258 22C7.66131 22 2.98828 17.5228 2.98828 12C2.98828 6.47715 7.66131 2 13.4258 2C19.1902 2 23.8633 6.47715 23.8633 12C23.8633 17.5228 19.1902 22 13.4258 22ZM13.4258 20C18.0374 20 21.7758 16.4183 21.7758 12C21.7758 7.58172 18.0374 4 13.4258 4C8.8142 4 5.07578 7.58172 5.07578 12C5.07578 16.4183 8.8142 20 13.4258 20ZM12.382 15H14.4695V17H12.382V15ZM12.382 7H14.4695V13H12.382V7Z" fill="#555555" />
+                            </svg>
+                        </div>
+                        <div className="dropdown-menu">
+                            <div className="dropdown-item" onClick={handleDeleteConversation}>
+                                <span>Delete Conversation</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             }

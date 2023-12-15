@@ -34,7 +34,7 @@ function App() {
 	useEffect(() => {
 		if (!isVerifyPage) {
 			dispatch(refreshToken());
-		  }
+		}
 
 		const socket = io();
 		dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });

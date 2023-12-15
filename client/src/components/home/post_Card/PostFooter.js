@@ -15,10 +15,10 @@ function PostFooter({ post }) {
     const [isShare, setIsShare] = useState(false)
     const [saved, setSaved] = useState(false)
     const [saveLoad, setSaveLoad] = useState(false)
-
     const auth= useSelector(state => state.auth);
     const theme = useSelector(state => state.theme)
     const socket = useSelector(state => state.socket);
+    
 
     const dispatch = useDispatch();
 

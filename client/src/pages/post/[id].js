@@ -8,10 +8,9 @@ import PostCard from '../../components/PostCard'
 const Post = () => {
     const { id } = useParams()
     const [post, setPost] = useState([])
-
     const auth = useSelector(state => state.auth);
+    const theme = useSelector(state => state.theme);
     const detailPost = useSelector(state => state.detailPost);
-
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -24,7 +23,7 @@ const Post = () => {
     }, [detailPost, dispatch, id, auth])
 
     return (
-        <main className='detail-post'>
+        <main className={`detail-post ${theme ? 'dark-theme' : ''}`}>
             <div className='container'>
                 <div className='row'>
                     <div className='col-lg-2'>

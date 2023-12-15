@@ -6,7 +6,6 @@ const messageSchema = new mongoose.Schema({
     recipient: { type: mongoose.Types.ObjectId, ref: 'user' },
     text: String,
     media: Array,
-    // call: Object
 }, {
     timestamps: true
 })
