@@ -14,6 +14,7 @@ export function addMessage({msg, auth, socket}){
     return async (dispatch) => {
         dispatch({type: MESSAGE_TYPES.ADD_MESSAGE, payload: msg});
         const { _id, avatar, fullname, email } = auth.user;
+
         socket.emit('addMessage', {...msg, user: { _id, avatar, fullname, email }});
 
         try {

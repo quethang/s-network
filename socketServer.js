@@ -84,9 +84,8 @@ function SocketServer(socket){
 
     socket.on('addMessage', (msg) => {
         const user = users.find(user => user.id === msg.recipient);
-        // user && socket.to(`${user.socketId}`).emit('addMessageToClient', msg)
-        socket.to(`${user.socketId}`).emit('addMessageToClient', msg)
-        console.log(user)
+        user && socket.to(`${user.socketId}`).emit('addMessageToClient', msg)
+        // console.log(user)
     })
 }
 
