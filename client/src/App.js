@@ -21,6 +21,9 @@ import io from 'socket.io-client';
 import { GLOBALTYPES } from './redux/actions/globalTypes';
 import SocketClient from './SocketClient';
 import Verify from "./pages/verify";
+import ForgotPassword from "./pages/forgotPassword";
+import ResetPassword from "./pages/resetPassword";
+
 
 function App() {
 	const auth = useSelector((state) => state.auth);
@@ -55,7 +58,9 @@ function App() {
 			<ScrollToTop />
 			<Routes>
 				<Route exact path="/" Component={auth.token ? Home : Login} />
-				<Route exact path="/verify" Component={Verify} />
+				<Route exact path="/verify" Component={Verify}/>
+				<Route exact path="/forgot-password" Component={ForgotPassword}/>
+				<Route exact path="/reset/:token" Component={ResetPassword}/>
 
 				<Route exact path="/register" Component={Register} />
 

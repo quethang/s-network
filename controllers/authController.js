@@ -7,22 +7,22 @@ const mailer = require('../mailer')
 
 
 const authController = {
-    register: async(req, res) => {
-        try{
-            const { fullName, email, password} = req.body;
+    register: async (req, res) => {
+        try {
+            const { fullName, email, password } = req.body;
 
             let newFullName = fullName.trim();
             let newEmail = email.trim();
             let newPass = password.trim();
 
             //check ràng buộc dữ liệu
-            const findEmail = await Users.findOne({email: newEmail});
-            if(findEmail){
-                return res.status(400).json({msg: "This email is already exists"});
+            const findEmail = await Users.findOne({ email: newEmail });
+            if (findEmail) {
+                return res.status(400).json({ msg: "This email is already exists" });
             }
-            
-            if(newPass.length < 6){
-                return res.status(400).json({msg: "Password must be at least 6 characters."});
+
+            if (newPass.length < 6) {
+                return res.status(400).json({ msg: "Password must be at least 6 characters." });
             }
 
             //băm mật khẩu
@@ -68,24 +68,24 @@ const authController = {
                 msg: 'Register success! Please verify your Email',
             });
 
-        } catch(e){
-            return res.status(500).json({msg: e.message});
+        } catch (e) {
+            return res.status(500).json({ msg: e.message });
         }
     },
-    login: async(req, res) => {
-        try{
-            const {email, password} = req.body;
+    login: async (req, res) => {
+        try {
+            const { email, password } = req.body;
 
             //Check email
-            const user = await Users.findOne({email}).populate('followers followings', '-password');
-            if(!user){
-                return res.status(400).json({msg: 'This email does not exists.'});
+            const user = await Users.findOne({ email }).populate('followers followings', '-password');
+            if (!user) {
+                return res.status(400).json({ msg: 'This email does not exists.' });
             }
-            
+
             //Check password
             const isMatch = await bcrypt.compare(password, user.password);
-            if(!isMatch){
-                return res.status(400).json({msg: 'Password is wrong!'});
+            if (!isMatch) {
+                return res.status(400).json({ msg: 'Password is wrong!' });
             }
 
             //check verify
@@ -93,14 +93,14 @@ const authController = {
                 return res.status(400).json({ msg: 'Email does not verify!' });
             }
 
-            const access_token = createAccessToken({id: user._id});
-            const refresh_token = createRefreshToken({id: user._id});
+            const access_token = createAccessToken({ id: user._id });
+            const refresh_token = createRefreshToken({ id: user._id });
 
             //tạo cookie lưu refreshtoken phía client
             res.cookie('refreshtoken', refresh_token, {
                 httpOnly: true,
                 path: '/api/refresh_token',
-                maxAge: 30*24*60*60*1000
+                maxAge: 30 * 24 * 60 * 60 * 1000
             });
             // trả access token cho client
             res.json({
@@ -111,48 +111,48 @@ const authController = {
                     password: ''
                 }
             });
-        } catch(e){
-            return res.status(500).json({msg: e.message});
+        } catch (e) {
+            return res.status(500).json({ msg: e.message });
         }
     },
-    logout: async(req, res) => {
-        try{
-            res.clearCookie('refreshtoken', {path: '/api/refresh_token'});
-            return res.json({msg: 'Logged out'});
-        } catch(e){
-            return res.status(500).json({msg: e.message});
+    logout: async (req, res) => {
+        try {
+            res.clearCookie('refreshtoken', { path: '/api/refresh_token' });
+            return res.json({ msg: 'Logged out' });
+        } catch (e) {
+            return res.status(500).json({ msg: e.message });
         }
     },
-    generateAccessToken: async(req, res) => {
-        try{
+    generateAccessToken: async (req, res) => {
+        try {
             const rf_token = req.cookies.refreshtoken;
 
-            if(!rf_token){
-                return res.status(400).json({msg: 'Please login.'});
+            if (!rf_token) {
+                return res.status(400).json({ msg: 'Please login.' });
             }
 
             //check xem refresh token có chứa secretkey giống với secretkey của server-side
-            jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, async(err, result) => {
-                if(err){
-                    return res.status(400).json({msg: 'Please login.'});
+            jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, async (err, result) => {
+                if (err) {
+                    return res.status(400).json({ msg: 'Please login.' });
                 }
-                
+
                 const user = await Users.findById(result.id).select('-password').populate('followers followings', '-password');
 
-                if(!user){
-                    return res.status(400).json({msg: 'This does not exist.'});
+                if (!user) {
+                    return res.status(400).json({ msg: 'This does not exist.' });
                 }
 
-                const access_token = createAccessToken({id: result.id});
+                const access_token = createAccessToken({ id: result.id });
 
                 res.json({
                     access_token,
                     user
                 })
             });
-            
-        } catch(e){
-            return res.status(500).json({msg: e.message});
+
+        } catch (e) {
+            return res.status(500).json({ msg: e.message });
         }
     },
     verify: async (req, res) => {
@@ -177,15 +177,60 @@ const authController = {
         } catch (e) {
             return res.status(500).json({ msg: e.message });
         }
-    }
+    },
+    forgotPassword: async (req, res) => {
+        try {
+            const { email } = req.body
+            const user = await Users.findOne({ email })
+            if (!user) return res.status(400).json({ msg: "This email does not exist." })
+
+            // const access_token = createAccessToken({ id: user._id })
+            const access_token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
+            const url = `${process.env.APP_URL}/reset/${access_token}`
+
+            mailer.sendMail(user.email, "Confirm change password",
+                `<div style="max-width: 700px; margin: 0 auto; border: 10px solid #ddd; padding: 50px 20px; font-size: 110%; text-align: center;">
+            <h2 style="text-transform: uppercase; color: teal;">Welcome to the S-Network.</h2>
+            <p>Please click on the link below to continue changing your password!</p>
+            <div style="text-align: center;">
+              <a href=${url} style="background: crimson; text-decoration: none; color: white; padding: 10px 20px; margin: 10px 0; display: inline-block;">Change password now</a>
+            </div>
+            <p>If the button doesn't work for any reason, you can also click on the link below:</p>
+            <div>${url}</div>
+          </div>`
+            );
+            res.json({ msg: "Re-send the password, please check your email." })
+        } catch (err) {
+            return res.status(500).json({ msg: err.message })
+        }
+    },
+    resetPassword: async (req, res) => {
+        try {
+            const { password } = req.body
+            const token = req.headers.authorization;
+
+            const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+            const userId = decodedToken.id;
+
+            const passwordHash = await bcrypt.hash(password, 12)
+
+            await Users.findOneAndUpdate({ _id: userId }, {
+                password: passwordHash
+            })
+
+            res.json({ msg: "Password successfully changed!" })
+        } catch (err) {
+            return res.status(500).json({ msg: err.message })
+        }
+    },
 }
 
-function createAccessToken(id){
-    return jwt.sign(id, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1d'});
+function createAccessToken(id) {
+    return jwt.sign(id, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' });
 }
 
-function createRefreshToken(id){
-    return jwt.sign(id, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '30d'});
+function createRefreshToken(id) {
+    return jwt.sign(id, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '30d' });
 }
 
 module.exports = authController;
