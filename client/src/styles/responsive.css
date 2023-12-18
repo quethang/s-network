@@ -1,11 +1,152 @@
 /* Responsive */
 @media only screen and (max-width: 1200px){
+    /* LOGIN */
+    .login{
+        align-items: start;
+    }
+    /* REGISTER */
+    .box-register{
+        padding: 20px 60px;
+    }
+    .box-register .title{
+        font-size: 28px;
+    }
+}
+@media only screen and (max-width: 1110px){
+    /* LEFT NAV BAR */
+    .home-page .col-lg-2{
+        width: 10%;
+    }
+    .home-page .row{
+        justify-content: space-between;
+    }
+    .left-nav-bar .left-nav-bar-list-page{
+        background-color: var(--light);
+        width: fit-content;
+        padding: 10px;
+        border-radius: 10px;
+    }
+    .left-nav-bar .left-nav-bar-item-page{
+        width: fit-content;
+    }
+    .left-nav-bar .left-nav-bar-item-page{
+        padding: 12px;
+    }
+    .left-nav-bar .left-nav-bar-item-page .icon-wrapper{
+        margin-right: 0;
+    }
+    .left-nav-bar-item-page .name-wrapper h5{
+        display: none;
+    }
+    .left-nav-bar .container-toggle-button-theme{
+        display: none;
+    }
+    /* RIGHT SIDE BAR */
+    .right-side-bar{
+
+    }
+    .right-side-bar .right-side-bar-top-wrapper .title{
+        font-size: 15px;
+    }
+    .right-side-bar-body-wrapper .list-suggestions .user-card .avatar-wrapper {
+        width: 38px;
+        height: 38px;
+    }
+    .right-side-bar-body-wrapper .user-card .fullName-wrapper .fullName-user {
+        font-size: 14px;
+    }
+    .right-side-bar-body-wrapper .user-card .fullName-wrapper .email-user {
+        font-size: 12px;
+    }
+    .right-side-bar-body-wrapper .list-suggestions .user-card .button-follow{
+        font-size: 10px;
+    }
 }
 @media only screen and (max-width: 992px){
+    
 }
 @media only screen and (max-width: 767px){
+    /* REGISTER */
+    .box-register{
+        height: 100%;
+    }
 }
 @media only screen and (max-width: 576px){
+    /* LOGIN */
+    .box-login{
+        height: 100vh;
+        padding: 20px 30px;
+        border-radius: 0;
+    }
+    .box-login > .title{
+        font-size: 26px;
+    }
+    .box-login .input-wrapper label{
+        font-size: 14px;
+    }
+    .box-login .input-wrapper input {
+        padding: 6px 10px;
+    }
+    .box-login .input-wrapper i{
+        padding: 5px;
+    }
+    .box-login form .guide-fg-pass a{
+        font-size: 14px;
+    }
+    .box-login form .button-login{
+        padding: 10px 28px;
+    }
+    .box-login .guide-dont-have-acc{
+        font-size: 14px;
+    }
+    /* REGISTER */
+    .box-register{
+        padding: 20px 30px;
+        border-radius: 0;
+    }
+    .box-register .title{
+        font-size: 24px;
+    }
+    .box-register form label{
+        font-size: 14px;
+    }
+    .box-register form .button-register{
+        padding: 10px 28px;
+    }
+    .box-register input{
+        padding: 8px 10px;
+    }
+    .box-register .input-wrapper i{
+        padding: 5px;
+        top: 35px;
+    }
+    .box-register .guide-have-acc{
+        font-size: 14px;
+    }
 }
 @media only screen and (max-width: 320px){
+    /* LOGIN */
+    .box-login{
+        padding: 20px 20px;
+    }
+    .box-login form .text-error {
+        font-size: 10px;
+    }
+    /* REGISTER */
+    .box-register{
+        padding: 10px;
+    }
+    .box-register form label{
+        padding-bottom: 0;
+    }
+    .box-register form .button-register{
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+    .box-register form .text-error {
+        font-size: 10px;
+    }
+    .box-register .guide-have-acc{
+        font-size: 12px;
+    }
 }
