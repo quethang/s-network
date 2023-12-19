@@ -111,7 +111,7 @@
     background-color: var(--blue);
 }
 .info-user-wrapper .detail-container .name-wrapper .name-user{
-    font-size: 24px;
+    font-size: 22px;
 	line-height: 1.3em;
     font-weight: 600;
     color: var(--dark);

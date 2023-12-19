@@ -21,7 +21,7 @@ function Comments({post}){
 
     return (
         <div className="comment-post">
-            { //vì funtion dùng dấu ngoặc nhọn để bọc nên khi trả về 1 function trong arrow function nên dùng dấu ngoặc đơn () để bọc lại returns
+            { 
                 showComments.map((comment, index) => (
                     <CommentDispay key={index} comment={comment} post={post}
                         replyCm={replyComments.filter(item => item.reply === comment._id)}

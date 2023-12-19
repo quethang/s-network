@@ -3,12 +3,12 @@ let users = []
 function SocketServer(socket){
     socket.on('joinUser', user => {
         users.push({id: user._id, socketId: socket.id});
-        console.log({users})
+        console.log({type: 'connect', users})
     })
 
     socket.on('disconnect', () => {
         users = users.filter(user => (user.socketId !== socket.id))
-        // console.log({users})
+        console.log({type: 'disconnect', users})
     })
 
     socket.on('likePost', newPost => {

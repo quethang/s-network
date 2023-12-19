@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 
 import Loading from './Loading';
@@ -15,6 +15,14 @@ function Nofify(){
     function close(){
         dispatch({type: GLOBALTYPES.ALERT, payload: {}});
     }
+
+    useEffect(() => {
+        if(alert.error || alert.success){
+            setTimeout(() => {
+                dispatch({type: GLOBALTYPES.ALERT, payload: {}});
+            }, 5000)
+        }
+    }, [alert.error, alert.success, dispatch])
     return (
         <div>
             { alert.loading && <Loading /> }
