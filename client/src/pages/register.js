@@ -36,8 +36,8 @@ function Register(){
     //submit
     function handleSubmit(e){
         e.preventDefault();
-        setUserData({fullName: '', email: '', password: '', cfPassword: ''})
         dispatch(register(userData));
+        setUserData({fullName: '', email: '', password: '', cfPassword: ''})
     }
 
     return (

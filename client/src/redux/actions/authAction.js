@@ -56,12 +56,12 @@ export function register(data) {
             dispatch({type: GLOBALTYPES.ALERT, payload: {alert: true}});
 
             const res = await postDataAPI('register', data);
-            dispatch({ type: GLOBALTYPES.AUTH, payload: {
-                token: res.data.access_token,
-                user: res.data.user
-            } }); 
+            // dispatch({ type: GLOBALTYPES.AUTH, payload: {
+            //     token: res.data.access_token,
+            //     user: res.data.user
+            // } }); 
 
-            localStorage.setItem('firstLogin', true);
+            // localStorage.setItem('firstLogin', true);
             dispatch({ type: GLOBALTYPES.ALERT, payload: {success: res.data.msg} });  
         } catch(err){
             dispatch({ type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg} });
