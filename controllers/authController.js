@@ -34,16 +34,6 @@ const authController = {
                 password: pwHashed,
             })
 
-            // const access_token = createAccessToken({id: newUser._id});
-            // const refresh_token = createRefreshToken({id: newUser._id});
-
-            // //tạo cookie lưu token
-            // res.cookie('refreshtoken', refresh_token, {
-            //     httpOnly: true,
-            //     path: '/api/refresh_token',
-            //     maxAge: 30*24*60*60*1000
-            // })
-
             try {
                 const user = await Users.create(newUser);
                 const hashedEmail = await bcrypt.hash(user.email, parseInt(process.env.BCRYPT_SALT_ROUND));

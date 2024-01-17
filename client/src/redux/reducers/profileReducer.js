@@ -41,7 +41,10 @@ function profileReducer(state = inititalState, action) {
         case PROFILE_TYPES.GET_POSTS:
             return {
                 ...state,
-                posts: [...state.posts, action.payload]
+                // posts: [...state.posts, action.payload]
+                posts: [...state.posts.filter(item => (
+                    item._id !== action.payload._id
+                )), action.payload]
             };
         case PROFILE_TYPES.UPDATE_POST:
             return {

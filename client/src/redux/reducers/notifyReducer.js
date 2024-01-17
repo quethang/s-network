@@ -4,7 +4,7 @@ import { EditData } from '../actions/globalTypes';
 const initialState = {
     loading: false,
     data: [],
-    sound: false
+    sound: true
 }
 
 const notifyReducer = (state = initialState, action) => {

@@ -6,8 +6,10 @@ import Info from '../../components/profile/Info';
 import Posts from '../../components/profile/Posts';
 import Saved from '../../components/profile/Saved'
 
-import { getProfileUsers } from '../../redux/actions/profileAction';
+import { PROFILE_TYPES, getProfileUsers } from '../../redux/actions/profileAction';
 import Loading from '../../images/loading.svg';
+import { getDataAPI } from '../../utils/fetchData';
+import { GLOBALTYPES } from '../../redux/actions/globalTypes';
 
 function Profile({saved}) {
 
@@ -21,6 +23,17 @@ function Profile({saved}) {
     useEffect(() => {
         if (profile.ids.every(item => item !== id)) {
             dispatch(getProfileUsers({ id, auth }))
+        } else{
+            getDataAPI(`/user_posts/${id}`, auth.token)
+            .then(res => {
+                dispatch({
+                    type: PROFILE_TYPES.GET_POSTS,
+                    payload: { ...res.data, _id: id, page: 2 }
+                })
+            })
+            .catch(err => {
+                dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
+            })
         }
     }, [id, auth, dispatch, profile.ids])
 
@@ -32,7 +45,17 @@ function Profile({saved}) {
 
     function handleClickPostsTab (){
         setSaveTab(false);
-        dispatch(getProfileUsers({ id, auth }))
+        // dispatch(getProfileUsers({ id, auth }))
+        getDataAPI(`/user_posts/${id}`, auth.token)
+            .then(res => {
+                dispatch({
+                    type: PROFILE_TYPES.GET_POSTS,
+                    payload: { ...res.data, _id: id, page: 2 }
+                })
+            })
+            .catch(err => {
+                dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
+            })
     }
     function handleClickSavedTab (){
         setSaveTab(true);

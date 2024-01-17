@@ -26,7 +26,7 @@ function CommentDispay({ comment, post, replyCm }) {
                     }
                     {
                         replyCm.length - next > 0
-                        ? <div className="more-comment" onClick={() => setNext(next + 10)}> See more comments...</div>
+                        ? <div className="more-comment" onClick={() => setNext(replyCm.length)}> See more comments...</div>
                         : replyCm.length > 1 && <div className="more-comment" onClick={() => setNext(1)}>Hide comments...</div>
                     }
                 </div>

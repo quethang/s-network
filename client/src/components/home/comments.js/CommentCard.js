@@ -57,8 +57,13 @@ function CommentCard({ children, comment, post, commentId }) {
 
     function handleUpdate() {
         if (comment.content !== content) {
-            dispatch(updateComment({ comment, post, content, auth, socket }));
-            setOnEdit(false);
+            if(content.trim()){
+                dispatch(updateComment({ comment, post, content, auth, socket }));
+                setOnEdit(false);
+            } else {
+                dispatch(updateComment({ comment, post, content: comment.content, auth, socket }));
+                setOnEdit(false);
+            }
         } else {
             setOnEdit(false);
         }

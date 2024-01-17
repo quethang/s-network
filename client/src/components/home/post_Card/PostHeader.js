@@ -30,7 +30,7 @@ function PostHeader({ post }) {
 
     function handleDeletePost() {
         handleShow();
-        if (window.confirm("Are you sure want to delete this Post")) {
+        if (window.confirm("Are you sure want to delete this Post?")) {
             dispatch(deletePost({ post, auth, socket }))
             return navigate("/")
         }

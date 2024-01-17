@@ -11,8 +11,7 @@ export function createComment({ post, newComment, auth, socket }) {
 
         try {
             //create comment
-            const data = { ...newComment, postId: post._id, postUserId: post.user._id };
-
+            const data = { ...newComment, postId: post._id };
             const res = await postDataAPI('comment', data, auth.token);
 
             const newData = { ...res.data.newComment, user: auth.user };

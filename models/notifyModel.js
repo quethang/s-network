@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 const notifySchema = new mongoose.Schema({
     id: mongoose.Types.ObjectId,
     user: {type: mongoose.Types.ObjectId, ref: 'user'},
-    recipients: [mongoose.Types.ObjectId],
+    // recipients: [mongoose.Types.ObjectId],
+    recipient: mongoose.Types.ObjectId,
     url: String,
     text: String,
     isRead: {type: Boolean, default: false}

@@ -16,9 +16,12 @@ function SocketClient() {
     const dispatch = useDispatch();
     const audioRef = useRef();
 
+    // useEffect(() => {
+    //     socket.emit('joinUser', auth.user)
+    // }, [socket, auth.user])
     useEffect(() => {
-        socket.emit('joinUser', auth.user)
-    }, [socket, auth.user])
+        socket.emit('joinUser', auth.user._id)
+    }, [socket, auth.user._id])
 
     //like
     useEffect(() => {

@@ -14,7 +14,8 @@ exports.sendMail = (to, subject, htmlContent) => {
     })
 
     const options = {
-        from: mailConfig.FROM_ADDRESS,
+        // from: mailConfig.FROM_ADDRESS,
+        from: `"S-NETWORK" <${mailConfig.FROM_ADDRESS}>`,
         to: to,
         subject: subject,
         html: htmlContent

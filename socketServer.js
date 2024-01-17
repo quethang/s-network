@@ -1,8 +1,13 @@
 let users = []
 
 function SocketServer(socket){
-    socket.on('joinUser', user => {
-        users.push({id: user._id, socketId: socket.id});
+    // socket.on('joinUser', user => {
+    //     users.push({id: user._id, socketId: socket.id});
+    //     console.log({type: 'connect', users})
+    // })
+    socket.on('joinUser', id => {
+        users = users.filter(user => user.id !== id);
+        users.push({id: id, socketId: socket.id});
         console.log({type: 'connect', users})
     })
 
@@ -74,13 +79,24 @@ function SocketServer(socket){
 
     //THÔNG BÁO
     socket.on('createNotify', msg => {
-        const client = users.find(user => msg.recipients.includes(user.id));
-        client && socket.to(`${client.socketId}`).emit('createNotifyToClient', msg);
+        // const client = users.find(user => msg.recipients.includes(user.id));
+        // client && socket.to(`${client.socketId}`).emit('createNotifyToClient', msg);
+        const clients = users.filter(user => msg.find(m => m.recipient === user.id));
+        if(clients.length > 0){
+            clients.forEach(client => (
+                socket.to(`${client.socketId}`).emit('createNotifyToClient', msg.find(m => m.recipient === client.id))
+            ))
+        }
     })
 
     socket.on('removeNotify', msg => {
-        const client = users.find(user => msg.recipients.includes(user.id));
-        client && socket.to(`${client.socketId}`).emit('removeNotifyToClient', msg)
+        const clients = users.filter(user => msg.recipients.includes(user.id));
+        if(clients.length > 0){
+            clients.forEach(client => (
+                socket.to(`${client.socketId}`).emit('removeNotifyToClient', msg)
+            ))
+        }
+        // client && socket.to(`${client.socketId}`).emit('removeNotifyToClient', msg)
     })
 
     socket.on('addMessage', (msg) => {

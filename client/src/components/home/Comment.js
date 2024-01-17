@@ -31,7 +31,7 @@ function Comments({post}){
 
             {
                 comments.length - next > 0
-                ? <div className="more-comment" onClick={() => setNext(next + 10)}>See more comments</div>
+                ? <div className="more-comment" onClick={() => setNext(comments.length)}>See more comments</div>
                 : comments.length > 2 && <div className="more-comment" onClick={() => setNext(2)}>See less comments</div>
             }
         </div>

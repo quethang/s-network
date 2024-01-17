@@ -140,10 +140,26 @@ export function unlikePost({ post, auth, socket }) {
   }
 }
 
-export function getPost({ detailPost, id, auth }) {
+// export function getPost({ detailPost, id, auth }) {
+//   return async (dispatch) => {
+
+//     if (detailPost.every(post => post._id !== id)) {
+//       try {
+//         const res = await getDataAPI(`post/${id}`, auth.token)
+//         dispatch({ type: POST_TYPES.GET_POST, payload: res.data.post })
+//       } catch (err) {
+//         dispatch({
+//           type: GLOBALTYPES.ALERT,
+//           payload: { error: err.response.data.msg }
+//         })
+//       }
+//     }
+
+//   }
+// }
+export function getPost({ id, auth }) {
   return async (dispatch) => {
 
-    if (detailPost.every(post => post._id !== id)) {
       try {
         const res = await getDataAPI(`post/${id}`, auth.token)
         dispatch({ type: POST_TYPES.GET_POST, payload: res.data.post })
@@ -153,11 +169,8 @@ export function getPost({ detailPost, id, auth }) {
           payload: { error: err.response.data.msg }
         })
       }
-    }
-
   }
 }
-
 
 export function deletePost({ post, auth, socket }) {
   return async (dispatch) => {

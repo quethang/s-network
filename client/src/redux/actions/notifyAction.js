@@ -15,13 +15,21 @@ export function createNotify({msg, auth, socket}){
 
         try {
             const res = await postDataAPI('notify', msg, auth.token)   
-            socket.emit('createNotify', {
-                ...res.data.notify,
-                user: {
-                    fullname: auth.user.fullname,
-                    avatar: auth.user.avatar
-                }
-            })
+            socket.emit('createNotify', [
+                ...res.data.notifies.map(notify => (
+                    {
+                        ...notify,
+                        user: {
+                            fullname: auth.user.fullname,
+                            avatar: auth.user.avatar
+                        }
+                    }
+                ))
+                // user: {
+                //     fullname: auth.user.fullname,
+                //     avatar: auth.user.avatar
+                // }
+            ])
         } catch (err) {
             dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
         }
@@ -32,7 +40,7 @@ export function removeNotify({msg, auth, socket}){
     return async (dispatch) => {
         // console.log(msg)
         try {
-            await deleteDataAPI(`notify/${msg.id}?url=${msg.url}`, auth.token)        
+            await deleteDataAPI(`notify/${msg.id}?url=${msg.url}`, auth.token)  
             socket.emit('removeNotify', msg)
         } catch (err) {
             dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
@@ -68,7 +76,7 @@ export function deleteAllNotifies(token){
 
         dispatch({type: NOTIFY_TYPES.DELETE_ALL_NOTIFIES, payload: []})
         try {
-            await patchDataAPI(`deleteAllNotify`, null, token);
+            await deleteDataAPI(`deleteAllNotify`, token);
         } catch (err){
             dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}});
         }

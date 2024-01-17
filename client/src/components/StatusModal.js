@@ -80,7 +80,7 @@ const StatusModal = () => {
     }
     function videoShow(src) {
         return (
-            <video controls src={src} className="img" alt="thumbnail" />
+            <video autoPlay muted loop src={src} className="img" alt="thumbnail" />
         )
     }
 

@@ -6,6 +6,7 @@ import Search from './Search';
 import Menu from './Menu';
 import { getPosts } from '../../redux/actions/postAction';
 import { getSuggestions } from '../../redux/actions/suggestionsAction';
+import { getNotifies } from '../../redux/actions/notifyAction';
 
 function Header(){
 
@@ -17,6 +18,7 @@ function Header(){
         window.scrollTo({top: 0});
         dispatch(getPosts(auth.token));
         dispatch(getSuggestions(auth.token));
+        dispatch(getNotifies(auth.token));
     }
 
     return (

@@ -4,7 +4,7 @@ const Posts = require('../models/postModel');
 const commentController = {
     createComment: async (req, res) => {
         try {
-            const { postId, content, tag, reply, postUserId } = req.body;
+            const { postId, content, tag, reply } = req.body;
 
             const post = await Posts.findById(postId)
             if (!post) return res.status(400).json({ msg: "This post does not exist." })
@@ -14,7 +14,7 @@ const commentController = {
                 if (!cm) return res.status(400).json({ msg: "This comment does not exist." })
             }
 
-            const newComment = new Comments({ user: req.user._id, content, tag, reply, postUserId, postId });
+            const newComment = new Comments({ user: req.user._id, content, tag, reply, postId });
 
             await Posts.findOneAndUpdate({ _id: postId }, { $push: { comments: newComment._id } }, { new: true });
 
@@ -63,13 +63,6 @@ const commentController = {
 
     deleteComment: async (req, res) => {
         try {
-            // const comment = await Comments.findOneAndDelete({
-            //     _id: req.params.id,
-            //     $or: [
-            //         { user: req.user._id },
-            //         { postUserId: req.user._id }
-            //     ]
-            // })
             const comment = await Comments.findOneAndDelete({_id: req.params.id});
             await Posts.findOneAndUpdate({ _id: comment.postId }, {
                 $pull: { comments: req.params.id }

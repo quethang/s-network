@@ -12,7 +12,7 @@ function RightSide() {
 
     const auth = useSelector(state => state.auth);
     const message = useSelector(state => state.message);
-    const theme = useSelector(state => state.theme);
+
     const socket = useSelector(state => state.socket);
     const dispatch = useDispatch();
     const id = useParams().id;
@@ -203,13 +203,13 @@ function RightSide() {
                                 {
                                     msg.sender !== auth.user._id &&
                                     <div className="message-line receiver-message">
-                                        <MessageDisplay user={user} msg={msg} theme={theme}/>
+                                        <MessageDisplay user={user} msg={msg} />
                                     </div>
                                 }
                                 {
                                     msg.sender === auth.user._id &&
                                     <div className="message-line sender-message">
-                                        <MessageDisplay user={auth.user} msg={msg} theme={theme}/>
+                                        <MessageDisplay user={auth.user} msg={msg} />
                                     </div>
                                 }
                             </div>

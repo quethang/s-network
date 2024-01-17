@@ -37,7 +37,6 @@ function InputComment({ children, post, onReply, setOnReply }) {
         }
 
         setContent('');
-
         const newComment = {
             content,
             likes: [],

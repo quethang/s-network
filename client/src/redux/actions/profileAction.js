@@ -21,15 +21,12 @@ export function getProfileUsers({ id, auth }) {
         try {
             dispatch({ type: PROFILE_TYPES.LOADING, payload: true });
 
-            const res = await getDataAPI(`/user/${id}`, auth.token);
+            const users = await getDataAPI(`/user/${id}`, auth.token);
 
-            const res1 = await getDataAPI(`/user_posts/${id}`, auth.token);
-
-            const users = await res;
-            const posts = await res1;
+            const posts = await getDataAPI(`/user_posts/${id}`, auth.token);
 
             dispatch({ type: PROFILE_TYPES.GET_USER, payload: users.data });
-
+            console.log({ ...posts.data, _id: id, page: 2 })
             dispatch({
                 type: PROFILE_TYPES.GET_POSTS,
                 payload: { ...posts.data, _id: id, page: 2 }

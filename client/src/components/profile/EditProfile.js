@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import moment from 'moment';
 
 import { GLOBALTYPES } from '../../redux/actions/globalTypes';
 import { checkImage } from '../../utils/imageUpload';
@@ -27,7 +28,9 @@ function EditProfile({ setOnEdit }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setUserData(auth.user);
+        // setUserData(auth.user);
+        const newDob = moment(auth.user.dob).format('YYYY-MM-DD')
+        setUserData({...auth.user, dob: newDob})
     }, [auth.user])
 
     function handleClose() {

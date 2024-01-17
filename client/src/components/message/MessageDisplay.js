@@ -1,6 +1,6 @@
 import React from "react";
 
-function MessageDisplay({ user, msg, theme }) {
+function MessageDisplay({ user, msg }) {
     return (
         <>
             <div className="message-line-avatar-wrapper">

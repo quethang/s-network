@@ -88,7 +88,7 @@ const userController = {
                 {$sample: {size: Number(num)}},
             ]).project('-password');
 
-            return res.json({users, result: users.length});
+            return res.json({users});
         } catch(err){
             return res.status(500).json({msg: err.message});
         }
